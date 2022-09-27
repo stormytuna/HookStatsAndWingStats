@@ -6,6 +6,7 @@ Currently supported mods:
 - Clicker Class
 - Consolaria
 - Echoes of the Ancients
+- Fargo's Souls Mod
 - Orchid
 - Secrets of the Shadows
 - tModLoader

@@ -6,6 +6,7 @@ Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds t
 * Clicker Class
 * Consolaria
 * Echoes of the Ancients
+* Fargo's Souls Mod
 * Orchid
 * Secrets of the Shadows
 * tModLoader
