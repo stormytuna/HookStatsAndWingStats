@@ -109,18 +109,50 @@ namespace HookStatsAndWingStats
 
         private void Init_ModdedHooks()
         {
+            #region SecretsOfTheShadows
+            moddedHookStats.Add(new("SOTS", "WormWoodHook"), new(480f/16f, 15f, 1, 0));
+            moddedHookStats.Add(new("SOTS", "InfernoHook"), new(510/16f, 26f, 1, 0));
+            #endregion
 
+            #region Orchid
+            moddedHookStats.Add(new("OrchidMod", "MineshaftHook"), new(400f / 16f, 12f, 2, 0));
+            #endregion
         }
 
         private void Init_ModdedWings()
         {
             #region ModLoader
             moddedWingVerticalMults.Add(new("ModLoader", "AetherBreaker_Wings"), 150);
+            moddedWingVerticalMults.Add(new("ModLoader", "Sailing_Squid_Wings"), 150);
             moddedWingVerticalMults.Add(new("ModLoader", "Coolmike5000_Wings"), 150);
             moddedWingVerticalMults.Add(new("ModLoader", "dinidini_Wings"), 150);
+            moddedWingVerticalMults.Add(new("ModLoader", "dschosen_Wings"), 150);
+            moddedWingVerticalMults.Add(new("ModLoader", "POCKETS_Wings"), 150);
+            moddedWingVerticalMults.Add(new("ModLoader", "Saethar_Wings"), 150);
+            moddedWingVerticalMults.Add(new("ModLoader", "Zeph_Wings"), 150);
             #endregion
 
-            moddedWingVerticalMults.Add(new("EchoesoftheAncients", "VoidDragWings"), 150);
+            #region EchoesOfTheAncients
+            moddedWingVerticalMults.Add(new("EchoesoftheAncients", "Comet_Wings"), 350);
+            moddedWingVerticalMults.Add(new("EchoesoftheAncients", "DuskbulbWings"), 400);
+            moddedWingVerticalMults.Add(new("EchoesoftheAncients", "Enkin_Wings"), 350);
+            moddedWingVerticalMults.Add(new("EchoesoftheAncients", "InfinityWing"), 350);
+            moddedWingVerticalMults.Add(new("EchoesoftheAncients", "Tungqua_Thruster"), 350);
+            moddedWingVerticalMults.Add(new("EchoesoftheAncients", "VoidDragWings"), 300);
+            #endregion
+
+            #region ClickerClass
+            moddedWingVerticalMults.Add(new("ClickerClass", "TheScroller"), 400);
+            #endregion
+
+            #region SecretsOfTheShadows
+            moddedWingVerticalMults.Add(new("SOTS", "TestWings"), 150);
+            moddedWingVerticalMults.Add(new("SOTS", "GelWings"), 130);
+            #endregion
+
+            #region Orchid
+            moddedWingStatsOverride.Add(new("OrchidMod", "AbyssalWings"), new(180, 9f, 300));
+            #endregion
         }
     }
 }
