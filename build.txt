@@ -4,3 +4,4 @@ homepage = https://github.com/stormytuna/HookStatsAndWingStats
 hideCode = false
 hideResources = false
 includeSource = true
+version = 1.0.0
