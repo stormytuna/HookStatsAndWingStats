@@ -87,7 +87,8 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 if (mod.moddedWingStatsOverride.ContainsKey(new(modName, itemName)))
                 {
                     wingStats = new WingStats(mod.moddedWingStatsOverride[new(modName, itemName)].Item1, mod.moddedWingStatsOverride[new(modName, itemName)].Item2);
-                    mod.moddedWingVerticalMults.Add(new(modName, itemName), mod.moddedWingStatsOverride[new(modName, itemName)].Item3);
+                    if (!mod.moddedWingVerticalMults.ContainsKey(new(modName, itemName)))
+                        mod.moddedWingVerticalMults.Add(new(modName, itemName), mod.moddedWingStatsOverride[new(modName, itemName)].Item3);
                 }
 
                 // Add title
