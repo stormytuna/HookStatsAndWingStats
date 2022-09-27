@@ -11,14 +11,15 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 {
     public class HookStatsAndWingStatsGlobalItem : GlobalItem
     {
-        private HookStatsAndWingStats mod = ModContent.GetInstance<HookStatsAndWingStats>();
-        private HookStatsAndWingStatsConfig modConfig = ModContent.GetInstance<HookStatsAndWingStatsConfig>();
-        private bool hasCalamity;
+        private HookStatsAndWingStats mod => ModContent.GetInstance<HookStatsAndWingStats>();
+        private HookStatsAndWingStatsConfig modConfig => ModContent.GetInstance<HookStatsAndWingStatsConfig>();
 
-        private void CheckForCalamity()
+        private bool HasCalamity()
         {
             if (ModLoader.TryGetMod("CalamityMod", out _))
-                hasCalamity = true;
+                return true;
+
+            return false;
         }
 
         private bool ItemIsCalamityFamily(string itemModName)
@@ -33,7 +34,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
         private TooltipLine Hook_Reach(float reach)
         {
-            return new TooltipLine(Mod, "HookReach", $"Reach: {reach} units");
+            return new TooltipLine(Mod, "HookReach", $"Reach: {reach / 16f} tiles");
         }
 
         private TooltipLine Hook_Velocity(float velocity)
@@ -68,33 +69,33 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
         private TooltipLine Wing_FlightTime_Combined(int currentWingTime, int maxWingTime)
         {
-            if (Main.LocalPlayer.empressBrooch)
+            if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
                 return new TooltipLine(Mod, "WingFlightTimeCombined", $"Flight time: ∞ / ∞");
 
             if (modConfig.DisplayFlightTimeInSeconds)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Flight time: {currentWingTime / 60f}s / {maxWingTime / 60f}s");
+                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Flight time: {(currentWingTime / 60f):0.00}s / {maxWingTime / 60f:0.00}s");
 
             return new TooltipLine(Mod, "WingFlightTimeCombined", $"Flight time: {currentWingTime} / {maxWingTime}");
         }
 
-        private TooltipLine Wing_FlightTime_CurrentWingTime(int currentWingTime)
+        private TooltipLine Wing_FlightTime_CurrentWingTime(int currentWingTime, int maxWingTime)
         {
-            if (Main.LocalPlayer.empressBrooch)
+            if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
                 return new TooltipLine(Mod, "WingFlightTimeCombined", $"Current flight time: ∞");
 
             if (modConfig.DisplayFlightTimeInSeconds)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Current flight time: {currentWingTime / 60f}s");
+                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Current flight time: {(currentWingTime / 60f):0.00}s");
 
             return new TooltipLine(Mod, "WingFlightTimeCombined", $"Current flight time: {currentWingTime}");
         }
 
         private TooltipLine Wing_FlightTime_MaxWingTime(int maxWingTime)
         {
-            if (Main.LocalPlayer.empressBrooch)
+            if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
                 return new TooltipLine(Mod, "WingFlightTimeCombined", $"Max flight time: ∞");
 
             if (modConfig.DisplayFlightTimeInSeconds)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Max flight time: {maxWingTime / 60f}s");
+                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Max flight time: {(maxWingTime / 60f):0.00}s");
 
             return new TooltipLine(Mod, "WingFlightTimeCombined", $"Max flight time: {maxWingTime}");
         }
@@ -102,9 +103,9 @@ namespace HookStatsAndWingStats.Common.GlobalItems
         private TooltipLine Wing_HorizontalSpeed(float horizontalSpeed)
         {
             if (modConfig.HorizontalSpeedMeasuredInMPH)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Horizontal speed: {horizontalSpeed * 5.084949379f}mph");
+                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Horizontal speed: {horizontalSpeed * 5.084949379f:0.}mph");
 
-            return new TooltipLine(Mod, "WingFlightTimeCombined", $"Horizontal speed: {horizontalSpeed} units");
+            return new TooltipLine(Mod, "WingFlightTimeCombined", $"Horizontal speed: {horizontalSpeed}");
         }
 
         private TooltipLine Wing_VerticalSpeedMultiplier(float verticalSpeedMultiplier)
@@ -129,11 +130,9 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 itemName = item.ModItem.Name;
             }
 
-            CheckForCalamity();
-
             // Hooks
             // Have to be done manually, vanilla ranges and hooks are hard coded
-            if ((mod.vanillaHookStats.ContainsKey(item.type) || mod.moddedHookStats.ContainsKey(new(modName, itemName))) && modConfig.DisplayHookStats && (ItemIsCalamityFamily(modName) || !hasCalamity))
+            if ((mod.vanillaHookStats.ContainsKey(item.type) || mod.moddedHookStats.ContainsKey(new(modName, itemName))) && modConfig.DisplayHookStats && (ItemIsCalamityFamily(modName) || !HasCalamity()))
             {
                 Tuple<float, float, int, int> value;
                 if (modName != "Terraria")
@@ -156,7 +155,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
             // Wings
             // Can be done mostly through WingStats, vertical speed multiplier is hard coded so need a dict for that
-            if (item.wingSlot > 0 && modConfig.DisplayWingStats && (ItemIsCalamityFamily(modName) || !hasCalamity))
+            if (item.wingSlot > 0 && modConfig.DisplayWingStats && (ItemIsCalamityFamily(modName) || !HasCalamity()))
             {
                 // Declaring stuff
                 WingStats wingStats = ArmorIDs.Wing.Sets.Stats[item.wingSlot];
@@ -170,16 +169,16 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 }
 
                 // Build our Tuple
-                Tuple<int, float, int> value;
+                Tuple<int, float, int> value = new(0, 0, -1);
                 // Check if we have a modded wingstats override
                 if (mod.moddedWingStatsOverride.ContainsKey(new(modName, itemName)))
                     value = mod.moddedWingStatsOverride[new(modName, itemName)];
                 // Check if our item is modded...
                 else if (modName != "Terraria")
-                    value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.vanillaWingVerticalMults[item.type]);
+                    value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.moddedWingVerticalMults[new(modName, itemName)]);
                 // ... or vanilla 
                 else
-                    value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.moddedWingVerticalMults[new(modName, itemName)]);
+                    value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.vanillaWingVerticalMults[item.type]);
 
                 lines.Add(Wing_Title());
 
@@ -196,7 +195,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                     if (modConfig.DisplayMaxWingTime)
                         lines.Add(Wing_FlightTime_MaxWingTime(value.Item1));
                     if (modConfig.DisplayCurrentWingTime)
-                        lines.Add(Wing_FlightTime_CurrentWingTime(Convert.ToInt32(player.wingTime)));
+                        lines.Add(Wing_FlightTime_CurrentWingTime(Convert.ToInt32(player.wingTime), value.Item1));
                 }
 
                 // If it's not equipped - display only MaxWingTime using items wing time
@@ -209,7 +208,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 // Other stats
                 if (modConfig.DisplayWingHorizontalSpeed)
                     lines.Add(Wing_HorizontalSpeed(value.Item2));
-                if (modConfig.DisplayWingVerticalSpeedMult)
+                if (modConfig.DisplayWingVerticalSpeedMult && (value.Item3 != -1) || modConfig.DisplayWingVerticalSpeedMultEvenWhenUnknown)
                     lines.Add(Wing_VerticalSpeedMultiplier(value.Item3));
 
                 tooltips.AddRange(lines);
