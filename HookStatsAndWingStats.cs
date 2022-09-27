@@ -10,9 +10,10 @@ namespace HookStatsAndWingStats
     public class HookStatsAndWingStats : Mod
     {
         public Dictionary<int, Tuple<float, float, int, int>> vanillaHookStats { get; set; } = new Dictionary<int, Tuple<float, float, int, int>>();
-        public Dictionary<Tuple<string, string>, Tuple<int, int, int>> moddedHookStats { get; set; } = new Dictionary<Tuple<string, string>, Tuple<int, int, int>>();
+        public Dictionary<Tuple<string, string>, Tuple<float, float, int, int>> moddedHookStats { get; set; } = new Dictionary<Tuple<string, string>, Tuple<float, float, int, int>>();
         public Dictionary<int, int> vanillaWingVerticalMults { get; set; } = new Dictionary<int, int>();
         public Dictionary<Tuple<string, string>, int> moddedWingVerticalMults { get; set; } = new Dictionary<Tuple<string, string>, int>();
+        public Dictionary<Tuple<string, string>, Tuple<int, float, int>> moddedWingStatsOverride { get; set; } = new Dictionary<Tuple<string, string>, Tuple<int, float, int>>();
 
         public override void Load()
         {

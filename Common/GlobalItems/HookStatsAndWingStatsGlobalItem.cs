@@ -18,17 +18,22 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             List<TooltipLine> lines = new List<TooltipLine>();
             string modName = "Terraria";
             string itemName = item.Name;
+            bool hasCalamity = false;
             if (item.ModItem != null)
             {
                 modName = item.ModItem.Mod.Name;
                 itemName = item.ModItem.Name;
             }
-                
+
+            if (ModLoader.TryGetMod("CalamityMod", out _))
+                hasCalamity = true;
+
+
             
 
             // Hooks
             // Have to be done manually, vanilla ranges and hooks are hard coded
-            if ((mod.vanillaHookStats.ContainsKey(item.type) || mod.moddedHookStats.ContainsKey(new(modName, itemName))) && modConfig.DisplayHookStats)
+            if ((mod.vanillaHookStats.ContainsKey(item.type) || mod.moddedHookStats.ContainsKey(new(modName, itemName))) && modConfig.DisplayHookStats && ((modName != "Terraria" && modName != "CalamityMod" && modName != "CalValEX" && modName != "CatalystMod") || !hasCalamity))
             {
                 var value = mod.vanillaHookStats[item.type];
                 
@@ -62,7 +67,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
             // Wings
             // Can be done mostly through WingStats, vertical speed multiplier is hard coded so need a dict for that
-            if (item.wingSlot > 0 && modConfig.DisplayWingStats)
+            if (item.wingSlot > 0 && modConfig.DisplayWingStats && ((modName != "Terraria" && modName != "CalamityMod" && modName != "CalValEX" && modName != "CatalystMod") || !hasCalamity) && modName != "FargowiltasSouls")
             {
                 // Declaring stuff
                 Player player = Main.LocalPlayer;
@@ -74,6 +79,13 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 {
                     if (player.armor[i].type == item.type && Main.mouseX > Main.screenWidth / 2)
                         isEquipped = true;
+                }
+
+                // Check if we have a modded wingstats override for this item - this is entirely for stinky mod devs who aren't setting WingStats properly
+                if (mod.moddedWingStatsOverride.ContainsKey(new(modName, itemName)))
+                {
+                    wingStats = new WingStats(mod.moddedWingStatsOverride[new(modName, itemName)].Item1, mod.moddedWingStatsOverride[new(modName, itemName)].Item2);
+                    mod.moddedWingVerticalMults.Add(new(modName, itemName), mod.moddedWingStatsOverride[new(modName, itemName)].Item3);
                 }
 
                 // Add title
