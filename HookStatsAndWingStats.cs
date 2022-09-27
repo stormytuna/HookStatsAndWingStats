@@ -167,6 +167,13 @@ namespace HookStatsAndWingStats
             #region Consolaria
             moddedWingVerticalMults.Add(new("Consolaria", "SparklyWings"), 300);
             #endregion
+
+            #region FargosSouls
+            moddedWingStatsOverride.Add(new("FargowiltasSouls", "GelicWings"), new(100, 6.75f, 150));
+            moddedWingStatsOverride.Add(new("FargowiltasSouls", "DimensionSoul"), new(-1, 25f, 300));
+            moddedWingStatsOverride.Add(new("FargowiltasSouls", "EternitySoul"), new(-1, 25f, 300));
+            moddedWingStatsOverride.Add(new("FargowiltasSouls", "FlightMasterySoul"), new(-1, 18f, 300));
+            #endregion
         }
     }
 }
