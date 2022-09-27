@@ -83,7 +83,7 @@ namespace HookStatsAndWingStats.Common.Configs
 
         [Label("Display wing vertical speed multiplier even when unknown")]
         [Tooltip("Sometimes the vertical speed multiplier stat will not be found correctly. With this set to true, it will display as unknown instead of not being displayed")]
-        [DefaultValue(false)]
+        [DefaultValue(true)]
         public bool DisplayWingVerticalSpeedMultEvenWhenUnknown { get; set; }
     }
 }
