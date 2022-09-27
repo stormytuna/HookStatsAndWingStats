@@ -17,9 +17,14 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             var modConfig = ModContent.GetInstance<HookStatsAndWingStatsConfig>();
             List<TooltipLine> lines = new List<TooltipLine>();
             string modName = "Terraria";
-            if (item.ModItem != null)
-                modName = item.ModItem.Mod.Name;
             string itemName = item.Name;
+            if (item.ModItem != null)
+            {
+                modName = item.ModItem.Mod.Name;
+                itemName = item.ModItem.Name;
+            }
+                
+            
 
             // Hooks
             // Have to be done manually, vanilla ranges and hooks are hard coded

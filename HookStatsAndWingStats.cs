@@ -113,7 +113,11 @@ namespace HookStatsAndWingStats
 
         private void Init_ModdedWings()
         {
-            moddedWingVerticalMults.Add(new("ModLoader", "dinidini's Wings"), 150);
+            #region ModLoader
+            moddedWingVerticalMults.Add(new("ModLoader", "AetherBreaker_Wings"), 150);
+            moddedWingVerticalMults.Add(new("ModLoader", "Coolmike5000_Wings"), 150);
+            moddedWingVerticalMults.Add(new("ModLoader", "dinidini_Wings"), 150);
+            #endregion
 
             moddedWingVerticalMults.Add(new("EchoesoftheAncients", "VoidDragWings"), 150);
         }
