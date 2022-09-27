@@ -28,15 +28,17 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             if (ModLoader.TryGetMod("CalamityMod", out _))
                 hasCalamity = true;
 
-
-            
-
             // Hooks
             // Have to be done manually, vanilla ranges and hooks are hard coded
             if ((mod.vanillaHookStats.ContainsKey(item.type) || mod.moddedHookStats.ContainsKey(new(modName, itemName))) && modConfig.DisplayHookStats && ((modName != "Terraria" && modName != "CalamityMod" && modName != "CalValEX" && modName != "CatalystMod") || !hasCalamity))
             {
-                var value = mod.vanillaHookStats[item.type];
-                
+                Tuple<float, float, int, int> value;
+                if (modName != "Terraria")
+                    value = mod.moddedHookStats[new(modName, itemName)];
+                else
+                    value = mod.vanillaHookStats[item.type];
+
+
                 TooltipLine temp = new TooltipLine(Mod, "HookTitle", "\n~ HOOK STATS ~");
                 temp.OverrideColor = modConfig.HookStatsTitleColor;
                 lines.Add(temp);
