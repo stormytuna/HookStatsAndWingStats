@@ -66,7 +66,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             {
                 // Declaring stuff
                 Player player = Main.LocalPlayer;
-                WingStats wingStats = player.GetWingStats(item.wingSlot);
+                WingStats wingStats = ArmorIDs.Wing.Sets.Stats[item.wingSlot];
                 bool isEquipped = false;
                 
                 // Check if this item is equipped
