@@ -11,10 +11,15 @@ namespace HookStatsAndWingStats
     {
         public Dictionary<int, Tuple<float, float, int, int>> vanillaHookStats { get; set; } = new Dictionary<int, Tuple<float, float, int, int>>();
         public Dictionary<Tuple<string, string>, Tuple<int, int, int>> moddedHookStats { get; set; } = new Dictionary<Tuple<string, string>, Tuple<int, int, int>>();
+        public Dictionary<int, int> vanillaWingVerticalMults { get; set; } = new Dictionary<int, int>();
+        public Dictionary<Tuple<string, string>, int> moddedWingVerticalMults { get; set; } = new Dictionary<Tuple<string, string>, int>();
 
         public override void Load()
         {
             Init_VanillaHooks();
+            Init_VanillaWings();
+            Init_ModdedHooks();
+            Init_ModdedWings();
         }
 
         private void Init_VanillaHooks()
@@ -51,9 +56,66 @@ namespace HookStatsAndWingStats
             vanillaHookStats.Add(ItemID.StaticHook, new(37.5f, 16f, 2, 2));
         }
 
+        private void Init_VanillaWings()
+        {
+            vanillaWingVerticalMults.Add(4978, 150); // Fledgling wings
+            vanillaWingVerticalMults.Add(ItemID.AngelWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.DemonWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.LeafWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.FairyWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.FinWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.FrozenWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.HarpyWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.Jetpack, 150);
+            vanillaWingVerticalMults.Add(ItemID.RedsWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.DTownsWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.WillsWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.CrownosWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.CenxsWings, 150);
+            vanillaWingVerticalMults.Add(3228, 150); // Lazure's barrier platform
+            vanillaWingVerticalMults.Add(ItemID.Yoraiz0rWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.JimsWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.SkiphsWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.LokisWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.ArkhalisWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.LeinforsWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.GhostarsWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.SafemanWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.FoodBarbarianWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.GroxTheGreatWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.BatWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.BeeWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.ButterflyWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.FlameWings, 150);
+            vanillaWingVerticalMults.Add(ItemID.Hoverboard, 166);
+            vanillaWingVerticalMults.Add(ItemID.BoneWings, 166);
+            vanillaWingVerticalMults.Add(ItemID.MothronWings, 166);
+            vanillaWingVerticalMults.Add(ItemID.GhostWings, 166);
+            vanillaWingVerticalMults.Add(ItemID.BeetleWings, 166);
+            vanillaWingVerticalMults.Add(ItemID.FestiveWings, 180);
+            vanillaWingVerticalMults.Add(ItemID.SpookyWings, 180);
+            vanillaWingVerticalMults.Add(ItemID.TatteredFairyWings, 180);
+            vanillaWingVerticalMults.Add(ItemID.SteampunkWings, 180);
+            vanillaWingVerticalMults.Add(ItemID.BetsyWings, 250);
+            vanillaWingVerticalMults.Add(4823, 275); // Empress wings
+            vanillaWingVerticalMults.Add(ItemID.FishronWings, 250);
+            vanillaWingVerticalMults.Add(ItemID.WingsNebula, 245);
+            vanillaWingVerticalMults.Add(ItemID.WingsVortex, 245);
+            vanillaWingVerticalMults.Add(ItemID.WingsSolar, 300);
+            vanillaWingVerticalMults.Add(ItemID.WingsStardust, 300);
+            vanillaWingVerticalMults.Add(4954, 450); // Starboard
+        }
+
         private void Init_ModdedHooks()
         {
 
+        }
+
+        private void Init_ModdedWings()
+        {
+            moddedWingVerticalMults.Add(new("ModLoader", "dinidini's Wings"), 150);
+
+            moddedWingVerticalMults.Add(new("EchoesoftheAncients", "VoidDragWings"), 150);
         }
     }
 }
