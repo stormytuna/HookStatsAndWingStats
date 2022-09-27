@@ -135,14 +135,15 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 modName = item.ModItem.Mod.Name;
                 itemName = item.ModItem.Name;
             }
+            Tuple<string, string> key = new(modName, itemName);
 
             // Hooks
             // Have to be done manually, vanilla ranges and hooks are hard coded
-            if ((mod.vanillaHookStats.ContainsKey(item.type) || mod.moddedHookStats.ContainsKey(new(modName, itemName))) && ShouldDisplayHookStats() && (ItemIsCalamityFamily(modName) || !HasCalamity()))
+            if ((mod.vanillaHookStats.ContainsKey(item.type) || mod.moddedHookStats.ContainsKey(key)) && ShouldDisplayHookStats() && (ItemIsCalamityFamily(modName) || !HasCalamity()))
             {
                 Tuple<float, float, int, int> value;
                 if (modName != "Terraria")
-                    value = mod.moddedHookStats[new(modName, itemName)];
+                    value = mod.moddedHookStats[key];
                 else
                     value = mod.vanillaHookStats[item.type];
 
@@ -177,11 +178,16 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 // Build our Tuple
                 Tuple<int, float, int> value = new(0, 0, -1);
                 // Check if we have a modded wingstats override
-                if (mod.moddedWingStatsOverride.ContainsKey(new(modName, itemName)))
-                    value = mod.moddedWingStatsOverride[new(modName, itemName)];
+                if (mod.moddedWingStatsOverride.ContainsKey(key))
+                    value = mod.moddedWingStatsOverride[key];
                 // Check if our item is modded...
                 else if (modName != "Terraria")
-                    value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.moddedWingVerticalMults[new(modName, itemName)]);
+                {
+                    if (mod.moddedWingVerticalMults.ContainsKey(key))
+                        value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.moddedWingVerticalMults[key]);
+                    else
+                        value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, -1);
+                }
                 // ... or vanilla 
                 else
                     value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.vanillaWingVerticalMults[item.type]);
