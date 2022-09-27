@@ -153,6 +153,20 @@ namespace HookStatsAndWingStats
             #region Orchid
             moddedWingStatsOverride.Add(new("OrchidMod", "AbyssalWings"), new(180, 9f, 300));
             #endregion
+
+            #region VitalityMod
+            moddedWingVerticalMults.Add(new("VitalityMod", "MachineGunJetpack"), 150);
+            moddedWingVerticalMults.Add(new("VitalityMod", "AnarchyWings"), 150);
+            moddedWingVerticalMults.Add(new("VitalityMod", "ChaosWings"), 150);
+            moddedWingVerticalMults.Add(new("VitalityMod", "CrystalWings"), 150);
+            moddedWingVerticalMults.Add(new("VitalityMod", "ForbiddenWings"), 150);
+            moddedWingVerticalMults.Add(new("VitalityMod", "GhastlyWings"), 300);
+            moddedWingVerticalMults.Add(new("VitalityMod", "BellaRose"), 150);
+            #endregion
+
+            #region Consolaria
+            moddedWingVerticalMults.Add(new("Consolaria", "SparklyWings"), 300);
+            #endregion
         }
     }
 }
