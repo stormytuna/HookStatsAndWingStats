@@ -25,6 +25,12 @@ namespace HookStatsAndWingStats.Common.GlobalItems
         private bool ItemIsCalamityFamily(string itemModName)
             => itemModName != "Terraria" && itemModName != "CalamityMod" && itemModName != "CalValEX" && itemModName != "CatalystMod";
 
+        private bool ShouldDisplayHookStats()
+            => modConfig.DisplayHookStats && (modConfig.DisplayHookReach || modConfig.DisplayHookVelocity || modConfig.DisplayHookCount || modConfig.DisplayHookLatchingType);
+
+        private bool ShouldDisplayWingStats()
+            => modConfig.DisplayWingStats && (modConfig.DisplayMaxWingTime || modConfig.DisplayCurrentWingTime || modConfig.DisplayWingHorizontalSpeed || modConfig.DisplayWingVerticalSpeedMult);
+
         private TooltipLine Hook_Title()
         {
             TooltipLine line = new TooltipLine(Mod, "HookTitle", "\n~ HOOK STATS ~");
@@ -132,7 +138,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
             // Hooks
             // Have to be done manually, vanilla ranges and hooks are hard coded
-            if ((mod.vanillaHookStats.ContainsKey(item.type) || mod.moddedHookStats.ContainsKey(new(modName, itemName))) && modConfig.DisplayHookStats && (ItemIsCalamityFamily(modName) || !HasCalamity()))
+            if ((mod.vanillaHookStats.ContainsKey(item.type) || mod.moddedHookStats.ContainsKey(new(modName, itemName))) && ShouldDisplayHookStats() && (ItemIsCalamityFamily(modName) || !HasCalamity()))
             {
                 Tuple<float, float, int, int> value;
                 if (modName != "Terraria")
@@ -155,7 +161,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
             // Wings
             // Can be done mostly through WingStats, vertical speed multiplier is hard coded so need a dict for that
-            if (item.wingSlot > 0 && modConfig.DisplayWingStats && (ItemIsCalamityFamily(modName) || !HasCalamity()))
+            if (item.wingSlot > 0 && ShouldDisplayWingStats() && (ItemIsCalamityFamily(modName) || !HasCalamity()))
             {
                 // Declaring stuff
                 WingStats wingStats = ArmorIDs.Wing.Sets.Stats[item.wingSlot];
