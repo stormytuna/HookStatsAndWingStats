@@ -117,6 +117,9 @@ namespace HookStatsAndWingStats
             #region Orchid
             moddedHookStats.Add(new("OrchidMod", "MineshaftHook"), new(400f, 12f, 2, 0));
             #endregion
+
+            #region Gensokyo
+            moddedHookStats.Add(new("Gensokyo", "TsuchigomoWebSlinger"), new(300f, 10f, 8, 1));
             #endregion
         }
 
@@ -174,6 +177,16 @@ namespace HookStatsAndWingStats
             moddedWingStatsOverride.Add(new("FargowiltasSouls", "DimensionSoul"), new(-1, 25f, 300));
             moddedWingStatsOverride.Add(new("FargowiltasSouls", "EternitySoul"), new(-1, 25f, 300));
             moddedWingStatsOverride.Add(new("FargowiltasSouls", "FlightMasterySoul"), new(-1, 18f, 300));
+            #endregion
+
+            #region Gensokyo
+            moddedWingVerticalMults.Add(new("Gensokyo", "BloomWings"), 150);
+            moddedWingVerticalMults.Add(new("Gensokyo", "BlossomWings"), 125);
+            moddedWingVerticalMults.Add(new("Gensokyo", "ColorfulWings"), 300);
+            moddedWingVerticalMults.Add(new("Gensokyo", "HellfireMantle"), 350);
+            moddedWingVerticalMults.Add(new("Gensokyo", "IcicleWings"), 150);
+            moddedWingVerticalMults.Add(new("Gensokyo", "SwallowtailWings"), 150);
+            moddedWingVerticalMults.Add(new("Gensokyo", "SwallowtailWingsUpgraded"), 125);
             #endregion
         }
     }
