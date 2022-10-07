@@ -7,6 +7,7 @@ Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds t
 * Consolaria
 * Echoes of the Ancients
 * Fargo's Souls Mod
+* Gensokyo
 * Orchid
 * Secrets of the Shadows
 * tModLoader
