@@ -110,12 +110,13 @@ namespace HookStatsAndWingStats
         private void Init_ModdedHooks()
         {
             #region SecretsOfTheShadows
-            moddedHookStats.Add(new("SOTS", "WormWoodHook"), new(480f/16f, 15f, 1, 0));
-            moddedHookStats.Add(new("SOTS", "InfernoHook"), new(510/16f, 26f, 1, 0));
+            moddedHookStats.Add(new("SOTS", "WormWoodHook"), new(480f, 15f, 1, 0));
+            moddedHookStats.Add(new("SOTS", "InfernoHook"), new(510, 26f, 1, 0));
             #endregion
 
             #region Orchid
-            moddedHookStats.Add(new("OrchidMod", "MineshaftHook"), new(400f / 16f, 12f, 2, 0));
+            moddedHookStats.Add(new("OrchidMod", "MineshaftHook"), new(400f, 12f, 2, 0));
+            #endregion
             #endregion
         }
 
