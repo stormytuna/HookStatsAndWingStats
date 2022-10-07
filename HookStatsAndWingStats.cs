@@ -23,6 +23,8 @@ namespace HookStatsAndWingStats
             Init_ModdedWings();
         }
 
+        #region Vanilla
+
         private void Init_VanillaHooks()
         {
             // Pre HM
@@ -106,6 +108,8 @@ namespace HookStatsAndWingStats
             vanillaWingVerticalMults.Add(ItemID.WingsStardust, 300);
             vanillaWingVerticalMults.Add(4954, 450); // Starboard
         }
+
+        #endregion
 
         private void Init_ModdedHooks()
         {
