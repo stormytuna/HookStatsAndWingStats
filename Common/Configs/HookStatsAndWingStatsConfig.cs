@@ -12,7 +12,7 @@ namespace HookStatsAndWingStats.Common.Configs
 {
     public class HookStatsAndWingStatsConfig : ModConfig
     {
-        public override ConfigScope Mode => ConfigScope.ServerSide;
+        public override ConfigScope Mode => ConfigScope.ClientSide;
 
         [Header("Hook Stats")]
 
