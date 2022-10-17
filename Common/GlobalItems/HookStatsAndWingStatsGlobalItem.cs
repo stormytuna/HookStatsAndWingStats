@@ -260,8 +260,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
                     if (compValue != null)
                     {
-                        if (!HookConfig.Instance.DockStats)
-                            lines.Add(ComparisonTitle());
+                        lines.Add(ComparisonTitle());
 
                         if (!MiscConfig.Instance.ComparionsValueColors)
                         {
@@ -424,8 +423,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                     // Print actual lines
                     if (compValue != null)
                     {
-                        if (!WingConfig.Instance.DockStats)
-                            lines.Add(ComparisonTitle());
+                        lines.Add(ComparisonTitle());
 
                         if (!MiscConfig.Instance.ComparionsValueColors)
                         {
