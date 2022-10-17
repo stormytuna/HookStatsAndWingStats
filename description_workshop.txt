@@ -1,4 +1,4 @@
-Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds tooltips to hooks and wings that detail their stats. This mod supports both modded and vanilla hooks and wings.
+Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds tooltips to hooks and wings that detail their stats. This mod supports both modded and vanilla hooks and wings. As well as displaying a highlighted items stats, you can display a comparison to your equipped items stats, with better and worse stats being highlighted. This mod is also highly configurable and nothing requires a reload, so feel free to mess with stuff in game.
 
 [b]Currently supported mods:[/b]
 [list]
@@ -15,3 +15,15 @@ Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds t
 [/list]
 
 To report any bugs or request support for a mod, message me on discord (stormytuna#2688) or leave a comment on the Steam Workshop. You can also report bugs by creating an issue on the GitHub repo.
+
+[hr][/hr]
+
+[b]Changelog[/b]
+[i]Version 1.2.0[/i]
+[list]
+[*]Added ability to change subtitle and value colors
+[*]Added ability to compare selected item to equipped item
+[*]Changed config to be client side
+[*]Separated configs to be 3 different pages
+[*]Added some tooltips to explain config options
+[/list]
