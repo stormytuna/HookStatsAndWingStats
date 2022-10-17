@@ -133,13 +133,6 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            // Debug
-            if (item.type == ItemID.TerraBlade)
-            {
-                tooltips.Add(new TooltipLine(Mod, "WingBreak", $" "));
-                tooltips.Add(new TooltipLine(Mod, "WingTitle", "~ WING STATS ~"));
-            }
-
             List<TooltipLine> lines = new List<TooltipLine>();
             Player player = Main.LocalPlayer;
 
