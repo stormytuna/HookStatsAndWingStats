@@ -6,14 +6,13 @@ using System.Linq;
 using System;
 using HookStatsAndWingStats.Common.Configs;
 using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 
 namespace HookStatsAndWingStats.Common.GlobalItems
 {
     public class HookStatsAndWingStatsGlobalItem : GlobalItem
     {
         private HookStatsAndWingStats mod => ModContent.GetInstance<HookStatsAndWingStats>();
-        private HookStatsAndWingStatsConfig modConfig => ModContent.GetInstance<HookStatsAndWingStatsConfig>();
-
         private bool HasCalamity()
         {
             if (ModLoader.TryGetMod("CalamityMod", out _))
@@ -26,104 +25,121 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             => itemModName != "Terraria" && itemModName != "CalamityMod" && itemModName != "CalValEX" && itemModName != "CatalystMod";
 
         private bool ShouldDisplayHookStats()
-            => modConfig.DisplayHookStats && (modConfig.DisplayHookReach || modConfig.DisplayHookVelocity || modConfig.DisplayHookCount || modConfig.DisplayHookLatchingType);
+            => HookConfig.Instance.ShowStats && (HookConfig.Instance.ShowReach || HookConfig.Instance.ShowVelocity || HookConfig.Instance.ShowCount || HookConfig.Instance.ShowLatchingType);
 
         private bool ShouldDisplayWingStats()
-            => modConfig.DisplayWingStats && (modConfig.DisplayMaxWingTime || modConfig.DisplayCurrentWingTime || modConfig.DisplayWingHorizontalSpeed || modConfig.DisplayWingVerticalSpeedMult);
+            => WingConfig.Instance.ShowStats && (WingConfig.Instance.ShowMaxWingTime || WingConfig.Instance.ShowCurWingTime || WingConfig.Instance.ShowHorizontalSpeed || WingConfig.Instance.ShowVerticalMult);
 
-        private TooltipLine Hook_Title()
+        private string WrapLine(string subtitle, Color subColor, string value, Color valColor)
+        {
+            return WrapLine(subtitle, subColor.Hex3().ToUpper(), value, valColor.Hex3());
+        }
+
+        private string WrapLine(string subtitle, string subColorHex, string value, string valColorHex)
+        {
+            return $"[c/{subColorHex}:{subtitle}][c/{valColorHex}:{value}]";
+        }
+
+        private TooltipLine HookTitle()
         {
             TooltipLine line = new TooltipLine(Mod, "HookTitle", "\n~ HOOK STATS ~");
-            line.OverrideColor = modConfig.HookStatsTitleColor;
+            line.OverrideColor = HookConfig.Instance.TitleColor;
             return line;
         }
 
-        private TooltipLine Hook_Reach(float reach)
+        private TooltipLine HookReach(float reach)
         {
-            return new TooltipLine(Mod, "HookReach", $"Reach: {reach / 16f} tiles");
+            return new TooltipLine(Mod, "HookReach", WrapLine("Reach: ", MiscConfig.Instance.StatSubtitleColor, $"{reach / 16f} tiles", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine Hook_Velocity(float velocity)
+        private TooltipLine HookVelocity(float velocity)
         {
-            return new TooltipLine(Mod, "HookVelocity", $"Velocity: {velocity}");
+            return new TooltipLine(Mod, "HookVelocity", WrapLine("Velocity: ", MiscConfig.Instance.StatSubtitleColor, $"{velocity}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine Hook_HookCount(int hookCount)
+        private TooltipLine HookCount(int hookCount)
         {
-            return new TooltipLine(Mod, "HookCount", $"Hooks: {hookCount}");
+            return new TooltipLine(Mod, "HookCount", WrapLine("Hooks: ", MiscConfig.Instance.StatSubtitleColor, $"{hookCount}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine Hook_LatchingType(int latchingType)
+        private TooltipLine HookLatchingType(int latchingType)
         {
             switch (latchingType)
             {
                 default:
-                    return new TooltipLine(Mod, "HookStat", "Latch Type: Single");
+                    return new TooltipLine(Mod, "HookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Single", MiscConfig.Instance.StatValueColor));
                 case 1:
-                    return new TooltipLine(Mod, "HookStat", "Latch Type: Simultaneous");
+                    return new TooltipLine(Mod, "HookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Simultaneous", MiscConfig.Instance.StatValueColor));
                 case 2:
-                    return new TooltipLine(Mod, "HookStat", "Latch Type: Individual");
+                    return new TooltipLine(Mod, "HookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Individual", MiscConfig.Instance.StatValueColor));
             }
         }
 
-        private TooltipLine Wing_Title()
+        private TooltipLine WingTitle()
         {
             TooltipLine line = new TooltipLine(Mod, "WingTitle", "\n~ WING STATS ~");
-            line.OverrideColor = modConfig.WingStatsTitleColor;
+            line.OverrideColor = WingConfig.Instance.TitleColor;
             return line;
         }
 
-        private TooltipLine Wing_FlightTime_Combined(int currentWingTime, int maxWingTime)
+        private TooltipLine WingFlightTimeCombined(int currentWingTime, int maxWingTime)
         {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Flight time: ∞ / ∞");
+                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, "∞ / ∞", MiscConfig.Instance.StatValueColor));
 
-            if (modConfig.DisplayFlightTimeInSeconds)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Flight time: {(currentWingTime / 60f):0.00}s / {maxWingTime / 60f:0.00}s");
+            if (WingConfig.Instance.FlightTimeInSeconds)
+                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, $"{(currentWingTime / 60f):0.00}s / {maxWingTime / 60f:0.00}s", MiscConfig.Instance.StatValueColor));
 
-            return new TooltipLine(Mod, "WingFlightTimeCombined", $"Flight time: {currentWingTime} / {maxWingTime}");
+            return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime} / {maxWingTime}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine Wing_FlightTime_CurrentWingTime(int currentWingTime, int maxWingTime)
+        private TooltipLine WingFlightTimeCurrent(int currentWingTime, int maxWingTime)
         {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Current flight time: ∞");
+                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", MiscConfig.Instance.StatValueColor));
 
-            if (modConfig.DisplayFlightTimeInSeconds)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Current flight time: {(currentWingTime / 60f):0.00}s");
+            if (WingConfig.Instance.CombineWingTimes)
+                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime / 60f:0.00}s", MiscConfig.Instance.StatValueColor));
 
-            return new TooltipLine(Mod, "WingFlightTimeCombined", $"Current flight time: {currentWingTime}");
+            return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine Wing_FlightTime_MaxWingTime(int maxWingTime)
+        private TooltipLine WingFlightTimeMax(int maxWingTime)
         {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Max flight time: ∞");
+                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", MiscConfig.Instance.StatValueColor));
 
-            if (modConfig.DisplayFlightTimeInSeconds)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Max flight time: {(maxWingTime / 60f):0.00}s");
+            if (WingConfig.Instance.FlightTimeInSeconds)
+                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"Max flight time: {(maxWingTime / 60f):0.00}s", MiscConfig.Instance.StatValueColor));
 
-            return new TooltipLine(Mod, "WingFlightTimeCombined", $"Max flight time: {maxWingTime}");
+            return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{maxWingTime}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine Wing_HorizontalSpeed(float horizontalSpeed)
+        private TooltipLine WingHorizontalSpeed(float horizontalSpeed)
         {
-            if (modConfig.HorizontalSpeedMeasuredInMPH)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", $"Horizontal speed: {horizontalSpeed * 5.084949379f:0.}mph");
+            if (WingConfig.Instance.HorizontalSpeedInMPH)
+                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed * 5.084949379f:0.}mph", MiscConfig.Instance.StatValueColor));
 
-            return new TooltipLine(Mod, "WingFlightTimeCombined", $"Horizontal speed: {horizontalSpeed}");
+            return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine Wing_VerticalSpeedMultiplier(float verticalSpeedMultiplier)
+        private TooltipLine WingVerticalSpeedMultiplier(float verticalSpeedMultiplier)
         {
-            if (modConfig.DisplayWingVerticalSpeedMultEvenWhenUnknown && verticalSpeedMultiplier == -1)
-                return new TooltipLine(Mod, "WingVerticalSpeedMult", $"Vertical speed multiplier: Unknown");
+            if (WingConfig.Instance.ShowUnknownVerticalMults && verticalSpeedMultiplier == -1)
+                return new TooltipLine(Mod, "WingVerticalSpeedMult", WrapLine("Vertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, "unknown", MiscConfig.Instance.StatValueColor));
 
-            return new TooltipLine(Mod, "WingVerticalSpeedMult", $"Vertical speed multiplier: {verticalSpeedMultiplier}%");
+            return new TooltipLine(Mod, "WingVerticalSpeedMult", WrapLine("Vertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, $"{verticalSpeedMultiplier}%", MiscConfig.Instance.StatValueColor));
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
+            // Debug
+            if (item.type == ItemID.TerraBlade)
+            {
+                tooltips.Add(new TooltipLine(Mod, "WingBreak", $" "));
+                tooltips.Add(new TooltipLine(Mod, "WingTitle", "~ WING STATS ~"));
+            }
+
             List<TooltipLine> lines = new List<TooltipLine>();
             Player player = Main.LocalPlayer;
 
@@ -147,15 +163,15 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 else
                     value = mod.vanillaHookStats[item.type];
 
-                lines.Add(Hook_Title());
-                if (modConfig.DisplayHookReach)
-                    lines.Add(Hook_Reach(value.Item1));
-                if (modConfig.DisplayHookVelocity)
-                    lines.Add(Hook_Velocity(value.Item2));
-                if (modConfig.DisplayHookCount)
-                    lines.Add(Hook_HookCount(value.Item3));
-                if (modConfig.DisplayHookLatchingType)
-                    lines.Add(Hook_LatchingType(value.Item4));
+                lines.Add(HookTitle());
+                if (HookConfig.Instance.ShowReach)
+                    lines.Add(HookReach(value.Item1));
+                if (HookConfig.Instance.ShowVelocity)
+                    lines.Add(HookVelocity(value.Item2));
+                if (HookConfig.Instance.ShowCount)
+                    lines.Add(HookCount(value.Item3));
+                if (HookConfig.Instance.ShowLatchingType)
+                    lines.Add(HookLatchingType(value.Item4));
 
                 tooltips.AddRange(lines);
             }
@@ -192,36 +208,36 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 else
                     value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.vanillaWingVerticalMults[item.type]);
 
-                lines.Add(Wing_Title());
+                lines.Add(WingTitle());
 
                 // Flight time
                 // If we're using combined wing times and is equipped - display as combined using players wing time
-                if (modConfig.CombineCurrentAndMaxWingTime && modConfig.DisplayCurrentWingTime && modConfig.DisplayMaxWingTime && isEquipped)
+                if (WingConfig.Instance.CombineWingTimes && WingConfig.Instance.ShowCurWingTime && WingConfig.Instance.ShowMaxWingTime && isEquipped)
                 {
-                    lines.Add(Wing_FlightTime_Combined(Convert.ToInt32(player.wingTime), value.Item1));
+                    lines.Add(WingFlightTimeCombined(Convert.ToInt32(player.wingTime), value.Item1));
                 }
 
                 // If we're not using combined and is equipped - display separerately using players wing time
                 else if (isEquipped)
                 {
-                    if (modConfig.DisplayMaxWingTime)
-                        lines.Add(Wing_FlightTime_MaxWingTime(value.Item1));
-                    if (modConfig.DisplayCurrentWingTime)
-                        lines.Add(Wing_FlightTime_CurrentWingTime(Convert.ToInt32(player.wingTime), value.Item1));
+                    if (WingConfig.Instance.ShowMaxWingTime)
+                        lines.Add(WingFlightTimeMax(value.Item1));
+                    if (WingConfig.Instance.ShowCurWingTime)
+                        lines.Add(WingFlightTimeCurrent(Convert.ToInt32(player.wingTime), value.Item1));
                 }
 
                 // If it's not equipped - display only MaxWingTime using items wing time
                 else
                 {
-                    if (modConfig.DisplayMaxWingTime)
-                        lines.Add(Wing_FlightTime_MaxWingTime(value.Item1));
+                    if (WingConfig.Instance.ShowMaxWingTime)
+                        lines.Add(WingFlightTimeMax(value.Item1));
                 }
 
                 // Other stats
-                if (modConfig.DisplayWingHorizontalSpeed)
-                    lines.Add(Wing_HorizontalSpeed(value.Item2));
-                if (modConfig.DisplayWingVerticalSpeedMult && (value.Item3 != -1) || modConfig.DisplayWingVerticalSpeedMultEvenWhenUnknown)
-                    lines.Add(Wing_VerticalSpeedMultiplier(value.Item3));
+                if (WingConfig.Instance.ShowHorizontalSpeed)
+                    lines.Add(WingHorizontalSpeed(value.Item2));
+                if (WingConfig.Instance.ShowVerticalMult && (value.Item3 != -1) || WingConfig.Instance.ShowUnknownVerticalMults)
+                    lines.Add(WingVerticalSpeedMultiplier(value.Item3));
 
                 tooltips.AddRange(lines);
             }
