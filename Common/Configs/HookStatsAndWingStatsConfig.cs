@@ -27,6 +27,10 @@ namespace HookStatsAndWingStats.Common.Configs
         [DefaultValue(false)]
         public bool DockStats { get; set; }
 
+        [Label("Display comparison to equipped hook")]
+        [DefaultValue(true)]
+        public bool CompareStats { get; set; }
+
         [Label("Hook stats title color")]
         [DefaultValue(typeof(Color), "255, 164, 0, 255")]
         public Color TitleColor { get; set; }
@@ -65,6 +69,10 @@ namespace HookStatsAndWingStats.Common.Configs
         [Label("Dock wing stats")]
         [DefaultValue(false)]
         public bool DockStats { get; set; }
+
+        [Label("Display comparison to equipped wings")]
+        [DefaultValue(true)]
+        public bool CompareStats { get; set; }
 
         [Label("Wing stats title color")]
         [DefaultValue(typeof(Color), "255, 0, 127, 255")]
@@ -115,6 +123,26 @@ namespace HookStatsAndWingStats.Common.Configs
         public override ConfigScope Mode => ConfigScope.ClientSide;
 
         [Header("Misc")]
+
+        [Label("Comparison title color")]
+        [DefaultValue(typeof(Color), "0, 71, 171, 255")]
+        public Color ComparisonTitleColor { get; set; }
+
+        [Label("Comparison value colors")]
+        [DefaultValue(true)]
+        public bool ComparionsValueColors { get; set; }
+
+        [Label("Comparison better color")]
+        [DefaultValue(typeof(Color), "0, 255, 0, 255")]
+        public Color ComparisonBetterColor { get; set; }
+
+        [Label("Comparison worse color")]
+        [DefaultValue(typeof(Color), "255, 0, 0, 255")]
+        public Color ComparisonWorseColor { get; set; }
+
+        [Label("Comparison equal color")]
+        [DefaultValue(typeof(Color), "255, 255, 255, 255")]
+        public Color ComparisonEqualColor { get; set; }
 
         [Label("Stat subtitle color")]
         [DefaultValue(typeof(Color), "180, 180, 180, 255")]
