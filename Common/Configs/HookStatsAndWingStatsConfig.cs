@@ -24,6 +24,10 @@ namespace HookStatsAndWingStats.Common.Configs
         [DefaultValue(true)]
         public bool ShowStats { get; set; }
 
+        [Label("Dock hook stats")]
+        [DefaultValue(false)]
+        public bool DockStats { get; set; }
+
         [Label("Hook stats title color")]
         [DefaultValue(typeof(Color), "255, 164, 0, 255")]
         public Color TitleColor { get; set; }
@@ -59,6 +63,10 @@ namespace HookStatsAndWingStats.Common.Configs
         [Label("Display wing stats")]
         [DefaultValue(true)]
         public bool ShowStats { get; set; }
+
+        [Label("Dock wing stats")]
+        [DefaultValue(false)]
+        public bool DockStats { get; set; }
 
         [Label("Wing stats title color")]
         [DefaultValue(typeof(Color), "255, 0, 127, 255")]
