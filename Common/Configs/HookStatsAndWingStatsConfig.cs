@@ -149,7 +149,7 @@ namespace HookStatsAndWingStats.Common.Configs
 
         [Label("Comparison equal color")]
         [Tooltip("The colour a value is when comparing things with an equal value")]
-        [DefaultValue(typeof(Color), "255, 255, 255, 255")]
+        [DefaultValue(typeof(Color), "255, 165, 0, 255")]
         public Color ComparisonEqualColor { get; set; }
 
         [Label("Stat subtitle color")]
