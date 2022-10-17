@@ -118,10 +118,10 @@ namespace HookStatsAndWingStats.Common.Configs
 
         [Label("Stat subtitle color")]
         [DefaultValue(typeof(Color), "180, 180, 180, 255")]
-        public Color StatSubtitleColor;
+        public Color StatSubtitleColor { get; set; }
 
         [Label("Stat value color")]
         [DefaultValue(typeof(Color), "255, 255, 255, 255")]
-        public Color StatValueColor;
+        public Color StatValueColor { get; set; }
     }
 }
