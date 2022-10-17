@@ -114,8 +114,10 @@ namespace HookStatsAndWingStats.Common.Configs
 
         public override ConfigScope Mode => ConfigScope.ClientSide;
 
+        [Header("Misc")]
+
         [Label("Stat subtitle color")]
-        [DefaultValue(typeof(Color), "255, 255, 255, 255")]
+        [DefaultValue(typeof(Color), "180, 180, 180, 255")]
         public Color StatSubtitleColor;
 
         [Label("Stat value color")]

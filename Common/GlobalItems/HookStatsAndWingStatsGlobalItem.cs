@@ -156,7 +156,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 else
                     value = mod.vanillaHookStats[item.type];
 
-                if (HookConfig.Instance.DockStats)
+                if (!HookConfig.Instance.DockStats)
                     lines.Add(HookTitle());
                 if (HookConfig.Instance.ShowReach)
                     lines.Add(HookReach(value.Item1));
@@ -202,7 +202,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 else
                     value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.vanillaWingVerticalMults[item.type]);
 
-                if (WingConfig.Instance.DockStats)
+                if (!WingConfig.Instance.DockStats)
                     lines.Add(WingTitle());
 
                 // Flight time
