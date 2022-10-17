@@ -14,7 +14,7 @@ Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds t
 * Vitality Mod
 
 ### **Changelog**
-* *Version 1.2.0* *
+* *Version 1.2.0*
 * Added ability to change subtitle and value colors
 * Added ability to compare selected item to equipped item
 * Changed config to be client side
