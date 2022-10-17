@@ -467,13 +467,5 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 tooltips.AddRange(lines);
             }
         }
-
-        public override bool PreDrawTooltip(Item item, ReadOnlyCollection<TooltipLine> lines, ref int x, ref int y)
-        {
-            // TODO: reorder tooltips
-            List<TooltipLine> modLines = lines.Where(x => x.Mod == Mod.Name).ToList();
-
-            return base.PreDrawTooltip(item, lines, ref x, ref y);
-        }
     }
 }
