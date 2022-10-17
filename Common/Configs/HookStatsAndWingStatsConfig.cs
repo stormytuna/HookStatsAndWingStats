@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework;
 
 namespace HookStatsAndWingStats.Common.Configs
 {
-    [BackgroundColor(255, 213, 128)]
     [Label("Hook Config")]
     public class HookConfig : ModConfig
     {
@@ -50,7 +49,6 @@ namespace HookStatsAndWingStats.Common.Configs
         public bool ShowLatchingType { get; set; }
     }
 
-    [BackgroundColor(207, 159, 255)]
     [Label("Wing Config")]
     public class WingConfig : ModConfig
     {
@@ -109,7 +107,6 @@ namespace HookStatsAndWingStats.Common.Configs
         public bool ShowUnknownVerticalMults { get; set; }
     }
 
-    [BackgroundColor(207, 159, 255)]
     [Label("Misc Config")]
     public class MiscConfig : ModConfig
     {
