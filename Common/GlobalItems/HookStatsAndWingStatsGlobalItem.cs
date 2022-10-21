@@ -151,7 +151,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", MiscConfig.Instance.StatValueColor));
 
             if (WingConfig.Instance.FlightTimeInSeconds)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"Max flight time: {(maxWingTime / 60f):0.00}s", MiscConfig.Instance.StatValueColor));
+                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{(maxWingTime / 60f):0.00}s", MiscConfig.Instance.StatValueColor));
 
             return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{maxWingTime}", MiscConfig.Instance.StatValueColor));
         }
@@ -178,7 +178,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", valueColor));
 
             if (WingConfig.Instance.FlightTimeInSeconds)
-                return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"Max flight time: {(maxWingTime / 60f):0.00}s", valueColor));
+                return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{(maxWingTime / 60f):0.00}s", valueColor));
 
             return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{maxWingTime}", valueColor));
         }
