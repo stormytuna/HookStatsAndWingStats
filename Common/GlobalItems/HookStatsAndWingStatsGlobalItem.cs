@@ -42,13 +42,13 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             return $"[c/{subColorHex}:{subtitle}][c/{valColorHex}:{value}]";
         }
 
-        private TooltipLine ComparisonTitle(bool linebreak)
+        private TooltipLine ComparisonTitle(bool shouldDock)
         {
             TooltipLine line;
-            if (linebreak)
-                line = new TooltipLine(Mod, "ComparisonTitle", "\n~ EQUIPPED ~");
-            else
+            if (shouldDock)
                 line = new TooltipLine(Mod, "ComparisonTitle", "~ EQUIPPED ~");
+            else
+                line = new TooltipLine(Mod, "ComparisonTitle", "\n~ EQUIPPED ~");
             line.OverrideColor = MiscConfig.Instance.ComparisonTitleColor;
             return line;
         }
@@ -396,10 +396,13 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                             if (player.armor[i].type == item.type)
                                 continue;
 
+                            Item compItem = player.armor[i];
+                            WingStats compWingStats = ArmorIDs.Wing.Sets.Stats[compItem.wingSlot];
+
                             // modName and itemName, needed for modded items
                             string compModName = "Terraria"; // Init this as Terraria to check for modded items later
-                            string compItemName = item.Name;
-                            if (item.ModItem != null)
+                            string compItemName = compItem.Name;
+                            if (compItem.ModItem != null)
                             {
                                 compModName = item.ModItem.Mod.Name;
                                 compItemName = item.ModItem.Name;
@@ -414,13 +417,13 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                             else if (compModName != "Terraria")
                             {
                                 if (mod.moddedWingVerticalMults.ContainsKey(key))
-                                    compValue = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.moddedWingVerticalMults[key]);
+                                    compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, mod.moddedWingVerticalMults[compKey]);
                                 else
-                                    compValue = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, -1);
+                                    compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, -1);
                             }
                             // ... or vanilla 
                             else
-                                compValue = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.vanillaWingVerticalMults[item.type]);
+                                compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, mod.vanillaWingVerticalMults[compItem.type]);
                         }
                     }
 
@@ -432,11 +435,11 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                         if (!MiscConfig.Instance.ComparionsValueColors)
                         {
                             if (WingConfig.Instance.ShowMaxWingTime)
-                                lines.Add(CompWingFlightTimeMax(value.Item1, MiscConfig.Instance.StatValueColor));
+                                lines.Add(CompWingFlightTimeMax(compValue.Item1, MiscConfig.Instance.StatValueColor));
                             if (WingConfig.Instance.ShowHorizontalSpeed)
-                                lines.Add(CompWingHorizontalSpeed(value.Item2, MiscConfig.Instance.StatValueColor));
-                            if (WingConfig.Instance.ShowVerticalMult && (value.Item3 != -1) || WingConfig.Instance.ShowUnknownVerticalMults)
-                                lines.Add(CompWingVerticalSpeedMultiplier(value.Item3, MiscConfig.Instance.StatValueColor));
+                                lines.Add(CompWingHorizontalSpeed(compValue.Item2, MiscConfig.Instance.StatValueColor));
+                            if (WingConfig.Instance.ShowVerticalMult && (compValue.Item3 != -1) || WingConfig.Instance.ShowUnknownVerticalMults)
+                                lines.Add(CompWingVerticalSpeedMultiplier(compValue.Item3, MiscConfig.Instance.StatValueColor));
                         }
                         else
                         {
@@ -446,7 +449,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                                 valueColor = MiscConfig.Instance.ComparisonBetterColor;
                             if (value.Item1 > compValue.Item1)
                                 valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                            if (HookConfig.Instance.ShowReach)
+                            if (WingConfig.Instance.ShowMaxWingTime)
                                 lines.Add(CompWingFlightTimeMax(compValue.Item1, valueColor));
 
                             valueColor = MiscConfig.Instance.ComparisonEqualColor;
@@ -454,7 +457,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                                 valueColor = MiscConfig.Instance.ComparisonBetterColor;
                             if (value.Item2 > compValue.Item2)
                                 valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                            if (HookConfig.Instance.ShowVelocity)
+                            if (WingConfig.Instance.ShowHorizontalSpeed)
                                 lines.Add(CompWingHorizontalSpeed(compValue.Item2, valueColor));
 
                             valueColor = MiscConfig.Instance.ComparisonEqualColor;
@@ -462,7 +465,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                                 valueColor = MiscConfig.Instance.ComparisonBetterColor;
                             if (value.Item3 > compValue.Item3)
                                 valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                            if (HookConfig.Instance.ShowCount)
+                            if (WingConfig.Instance.ShowVerticalMult)
                                 lines.Add(CompWingVerticalSpeedMultiplier(compValue.Item3, valueColor));
                         }
                     }
