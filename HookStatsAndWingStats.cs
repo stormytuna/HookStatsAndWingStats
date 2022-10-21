@@ -23,6 +23,15 @@ namespace HookStatsAndWingStats
             Init_ModdedWings();
         }
 
+        public override void Unload()
+        {
+            vanillaHookStats = null;
+            moddedHookStats = null;
+            vanillaWingVerticalMults = null;
+            moddedWingVerticalMults = null;
+            moddedWingStatsOverride = null;
+        }
+
         #region Vanilla
 
         private void Init_VanillaHooks()
@@ -111,6 +120,8 @@ namespace HookStatsAndWingStats
 
         #endregion
 
+        #region Modded
+
         private void Init_ModdedHooks()
         {
             #region SecretsOfTheShadows
@@ -193,5 +204,7 @@ namespace HookStatsAndWingStats
             moddedWingVerticalMults.Add(new("Gensokyo", "SwallowtailWingsUpgraded"), 125);
             #endregion
         }
+
+        #endregion
     }
 }
