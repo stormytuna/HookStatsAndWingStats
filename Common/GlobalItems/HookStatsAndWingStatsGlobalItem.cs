@@ -382,13 +382,13 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 if (WingConfig.Instance.ShowVerticalMult && (value.Item3 != -1) || WingConfig.Instance.ShowUnknownVerticalMults)
                     lines.Add(WingVerticalSpeedMultiplier(value.Item3));
 
-                // TODO: Wing comparison stats
+                // Wing comparison stats
                 if (WingConfig.Instance.CompareStats)
                 {
                     Tuple<int, float, int> compValue = null;
 
                     // Check equipped armor
-                    for (int i = 0; i < player.armor.Length; i++)
+                    for (int i = 3; i < 7 + player.GetAmountOfExtraAccessorySlotsToShow(); i++)
                     {
                         if (player.armor[i].wingSlot > 0)
                         {
