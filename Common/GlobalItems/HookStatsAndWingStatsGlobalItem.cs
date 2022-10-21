@@ -42,9 +42,13 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             return $"[c/{subColorHex}:{subtitle}][c/{valColorHex}:{value}]";
         }
 
-        private TooltipLine ComparisonTitle()
+        private TooltipLine ComparisonTitle(bool linebreak)
         {
-            TooltipLine line = new TooltipLine(Mod, "ComparisonTitle", "\n~ EQUIPPED ~");
+            TooltipLine line;
+            if (linebreak)
+                line = new TooltipLine(Mod, "ComparisonTitle", "\n~ EQUIPPED ~");
+            else
+                line = new TooltipLine(Mod, "ComparisonTitle", "~ EQUIPPED ~");
             line.OverrideColor = MiscConfig.Instance.ComparisonTitleColor;
             return line;
         }
@@ -260,7 +264,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
                     if (compValue != null)
                     {
-                        lines.Add(ComparisonTitle());
+                        lines.Add(ComparisonTitle(HookConfig.Instance.DockComparison));
 
                         if (!MiscConfig.Instance.ComparionsValueColors)
                         {
@@ -423,7 +427,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                     // Print actual lines
                     if (compValue != null)
                     {
-                        lines.Add(ComparisonTitle());
+                        lines.Add(ComparisonTitle(WingConfig.Instance.DockComparison));
 
                         if (!MiscConfig.Instance.ComparionsValueColors)
                         {

@@ -33,6 +33,11 @@ namespace HookStatsAndWingStats.Common.Configs
         [DefaultValue(true)]
         public bool CompareStats { get; set; }
 
+        [Label("Dock comparison")]
+        [Tooltip("This removes the linebreak between the comparison and the rest of the tooltip. Note, will not remove the \"- EQUIPPED -\" line")]
+        [DefaultValue(false)]
+        public bool DockComparison { get; set; }
+
         [Label("Hook stats title color")]
         [DefaultValue(typeof(Color), "255, 164, 0, 255")]
         public Color TitleColor { get; set; }
@@ -77,6 +82,11 @@ namespace HookStatsAndWingStats.Common.Configs
         [Tooltip("This displays a comparison between the selected wings and your equipped wings")]
         [DefaultValue(true)]
         public bool CompareStats { get; set; }
+
+        [Label("Dock comparison")]
+        [Tooltip("This removes the linebreak between the comparison and the rest of the tooltip. Note, will not remove the \"- EQUIPPED -\" line")]
+        [DefaultValue(false)]
+        public bool DockComparison { get; set; }
 
         [Label("Wing stats title color")]
         [DefaultValue(typeof(Color), "255, 0, 127, 255")]
