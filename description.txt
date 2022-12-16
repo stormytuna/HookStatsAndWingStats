@@ -12,6 +12,7 @@ Currently supported mods:
 - Gensokyo
 - Orchid
 - Secrets of the Shadows
+- Storm's Additions Mod
 - tModLoader
 - Vitality Mod
 

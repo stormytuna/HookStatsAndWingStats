@@ -10,6 +10,7 @@ Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds t
 [*]Gesokyo
 [*]Orchid
 [*]Secrets of the Shadows
+[*]Storm's Additions Mod
 [*]tModLoader
 [*]Vitality Mod
 [/list]
@@ -19,18 +20,24 @@ To report any bugs or request support for a mod, message me on discord (stormytu
 [hr][/hr]
 
 [b]Changelog[/b]
-[i]Version 1.3.0[/i]
+[list]
+[*][i]v1.3.1[/i]
+[list]
+[*]Added support for Storm's Additions Mod
+[/list]
+[*][i]v1.3.0[/i]
 [list]
 [*]Properly unloading internal dictionaries
 [*]Added ability to dock comparison text
 [*]Fixed issues with comparisons not showing if equipped wings were in extra accessory slots, note comparisons still won't show with modded accessory slots
 [*]Fixed an issue with some max flight time tooltips displaying improperly
 [/list]
-[i]Version 1.2.0[/i]
+[*][i]v1.2.0[/i]
 [list]
 [*]Added ability to change subtitle and value colors
 [*]Added ability to compare selected item to equipped item
 [*]Changed config to be client side
 [*]Separated configs to be 3 different pages
 [*]Added some tooltips to explain config options
+[/list]
 [/list]

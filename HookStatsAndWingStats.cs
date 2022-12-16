@@ -1,30 +1,24 @@
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using System.Collections.Generic;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using Terraria.ID;
+using Terraria.ModLoader;
 
-namespace HookStatsAndWingStats
-{
-    public class HookStatsAndWingStats : Mod
-    {
+namespace HookStatsAndWingStats {
+    public class HookStatsAndWingStats : Mod {
         public Dictionary<int, Tuple<float, float, int, int>> vanillaHookStats { get; set; } = new Dictionary<int, Tuple<float, float, int, int>>();
         public Dictionary<Tuple<string, string>, Tuple<float, float, int, int>> moddedHookStats { get; set; } = new Dictionary<Tuple<string, string>, Tuple<float, float, int, int>>();
         public Dictionary<int, int> vanillaWingVerticalMults { get; set; } = new Dictionary<int, int>();
         public Dictionary<Tuple<string, string>, int> moddedWingVerticalMults { get; set; } = new Dictionary<Tuple<string, string>, int>();
         public Dictionary<Tuple<string, string>, Tuple<int, float, int>> moddedWingStatsOverride { get; set; } = new Dictionary<Tuple<string, string>, Tuple<int, float, int>>();
 
-        public override void Load()
-        {
+        public override void Load() {
             Init_VanillaHooks();
             Init_VanillaWings();
             Init_ModdedHooks();
             Init_ModdedWings();
         }
 
-        public override void Unload()
-        {
+        public override void Unload() {
             vanillaHookStats = null;
             moddedHookStats = null;
             vanillaWingVerticalMults = null;
@@ -34,8 +28,7 @@ namespace HookStatsAndWingStats
 
         #region Vanilla
 
-        private void Init_VanillaHooks()
-        {
+        private void Init_VanillaHooks() {
             // Pre HM
             vanillaHookStats.Add(ItemID.GrapplingHook, new(18.75f * 16f, 11.5f, 1, 0));
             vanillaHookStats.Add(ItemID.AmethystHook, new(18.75f * 16f, 10f, 1, 0));
@@ -68,8 +61,7 @@ namespace HookStatsAndWingStats
             vanillaHookStats.Add(ItemID.StaticHook, new(37.5f * 16f, 16f, 2, 2));
         }
 
-        private void Init_VanillaWings()
-        {
+        private void Init_VanillaWings() {
             vanillaWingVerticalMults.Add(4978, 150); // Fledgling wings
             vanillaWingVerticalMults.Add(ItemID.AngelWings, 150);
             vanillaWingVerticalMults.Add(ItemID.DemonWings, 150);
@@ -122,8 +114,7 @@ namespace HookStatsAndWingStats
 
         #region Modded
 
-        private void Init_ModdedHooks()
-        {
+        private void Init_ModdedHooks() {
             #region SecretsOfTheShadows
             moddedHookStats.Add(new("SOTS", "WormWoodHook"), new(480f, 15f, 1, 0));
             moddedHookStats.Add(new("SOTS", "InfernoHook"), new(510, 26f, 1, 0));
@@ -136,10 +127,15 @@ namespace HookStatsAndWingStats
             #region Gensokyo
             moddedHookStats.Add(new("Gensokyo", "TsuchigomoWebSlinger"), new(300f, 10f, 8, 1));
             #endregion
+
+            #region StormDiversMod
+            moddedHookStats.Add(new("StormDiversMod", "EyeHook"), new(528f, 12f, 1, 0));
+            moddedHookStats.Add(new("StormDiversMod", "StormHook"), new(512f, 18f, 1, 0));
+            moddedHookStats.Add(new("StormDiversMod", "DerpHook"), new(496f, 16f, 3, 1));
+            #endregion
         }
 
-        private void Init_ModdedWings()
-        {
+        private void Init_ModdedWings() {
             #region ModLoader
             moddedWingVerticalMults.Add(new("ModLoader", "AetherBreaker_Wings"), 150);
             moddedWingVerticalMults.Add(new("ModLoader", "Sailing_Squid_Wings"), 150);
@@ -202,6 +198,12 @@ namespace HookStatsAndWingStats
             moddedWingVerticalMults.Add(new("Gensokyo", "IcicleWings"), 150);
             moddedWingVerticalMults.Add(new("Gensokyo", "SwallowtailWings"), 150);
             moddedWingVerticalMults.Add(new("Gensokyo", "SwallowtailWingsUpgraded"), 125);
+            #endregion
+
+            #region StormDiversMod
+            moddedWingVerticalMults.Add(new("StormDiversMod", "HellSoulWings"), 150);
+            moddedWingVerticalMults.Add(new("StormDiversMod", "StormWings"), 166);
+            moddedWingVerticalMults.Add(new("StormDiversMod", "SpaceRockWings"), 220);
             #endregion
         }
 
