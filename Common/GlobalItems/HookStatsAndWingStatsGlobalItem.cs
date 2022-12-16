@@ -10,30 +10,11 @@ using Terraria.ModLoader;
 
 namespace HookStatsAndWingStats.Common.GlobalItems {
     public class HookStatsAndWingStatsGlobalItem : GlobalItem {
-        private HookStatsAndWingStats mod => ModContent.GetInstance<HookStatsAndWingStats>();
-        private bool HasCalamity() {
-            if (ModLoader.TryGetMod("CalamityMod", out _))
-                return true;
-
-            return false;
-        }
-
-        private bool ItemIsCalamityFamily(string itemModName)
-            => itemModName != "Terraria" && itemModName != "CalamityMod" && itemModName != "CalValEX" && itemModName != "CatalystMod";
-
         private bool ShouldDisplayHookStats()
             => HookConfig.Instance.ShowStats && (HookConfig.Instance.ShowReach || HookConfig.Instance.ShowVelocity || HookConfig.Instance.ShowCount || HookConfig.Instance.ShowLatchingType);
 
         private bool ShouldDisplayWingStats()
             => WingConfig.Instance.ShowStats && (WingConfig.Instance.ShowMaxWingTime || WingConfig.Instance.ShowCurWingTime || WingConfig.Instance.ShowHorizontalSpeed || WingConfig.Instance.ShowVerticalMult);
-
-        private string WrapLine(string subtitle, Color subColor, string value, Color valColor) {
-            return WrapLine(subtitle, subColor.Hex3().ToUpper(), value, valColor.Hex3());
-        }
-
-        private string WrapLine(string subtitle, string subColorHex, string value, string valColorHex) {
-            return $"[c/{subColorHex}:{subtitle}][c/{valColorHex}:{value}]";
-        }
 
         private TooltipLine ComparisonTitle(bool shouldDock) {
             TooltipLine line;
@@ -52,48 +33,48 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
         }
 
         private TooltipLine HookReach(float reach) {
-            return new TooltipLine(Mod, "HookReach", WrapLine("Reach: ", MiscConfig.Instance.StatSubtitleColor, $"{reach / 16f} tiles", MiscConfig.Instance.StatValueColor));
+            return new TooltipLine(Mod, "HookReach", Helpers.WrapLine("Reach: ", MiscConfig.Instance.StatSubtitleColor, $"{reach / 16f} tiles", MiscConfig.Instance.StatValueColor));
         }
 
         private TooltipLine HookVelocity(float velocity) {
-            return new TooltipLine(Mod, "HookVelocity", WrapLine("Velocity: ", MiscConfig.Instance.StatSubtitleColor, $"{velocity}", MiscConfig.Instance.StatValueColor));
+            return new TooltipLine(Mod, "HookVelocity", Helpers.WrapLine("Velocity: ", MiscConfig.Instance.StatSubtitleColor, $"{velocity}", MiscConfig.Instance.StatValueColor));
         }
 
         private TooltipLine HookCount(int hookCount) {
-            return new TooltipLine(Mod, "HookCount", WrapLine("Hooks: ", MiscConfig.Instance.StatSubtitleColor, $"{hookCount}", MiscConfig.Instance.StatValueColor));
+            return new TooltipLine(Mod, "HookCount", Helpers.WrapLine("Hooks: ", MiscConfig.Instance.StatSubtitleColor, $"{hookCount}", MiscConfig.Instance.StatValueColor));
         }
 
         private TooltipLine HookLatchingType(int latchingType) {
             switch (latchingType) {
                 default:
-                    return new TooltipLine(Mod, "HookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Single", MiscConfig.Instance.StatValueColor));
+                    return new TooltipLine(Mod, "HookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Single", MiscConfig.Instance.StatValueColor));
                 case 1:
-                    return new TooltipLine(Mod, "HookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Simultaneous", MiscConfig.Instance.StatValueColor));
+                    return new TooltipLine(Mod, "HookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Simultaneous", MiscConfig.Instance.StatValueColor));
                 case 2:
-                    return new TooltipLine(Mod, "HookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Individual", MiscConfig.Instance.StatValueColor));
+                    return new TooltipLine(Mod, "HookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Individual", MiscConfig.Instance.StatValueColor));
             }
         }
 
         private TooltipLine CompareHookReach(float reach, Color valueColor) {
-            return new TooltipLine(Mod, "CompHookReach", WrapLine("Reach: ", MiscConfig.Instance.StatSubtitleColor, $"{reach / 16f} tiles", valueColor));
+            return new TooltipLine(Mod, "CompHookReach", Helpers.WrapLine("Reach: ", MiscConfig.Instance.StatSubtitleColor, $"{reach / 16f} tiles", valueColor));
         }
 
         private TooltipLine CompareHookVelocity(float velocity, Color valueColor) {
-            return new TooltipLine(Mod, "CompHookVelocity", WrapLine("Velocity: ", MiscConfig.Instance.StatSubtitleColor, $"{velocity}", valueColor));
+            return new TooltipLine(Mod, "CompHookVelocity", Helpers.WrapLine("Velocity: ", MiscConfig.Instance.StatSubtitleColor, $"{velocity}", valueColor));
         }
 
         private TooltipLine CompareHookCount(int hookCount, Color valueColor) {
-            return new TooltipLine(Mod, "CompHookCount", WrapLine("Hooks: ", MiscConfig.Instance.StatSubtitleColor, $"{hookCount}", valueColor));
+            return new TooltipLine(Mod, "CompHookCount", Helpers.WrapLine("Hooks: ", MiscConfig.Instance.StatSubtitleColor, $"{hookCount}", valueColor));
         }
 
         private TooltipLine CompareHookLatchingType(int latchingType, Color valueColor) {
             switch (latchingType) {
                 default:
-                    return new TooltipLine(Mod, "CompHookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Single", valueColor));
+                    return new TooltipLine(Mod, "CompHookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Single", valueColor));
                 case 1:
-                    return new TooltipLine(Mod, "CompHookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Simultaneous", valueColor));
+                    return new TooltipLine(Mod, "CompHookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Simultaneous", valueColor));
                 case 2:
-                    return new TooltipLine(Mod, "CompHookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Individual", valueColor));
+                    return new TooltipLine(Mod, "CompHookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Individual", valueColor));
             }
         }
 
@@ -105,70 +86,70 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
 
         private TooltipLine WingFlightTimeCombined(int currentWingTime, int maxWingTime) {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, "∞ / ∞", MiscConfig.Instance.StatValueColor));
+                return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, "∞ / ∞", MiscConfig.Instance.StatValueColor));
 
             if (WingConfig.Instance.FlightTimeInSeconds)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, $"{(currentWingTime / 60f):0.00}s / {maxWingTime / 60f:0.00}s", MiscConfig.Instance.StatValueColor));
+                return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, $"{(currentWingTime / 60f):0.00}s / {maxWingTime / 60f:0.00}s", MiscConfig.Instance.StatValueColor));
 
-            return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime} / {maxWingTime}", MiscConfig.Instance.StatValueColor));
+            return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime} / {maxWingTime}", MiscConfig.Instance.StatValueColor));
         }
 
         private TooltipLine WingFlightTimeCurrent(int currentWingTime, int maxWingTime) {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", MiscConfig.Instance.StatValueColor));
+                return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", MiscConfig.Instance.StatValueColor));
 
             if (WingConfig.Instance.CombineWingTimes)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime / 60f:0.00}s", MiscConfig.Instance.StatValueColor));
+                return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime / 60f:0.00}s", MiscConfig.Instance.StatValueColor));
 
-            return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime}", MiscConfig.Instance.StatValueColor));
+            return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime}", MiscConfig.Instance.StatValueColor));
         }
 
         private TooltipLine WingFlightTimeMax(int maxWingTime) {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", MiscConfig.Instance.StatValueColor));
+                return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", MiscConfig.Instance.StatValueColor));
 
             if (WingConfig.Instance.FlightTimeInSeconds)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{(maxWingTime / 60f):0.00}s", MiscConfig.Instance.StatValueColor));
+                return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{(maxWingTime / 60f):0.00}s", MiscConfig.Instance.StatValueColor));
 
-            return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{maxWingTime}", MiscConfig.Instance.StatValueColor));
+            return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{maxWingTime}", MiscConfig.Instance.StatValueColor));
         }
 
         private TooltipLine WingHorizontalSpeed(float horizontalSpeed) {
             if (WingConfig.Instance.HorizontalSpeedInMPH)
-                return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed * 5.084949379f:0.}mph", MiscConfig.Instance.StatValueColor));
+                return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed * 5.084949379f:0.}mph", MiscConfig.Instance.StatValueColor));
 
-            return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed}", MiscConfig.Instance.StatValueColor));
+            return new TooltipLine(Mod, "WingFlightTimeCombined", Helpers.WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed}", MiscConfig.Instance.StatValueColor));
         }
 
         private TooltipLine WingVerticalSpeedMultiplier(float verticalSpeedMultiplier) {
             if (WingConfig.Instance.ShowUnknownVerticalMults && verticalSpeedMultiplier == -1)
-                return new TooltipLine(Mod, "WingVerticalSpeedMult", WrapLine("Vertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, "unknown", MiscConfig.Instance.StatValueColor));
+                return new TooltipLine(Mod, "WingVerticalSpeedMult", Helpers.WrapLine("Vertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, "unknown", MiscConfig.Instance.StatValueColor));
 
-            return new TooltipLine(Mod, "WingVerticalSpeedMult", WrapLine("Vertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, $"{verticalSpeedMultiplier}%", MiscConfig.Instance.StatValueColor));
+            return new TooltipLine(Mod, "WingVerticalSpeedMult", Helpers.WrapLine("Vertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, $"{verticalSpeedMultiplier}%", MiscConfig.Instance.StatValueColor));
         }
 
         private TooltipLine CompWingFlightTimeMax(int maxWingTime, Color valueColor) {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
-                return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", valueColor));
+                return new TooltipLine(Mod, "CompWingFlightTimeCombined", Helpers.WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", valueColor));
 
             if (WingConfig.Instance.FlightTimeInSeconds)
-                return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{(maxWingTime / 60f):0.00}s", valueColor));
+                return new TooltipLine(Mod, "CompWingFlightTimeCombined", Helpers.WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{(maxWingTime / 60f):0.00}s", valueColor));
 
-            return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{maxWingTime}", valueColor));
+            return new TooltipLine(Mod, "CompWingFlightTimeCombined", Helpers.WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{maxWingTime}", valueColor));
         }
 
         private TooltipLine CompWingHorizontalSpeed(float horizontalSpeed, Color valueColor) {
             if (WingConfig.Instance.HorizontalSpeedInMPH)
-                return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed * 5.084949379f:0.}mph", valueColor));
+                return new TooltipLine(Mod, "CompWingFlightTimeCombined", Helpers.WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed * 5.084949379f:0.}mph", valueColor));
 
-            return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed}", valueColor));
+            return new TooltipLine(Mod, "CompWingFlightTimeCombined", Helpers.WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed}", valueColor));
         }
 
         private TooltipLine CompWingVerticalSpeedMultiplier(float verticalSpeedMultiplier, Color valueColor) {
             if (WingConfig.Instance.ShowUnknownVerticalMults && verticalSpeedMultiplier == -1)
-                return new TooltipLine(Mod, "WingVerticalSpeedMult", WrapLine("CompVertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, "unknown", valueColor));
+                return new TooltipLine(Mod, "WingVerticalSpeedMult", Helpers.WrapLine("CompVertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, "unknown", valueColor));
 
-            return new TooltipLine(Mod, "WingVerticalSpeedMult", WrapLine("CompVertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, $"{verticalSpeedMultiplier}%", valueColor));
+            return new TooltipLine(Mod, "WingVerticalSpeedMult", Helpers.WrapLine("CompVertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, $"{verticalSpeedMultiplier}%", valueColor));
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
@@ -186,7 +167,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
 
             // Hooks
             // Have to be done manually, vanilla ranges and hooks are hard coded
-            if ((HookSystem.VanillaHookStats.ContainsKey(item.type) || HookSystem.ModdedHookStats.ContainsKey(key)) && ShouldDisplayHookStats() && (ItemIsCalamityFamily(modName) || !HasCalamity())) {
+            if ((HookSystem.VanillaHookStats.ContainsKey(item.type) || HookSystem.ModdedHookStats.ContainsKey(key)) && ShouldDisplayHookStats() && (Helpers.ItemIsCalamityFamily(modName) || !Helpers.HasCalamity)) {
                 Tuple<float, float, int, int> value;
                 if (modName != "Terraria")
                     value = HookSystem.ModdedHookStats[key];
@@ -281,7 +262,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
 
             // Wings
             // Can be done mostly through WingStats, vertical speed multiplier is hard coded so need a dict for that
-            if (item.wingSlot > 0 && ShouldDisplayWingStats() && (ItemIsCalamityFamily(modName) || !HasCalamity())) {
+            if (item.wingSlot > 0 && ShouldDisplayWingStats() && (Helpers.ItemIsCalamityFamily(modName) || !Helpers.HasCalamity)) {
                 // Declaring stuff
                 WingStats wingStats = ArmorIDs.Wing.Sets.Stats[item.wingSlot];
                 bool isEquipped = false;
