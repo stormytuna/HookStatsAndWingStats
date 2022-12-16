@@ -1,4 +1,5 @@
 ﻿using HookStatsAndWingStats.Common.Configs;
+using HookStatsAndWingStats.Common.Systems;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -185,12 +186,12 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
 
             // Hooks
             // Have to be done manually, vanilla ranges and hooks are hard coded
-            if ((HookStatsAndWingStats.VanillaHookStats.ContainsKey(item.type) || HookStatsAndWingStats.ModdedHookStats.ContainsKey(key)) && ShouldDisplayHookStats() && (ItemIsCalamityFamily(modName) || !HasCalamity())) {
+            if ((HookSystem.VanillaHookStats.ContainsKey(item.type) || HookSystem.ModdedHookStats.ContainsKey(key)) && ShouldDisplayHookStats() && (ItemIsCalamityFamily(modName) || !HasCalamity())) {
                 Tuple<float, float, int, int> value;
                 if (modName != "Terraria")
-                    value = HookStatsAndWingStats.ModdedHookStats[key];
+                    value = HookSystem.ModdedHookStats[key];
                 else
-                    value = HookStatsAndWingStats.VanillaHookStats[item.type];
+                    value = HookSystem.VanillaHookStats[item.type];
 
                 // Main block
                 if (!HookConfig.Instance.DockStats)
@@ -210,16 +211,16 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
 
                     for (int i = 0; i < player.miscEquips.Length; i++) {
                         int equippedType = player.miscEquips[i].type;
-                        if (HookStatsAndWingStats.VanillaHookStats.ContainsKey(equippedType) && equippedType != item.type) {
-                            compValue = HookStatsAndWingStats.VanillaHookStats[player.miscEquips[i].type];
+                        if (HookSystem.VanillaHookStats.ContainsKey(equippedType) && equippedType != item.type) {
+                            compValue = HookSystem.VanillaHookStats[player.miscEquips[i].type];
                             break;
                         }
 
                         if (player.armor[i].ModItem != null) {
                             string equippedName = player.miscEquips[i].ModItem.Name;
                             string equippedMod = player.miscEquips[i].ModItem.Mod.Name;
-                            if (HookStatsAndWingStats.ModdedHookStats.ContainsKey(new(equippedMod, equippedName))) {
-                                compValue = HookStatsAndWingStats.ModdedHookStats[new(equippedMod, equippedName)];
+                            if (HookSystem.ModdedHookStats.ContainsKey(new(equippedMod, equippedName))) {
+                                compValue = HookSystem.ModdedHookStats[new(equippedMod, equippedName)];
                                 break;
                             }
                         }
@@ -294,18 +295,18 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
                 // Build our Tuple
                 Tuple<int, float, int> value = new(0, 0, -1);
                 // Check if we have a modded wingstats override
-                if (HookStatsAndWingStats.ModdedWingStatsOverride.ContainsKey(key))
-                    value = HookStatsAndWingStats.ModdedWingStatsOverride[key];
+                if (WingSystem.ModdedWingStatsOverride.ContainsKey(key))
+                    value = WingSystem.ModdedWingStatsOverride[key];
                 // Check if our item is modded...
                 else if (modName != "Terraria") {
-                    if (HookStatsAndWingStats.ModdedWingVerticalMults.ContainsKey(key))
-                        value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, HookStatsAndWingStats.ModdedWingVerticalMults[key]);
+                    if (WingSystem.ModdedWingVerticalMults.ContainsKey(key))
+                        value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, WingSystem.ModdedWingVerticalMults[key]);
                     else
                         value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, -1);
                 }
                 // ... or vanilla 
                 else
-                    value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, HookStatsAndWingStats.VanillaWingVerticalMults[item.type]);
+                    value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, WingSystem.VanillaWingVerticalMults[item.type]);
 
                 if (!WingConfig.Instance.DockStats)
                     lines.Add(WingTitle());
@@ -361,18 +362,18 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
                             Tuple<string, string> compKey = new(compModName, compItemName);
                             // Build our Tuple
                             // Check if we have a modded wingstats override
-                            if (HookStatsAndWingStats.ModdedWingStatsOverride.ContainsKey(compKey))
-                                compValue = HookStatsAndWingStats.ModdedWingStatsOverride[compKey];
+                            if (WingSystem.ModdedWingStatsOverride.ContainsKey(compKey))
+                                compValue = WingSystem.ModdedWingStatsOverride[compKey];
                             // Check if our item is modded...
                             else if (compModName != "Terraria") {
-                                if (HookStatsAndWingStats.ModdedWingVerticalMults.ContainsKey(key))
-                                    compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, HookStatsAndWingStats.ModdedWingVerticalMults[compKey]);
+                                if (WingSystem.ModdedWingVerticalMults.ContainsKey(key))
+                                    compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, WingSystem.ModdedWingVerticalMults[compKey]);
                                 else
                                     compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, -1);
                             }
                             // ... or vanilla 
                             else
-                                compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, HookStatsAndWingStats.VanillaWingVerticalMults[compItem.type]);
+                                compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, WingSystem.VanillaWingVerticalMults[compItem.type]);
                         }
                     }
 
