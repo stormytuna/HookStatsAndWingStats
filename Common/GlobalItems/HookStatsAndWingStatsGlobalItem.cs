@@ -1,22 +1,16 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using HookStatsAndWingStats.Common.Configs;
-using Terraria.DataStructures;
+﻿using HookStatsAndWingStats.Common.Configs;
 using Microsoft.Xna.Framework;
-using System.Collections.ObjectModel;
+using System;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
-namespace HookStatsAndWingStats.Common.GlobalItems
-{
-    public class HookStatsAndWingStatsGlobalItem : GlobalItem
-    {
+namespace HookStatsAndWingStats.Common.GlobalItems {
+    public class HookStatsAndWingStatsGlobalItem : GlobalItem {
         private HookStatsAndWingStats mod => ModContent.GetInstance<HookStatsAndWingStats>();
-        private bool HasCalamity()
-        {
+        private bool HasCalamity() {
             if (ModLoader.TryGetMod("CalamityMod", out _))
                 return true;
 
@@ -32,18 +26,15 @@ namespace HookStatsAndWingStats.Common.GlobalItems
         private bool ShouldDisplayWingStats()
             => WingConfig.Instance.ShowStats && (WingConfig.Instance.ShowMaxWingTime || WingConfig.Instance.ShowCurWingTime || WingConfig.Instance.ShowHorizontalSpeed || WingConfig.Instance.ShowVerticalMult);
 
-        private string WrapLine(string subtitle, Color subColor, string value, Color valColor)
-        {
+        private string WrapLine(string subtitle, Color subColor, string value, Color valColor) {
             return WrapLine(subtitle, subColor.Hex3().ToUpper(), value, valColor.Hex3());
         }
 
-        private string WrapLine(string subtitle, string subColorHex, string value, string valColorHex)
-        {
+        private string WrapLine(string subtitle, string subColorHex, string value, string valColorHex) {
             return $"[c/{subColorHex}:{subtitle}][c/{valColorHex}:{value}]";
         }
 
-        private TooltipLine ComparisonTitle(bool shouldDock)
-        {
+        private TooltipLine ComparisonTitle(bool shouldDock) {
             TooltipLine line;
             if (shouldDock)
                 line = new TooltipLine(Mod, "ComparisonTitle", "~ EQUIPPED ~");
@@ -53,32 +44,26 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             return line;
         }
 
-        private TooltipLine HookTitle()
-        {
+        private TooltipLine HookTitle() {
             TooltipLine line = new TooltipLine(Mod, "HookTitle", "\n~ HOOK STATS ~");
             line.OverrideColor = HookConfig.Instance.TitleColor;
             return line;
         }
 
-        private TooltipLine HookReach(float reach)
-        {
+        private TooltipLine HookReach(float reach) {
             return new TooltipLine(Mod, "HookReach", WrapLine("Reach: ", MiscConfig.Instance.StatSubtitleColor, $"{reach / 16f} tiles", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine HookVelocity(float velocity)
-        {
+        private TooltipLine HookVelocity(float velocity) {
             return new TooltipLine(Mod, "HookVelocity", WrapLine("Velocity: ", MiscConfig.Instance.StatSubtitleColor, $"{velocity}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine HookCount(int hookCount)
-        {
+        private TooltipLine HookCount(int hookCount) {
             return new TooltipLine(Mod, "HookCount", WrapLine("Hooks: ", MiscConfig.Instance.StatSubtitleColor, $"{hookCount}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine HookLatchingType(int latchingType)
-        {
-            switch (latchingType)
-            {
+        private TooltipLine HookLatchingType(int latchingType) {
+            switch (latchingType) {
                 default:
                     return new TooltipLine(Mod, "HookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Single", MiscConfig.Instance.StatValueColor));
                 case 1:
@@ -88,25 +73,20 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             }
         }
 
-        private TooltipLine CompareHookReach(float reach, Color valueColor)
-        {
+        private TooltipLine CompareHookReach(float reach, Color valueColor) {
             return new TooltipLine(Mod, "CompHookReach", WrapLine("Reach: ", MiscConfig.Instance.StatSubtitleColor, $"{reach / 16f} tiles", valueColor));
         }
 
-        private TooltipLine CompareHookVelocity(float velocity, Color valueColor)
-        {
+        private TooltipLine CompareHookVelocity(float velocity, Color valueColor) {
             return new TooltipLine(Mod, "CompHookVelocity", WrapLine("Velocity: ", MiscConfig.Instance.StatSubtitleColor, $"{velocity}", valueColor));
         }
 
-        private TooltipLine CompareHookCount(int hookCount, Color valueColor)
-        {
+        private TooltipLine CompareHookCount(int hookCount, Color valueColor) {
             return new TooltipLine(Mod, "CompHookCount", WrapLine("Hooks: ", MiscConfig.Instance.StatSubtitleColor, $"{hookCount}", valueColor));
         }
 
-        private TooltipLine CompareHookLatchingType(int latchingType, Color valueColor)
-        {
-            switch (latchingType)
-            {
+        private TooltipLine CompareHookLatchingType(int latchingType, Color valueColor) {
+            switch (latchingType) {
                 default:
                     return new TooltipLine(Mod, "CompHookStat", WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Single", valueColor));
                 case 1:
@@ -116,15 +96,13 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             }
         }
 
-        private TooltipLine WingTitle()
-        {
+        private TooltipLine WingTitle() {
             TooltipLine line = new TooltipLine(Mod, "WingTitle", "\n~ WING STATS ~");
             line.OverrideColor = WingConfig.Instance.TitleColor;
             return line;
         }
 
-        private TooltipLine WingFlightTimeCombined(int currentWingTime, int maxWingTime)
-        {
+        private TooltipLine WingFlightTimeCombined(int currentWingTime, int maxWingTime) {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
                 return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, "∞ / ∞", MiscConfig.Instance.StatValueColor));
 
@@ -134,8 +112,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Flight time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime} / {maxWingTime}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine WingFlightTimeCurrent(int currentWingTime, int maxWingTime)
-        {
+        private TooltipLine WingFlightTimeCurrent(int currentWingTime, int maxWingTime) {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
                 return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", MiscConfig.Instance.StatValueColor));
 
@@ -145,8 +122,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Current flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{currentWingTime}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine WingFlightTimeMax(int maxWingTime)
-        {
+        private TooltipLine WingFlightTimeMax(int maxWingTime) {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
                 return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", MiscConfig.Instance.StatValueColor));
 
@@ -156,24 +132,21 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{maxWingTime}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine WingHorizontalSpeed(float horizontalSpeed)
-        {
+        private TooltipLine WingHorizontalSpeed(float horizontalSpeed) {
             if (WingConfig.Instance.HorizontalSpeedInMPH)
                 return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed * 5.084949379f:0.}mph", MiscConfig.Instance.StatValueColor));
 
             return new TooltipLine(Mod, "WingFlightTimeCombined", WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed}", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine WingVerticalSpeedMultiplier(float verticalSpeedMultiplier)
-        {
+        private TooltipLine WingVerticalSpeedMultiplier(float verticalSpeedMultiplier) {
             if (WingConfig.Instance.ShowUnknownVerticalMults && verticalSpeedMultiplier == -1)
                 return new TooltipLine(Mod, "WingVerticalSpeedMult", WrapLine("Vertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, "unknown", MiscConfig.Instance.StatValueColor));
 
             return new TooltipLine(Mod, "WingVerticalSpeedMult", WrapLine("Vertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, $"{verticalSpeedMultiplier}%", MiscConfig.Instance.StatValueColor));
         }
 
-        private TooltipLine CompWingFlightTimeMax(int maxWingTime, Color valueColor)
-        {
+        private TooltipLine CompWingFlightTimeMax(int maxWingTime, Color valueColor) {
             if (Main.LocalPlayer.empressBrooch || maxWingTime == -1)
                 return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, "∞", valueColor));
 
@@ -183,32 +156,28 @@ namespace HookStatsAndWingStats.Common.GlobalItems
             return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Max flight Time: ", MiscConfig.Instance.StatSubtitleColor, $"{maxWingTime}", valueColor));
         }
 
-        private TooltipLine CompWingHorizontalSpeed(float horizontalSpeed, Color valueColor)
-        {
+        private TooltipLine CompWingHorizontalSpeed(float horizontalSpeed, Color valueColor) {
             if (WingConfig.Instance.HorizontalSpeedInMPH)
                 return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed * 5.084949379f:0.}mph", valueColor));
 
             return new TooltipLine(Mod, "CompWingFlightTimeCombined", WrapLine("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor, $"{horizontalSpeed}", valueColor));
         }
 
-        private TooltipLine CompWingVerticalSpeedMultiplier(float verticalSpeedMultiplier, Color valueColor)
-        {
+        private TooltipLine CompWingVerticalSpeedMultiplier(float verticalSpeedMultiplier, Color valueColor) {
             if (WingConfig.Instance.ShowUnknownVerticalMults && verticalSpeedMultiplier == -1)
                 return new TooltipLine(Mod, "WingVerticalSpeedMult", WrapLine("CompVertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, "unknown", valueColor));
 
             return new TooltipLine(Mod, "WingVerticalSpeedMult", WrapLine("CompVertical speed multiplier: ", MiscConfig.Instance.StatSubtitleColor, $"{verticalSpeedMultiplier}%", valueColor));
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             List<TooltipLine> lines = new List<TooltipLine>();
             Player player = Main.LocalPlayer;
 
             // modName and itemName, needed for modded items
             string modName = "Terraria"; // Init this as Terraria to check for modded items later
             string itemName = item.Name;
-            if (item.ModItem != null)
-            {
+            if (item.ModItem != null) {
                 modName = item.ModItem.Mod.Name;
                 itemName = item.ModItem.Name;
             }
@@ -216,13 +185,12 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
             // Hooks
             // Have to be done manually, vanilla ranges and hooks are hard coded
-            if ((mod.vanillaHookStats.ContainsKey(item.type) || mod.moddedHookStats.ContainsKey(key)) && ShouldDisplayHookStats() && (ItemIsCalamityFamily(modName) || !HasCalamity()))
-            {
+            if ((HookStatsAndWingStats.VanillaHookStats.ContainsKey(item.type) || HookStatsAndWingStats.ModdedHookStats.ContainsKey(key)) && ShouldDisplayHookStats() && (ItemIsCalamityFamily(modName) || !HasCalamity())) {
                 Tuple<float, float, int, int> value;
                 if (modName != "Terraria")
-                    value = mod.moddedHookStats[key];
+                    value = HookStatsAndWingStats.ModdedHookStats[key];
                 else
-                    value = mod.vanillaHookStats[item.type];
+                    value = HookStatsAndWingStats.VanillaHookStats[item.type];
 
                 // Main block
                 if (!HookConfig.Instance.DockStats)
@@ -237,37 +205,30 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                     lines.Add(HookLatchingType(value.Item4));
 
                 // Comparison block
-                if (HookConfig.Instance.CompareStats)
-                {
+                if (HookConfig.Instance.CompareStats) {
                     Tuple<float, float, int, int> compValue = null;
 
-                    for (int i = 0; i < player.miscEquips.Length; i++)
-                    {
+                    for (int i = 0; i < player.miscEquips.Length; i++) {
                         int equippedType = player.miscEquips[i].type;
-                        if (mod.vanillaHookStats.ContainsKey(equippedType) && equippedType != item.type)
-                        {
-                            compValue = mod.vanillaHookStats[player.miscEquips[i].type];
+                        if (HookStatsAndWingStats.VanillaHookStats.ContainsKey(equippedType) && equippedType != item.type) {
+                            compValue = HookStatsAndWingStats.VanillaHookStats[player.miscEquips[i].type];
                             break;
                         }
-                        
-                        if (player.armor[i].ModItem != null)
-                        {
+
+                        if (player.armor[i].ModItem != null) {
                             string equippedName = player.miscEquips[i].ModItem.Name;
                             string equippedMod = player.miscEquips[i].ModItem.Mod.Name;
-                            if (mod.moddedHookStats.ContainsKey(new(equippedMod, equippedName)))
-                            {
-                                compValue = mod.moddedHookStats[new(equippedMod, equippedName)];
+                            if (HookStatsAndWingStats.ModdedHookStats.ContainsKey(new(equippedMod, equippedName))) {
+                                compValue = HookStatsAndWingStats.ModdedHookStats[new(equippedMod, equippedName)];
                                 break;
                             }
                         }
                     }
 
-                    if (compValue != null)
-                    {
+                    if (compValue != null) {
                         lines.Add(ComparisonTitle(HookConfig.Instance.DockComparison));
 
-                        if (!MiscConfig.Instance.ComparionsValueColors)
-                        {
+                        if (!MiscConfig.Instance.ComparionsValueColors) {
                             if (HookConfig.Instance.ShowReach)
                                 lines.Add(CompareHookReach(compValue.Item1, MiscConfig.Instance.StatValueColor));
                             if (HookConfig.Instance.ShowVelocity)
@@ -277,8 +238,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                             if (HookConfig.Instance.ShowLatchingType)
                                 lines.Add(CompareHookLatchingType(compValue.Item4, MiscConfig.Instance.StatValueColor));
                         }
-                        else
-                        {
+                        else {
                             Color valueColor;
                             valueColor = MiscConfig.Instance.ComparisonEqualColor;
                             if (value.Item1 < compValue.Item1)
@@ -320,15 +280,13 @@ namespace HookStatsAndWingStats.Common.GlobalItems
 
             // Wings
             // Can be done mostly through WingStats, vertical speed multiplier is hard coded so need a dict for that
-            if (item.wingSlot > 0 && ShouldDisplayWingStats() && (ItemIsCalamityFamily(modName) || !HasCalamity()))
-            {
+            if (item.wingSlot > 0 && ShouldDisplayWingStats() && (ItemIsCalamityFamily(modName) || !HasCalamity())) {
                 // Declaring stuff
                 WingStats wingStats = ArmorIDs.Wing.Sets.Stats[item.wingSlot];
                 bool isEquipped = false;
 
                 // Check if this item is equipped
-                for (int i = 0; i < player.armor.Length; i++)
-                {
+                for (int i = 0; i < player.armor.Length; i++) {
                     if (player.armor[i].type == item.type && Main.mouseX > Main.screenWidth / 2)
                         isEquipped = true;
                 }
@@ -336,33 +294,30 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 // Build our Tuple
                 Tuple<int, float, int> value = new(0, 0, -1);
                 // Check if we have a modded wingstats override
-                if (mod.moddedWingStatsOverride.ContainsKey(key))
-                    value = mod.moddedWingStatsOverride[key];
+                if (HookStatsAndWingStats.ModdedWingStatsOverride.ContainsKey(key))
+                    value = HookStatsAndWingStats.ModdedWingStatsOverride[key];
                 // Check if our item is modded...
-                else if (modName != "Terraria")
-                {
-                    if (mod.moddedWingVerticalMults.ContainsKey(key))
-                        value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.moddedWingVerticalMults[key]);
+                else if (modName != "Terraria") {
+                    if (HookStatsAndWingStats.ModdedWingVerticalMults.ContainsKey(key))
+                        value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, HookStatsAndWingStats.ModdedWingVerticalMults[key]);
                     else
                         value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, -1);
                 }
                 // ... or vanilla 
                 else
-                    value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, mod.vanillaWingVerticalMults[item.type]);
+                    value = new(wingStats.FlyTime, wingStats.AccRunSpeedOverride, HookStatsAndWingStats.VanillaWingVerticalMults[item.type]);
 
                 if (!WingConfig.Instance.DockStats)
                     lines.Add(WingTitle());
 
                 // Flight time
                 // If we're using combined wing times and is equipped - display as combined using players wing time
-                if (WingConfig.Instance.CombineWingTimes && WingConfig.Instance.ShowCurWingTime && WingConfig.Instance.ShowMaxWingTime && isEquipped)
-                {
+                if (WingConfig.Instance.CombineWingTimes && WingConfig.Instance.ShowCurWingTime && WingConfig.Instance.ShowMaxWingTime && isEquipped) {
                     lines.Add(WingFlightTimeCombined(Convert.ToInt32(player.wingTime), value.Item1));
                 }
 
                 // If we're not using combined and is equipped - display separerately using players wing time
-                else if (isEquipped)
-                {
+                else if (isEquipped) {
                     if (WingConfig.Instance.ShowMaxWingTime)
                         lines.Add(WingFlightTimeMax(value.Item1));
                     if (WingConfig.Instance.ShowCurWingTime)
@@ -370,8 +325,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 }
 
                 // If it's not equipped - display only MaxWingTime using items wing time
-                else
-                {
+                else {
                     if (WingConfig.Instance.ShowMaxWingTime)
                         lines.Add(WingFlightTimeMax(value.Item1));
                 }
@@ -383,15 +337,12 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                     lines.Add(WingVerticalSpeedMultiplier(value.Item3));
 
                 // Wing comparison stats
-                if (WingConfig.Instance.CompareStats)
-                {
+                if (WingConfig.Instance.CompareStats) {
                     Tuple<int, float, int> compValue = null;
 
                     // Check equipped armor
-                    for (int i = 3; i < 7 + player.GetAmountOfExtraAccessorySlotsToShow(); i++)
-                    {
-                        if (player.armor[i].wingSlot > 0)
-                        {
+                    for (int i = 3; i < 7 + player.GetAmountOfExtraAccessorySlotsToShow(); i++) {
+                        if (player.armor[i].wingSlot > 0) {
                             // Skip this armor if its the same as the selected wing
                             if (player.armor[i].type == item.type)
                                 continue;
@@ -402,8 +353,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                             // modName and itemName, needed for modded items
                             string compModName = "Terraria"; // Init this as Terraria to check for modded items later
                             string compItemName = compItem.Name;
-                            if (compItem.ModItem != null)
-                            {
+                            if (compItem.ModItem != null) {
                                 compModName = item.ModItem.Mod.Name;
                                 compItemName = item.ModItem.Name;
                             }
@@ -411,29 +361,26 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                             Tuple<string, string> compKey = new(compModName, compItemName);
                             // Build our Tuple
                             // Check if we have a modded wingstats override
-                            if (mod.moddedWingStatsOverride.ContainsKey(compKey))
-                                compValue = mod.moddedWingStatsOverride[compKey];
+                            if (HookStatsAndWingStats.ModdedWingStatsOverride.ContainsKey(compKey))
+                                compValue = HookStatsAndWingStats.ModdedWingStatsOverride[compKey];
                             // Check if our item is modded...
-                            else if (compModName != "Terraria")
-                            {
-                                if (mod.moddedWingVerticalMults.ContainsKey(key))
-                                    compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, mod.moddedWingVerticalMults[compKey]);
+                            else if (compModName != "Terraria") {
+                                if (HookStatsAndWingStats.ModdedWingVerticalMults.ContainsKey(key))
+                                    compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, HookStatsAndWingStats.ModdedWingVerticalMults[compKey]);
                                 else
                                     compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, -1);
                             }
                             // ... or vanilla 
                             else
-                                compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, mod.vanillaWingVerticalMults[compItem.type]);
+                                compValue = new(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, HookStatsAndWingStats.VanillaWingVerticalMults[compItem.type]);
                         }
                     }
 
                     // Print actual lines
-                    if (compValue != null)
-                    {
+                    if (compValue != null) {
                         lines.Add(ComparisonTitle(WingConfig.Instance.DockComparison));
 
-                        if (!MiscConfig.Instance.ComparionsValueColors)
-                        {
+                        if (!MiscConfig.Instance.ComparionsValueColors) {
                             if (WingConfig.Instance.ShowMaxWingTime)
                                 lines.Add(CompWingFlightTimeMax(compValue.Item1, MiscConfig.Instance.StatValueColor));
                             if (WingConfig.Instance.ShowHorizontalSpeed)
@@ -441,8 +388,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                             if (WingConfig.Instance.ShowVerticalMult && (compValue.Item3 != -1) || WingConfig.Instance.ShowUnknownVerticalMults)
                                 lines.Add(CompWingVerticalSpeedMultiplier(compValue.Item3, MiscConfig.Instance.StatValueColor));
                         }
-                        else
-                        {
+                        else {
                             Color valueColor;
                             valueColor = MiscConfig.Instance.ComparisonEqualColor;
                             if (value.Item1 < compValue.Item1)
