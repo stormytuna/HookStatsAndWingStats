@@ -145,6 +145,11 @@ namespace HookStatsAndWingStats.Common.Systems {
             ModdedWingVerticalMults.Add(new("StormDiversMod", "StormWings"), 166);
             ModdedWingVerticalMults.Add(new("StormDiversMod", "SpaceRockWings"), 220);
             #endregion
+
+            #region ModOfRedemption
+            ModdedWingVerticalMults.Add(new("Redemption", "XenomiteWings"), 170);
+            ModdedWingVerticalMults.Add(new("Redemption", "NebWings"), 400);
+            #endregion
         }
 
         #endregion

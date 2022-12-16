@@ -8,15 +8,9 @@ Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds t
 * Echoes of the Ancients
 * Fargo's Souls Mod
 * Gensokyo
+* Mod of Redemption
 * Orchid
 * Secrets of the Shadows
+* Storm's Additions Mod
 * tModLoader
 * Vitality Mod
-
-### **Changelog**
-* *Version 1.2.0*
-* Added ability to change subtitle and value colors
-* Added ability to compare selected item to equipped item
-* Changed config to be client side
-* Separated configs to be 3 different pages
-* Added some tooltips to explain config options

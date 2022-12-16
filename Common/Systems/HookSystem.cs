@@ -76,6 +76,10 @@ namespace HookStatsAndWingStats.Common.Systems {
             ModdedHookStats.Add(new("StormDiversMod", "StormHook"), new(512f, 18f, 1, 0));
             ModdedHookStats.Add(new("StormDiversMod", "DerpHook"), new(496f, 16f, 3, 1));
             #endregion
+
+            #region ModOfRedemption
+            ModdedHookStats.Add(new("Redemption", "RopeHook"), new(500f, 16f, 1, 0));
+            #endregion
         }
 
         #endregion

@@ -8,6 +8,7 @@ Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds t
 [*]Echoes of the Ancients
 [*]Fargo’s Souls Mod
 [*]Gesokyo
+[*]Mod of Redemption
 [*]Orchid
 [*]Secrets of the Shadows
 [*]Storm's Additions Mod
@@ -21,6 +22,8 @@ To report any bugs or request support for a mod, message me on discord (stormytu
 
 [b]Changelog[/b]
 [list]
+[*][i]v1.3.2[/i]
+[*]Added support for Mod of Redemption
 [*][i]v1.3.1[/i]
 [list]
 [*]Added support for Storm's Additions Mod

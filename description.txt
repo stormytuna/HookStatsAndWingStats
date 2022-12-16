@@ -10,6 +10,7 @@ Currently supported mods:
 - Echoes of the Ancients
 - Fargo's Souls Mod
 - Gensokyo
+- Mod of Redemption
 - Orchid
 - Secrets of the Shadows
 - Storm's Additions Mod
