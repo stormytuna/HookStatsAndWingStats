@@ -23,7 +23,9 @@ To report any bugs or request support for a mod, message me on discord (stormytu
 [b]Changelog[/b]
 [list]
 [*][i]v1.3.2[/i]
+[list]
 [*]Added support for Mod of Redemption
+[/list]
 [*][i]v1.3.1[/i]
 [list]
 [*]Added support for Storm's Additions Mod
