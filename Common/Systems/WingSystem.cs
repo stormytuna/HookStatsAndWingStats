@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace HookStatsAndWingStats.Common.Systems {
-    public class WingSystem : ModSystem {
+namespace HookStatsAndWingStats.Common.Systems
+{
+    public class WingSystem : ModSystem
+    {
         public static Dictionary<int, int> VanillaWingVerticalMults { get; set; } = new Dictionary<int, int>();
         public static Dictionary<Tuple<string, string>, int> ModdedWingVerticalMults { get; set; } = new Dictionary<Tuple<string, string>, int>();
         public static Dictionary<Tuple<string, string>, Tuple<int, float, int>> ModdedWingStatsOverride { get; set; } = new Dictionary<Tuple<string, string>, Tuple<int, float, int>>();
@@ -149,6 +151,22 @@ namespace HookStatsAndWingStats.Common.Systems {
             #region ModOfRedemption
             ModdedWingVerticalMults.Add(new("Redemption", "XenomiteWings"), 170);
             ModdedWingVerticalMults.Add(new("Redemption", "NebWings"), 400);
+            #endregion
+
+            #region ThoriumMod
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "ShootingStarTurboTuba"), 250);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "DemonBloodWings"), 150);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "PhonicWings"), 150);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "SubspaceWings"), 150);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "DragonWings"), 150);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "DreadWings"), 150);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "FleshWings"), 150);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "CelestialTrinity"), 250);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "ChampionWing"), 150);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "TerrariumWings"), 150);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "WhiteDwarfThrusters"), 250);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "TitanWings"), 150);
+            ModdedWingVerticalMults.Add(new("ThoriumMod", "DridersGrace"), 150);
             #endregion
         }
 

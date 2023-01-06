@@ -2,16 +2,17 @@ Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds t
 
 [b]Currently supported mods:[/b]
 [list]
-[*]Calamity + addons (this mod disables vanilla and Calamity stats as Calamity shows its own and isn’t configurable)
+[*]Calamity + addons (this mod disables vanilla and Calamity stats as Calamity shows its own and isn't configurable)
 [*]Clicker Class
 [*]Consolaria
 [*]Echoes of the Ancients
-[*]Fargo’s Souls Mod
+[*]Fargo's Souls Mod
 [*]Gesokyo
 [*]Mod of Redemption
 [*]Orchid
 [*]Secrets of the Shadows
 [*]Storm's Additions Mod
+[*]Thorium
 [*]tModLoader
 [*]Vitality Mod
 [/list]
@@ -22,6 +23,10 @@ To report any bugs or request support for a mod, message me on discord (stormytu
 
 [b]Changelog[/b]
 [list]
+[*][i]v1.3.3[/i]
+[list]
+[*]Added support for Thorium
+[/list]
 [*][i]v1.3.2[/i]
 [list]
 [*]Added support for Mod of Redemption

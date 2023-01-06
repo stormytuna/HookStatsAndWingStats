@@ -4,7 +4,7 @@ This mod is also highly configurable and nothing requires a reload, so feel free
 
 
 Currently supported mods:
-- Calamity + addons (this mod disables vanilla and Calamity stats as Calamity shows its own and isn’t configurable)
+- Calamity + addons (this mod disables vanilla and Calamity stats as Calamity shows its own and isn't configurable)
 - Clicker Class
 - Consolaria
 - Echoes of the Ancients
@@ -14,6 +14,7 @@ Currently supported mods:
 - Orchid
 - Secrets of the Shadows
 - Storm's Additions Mod
+- Thorium
 - tModLoader
 - Vitality Mod
 
