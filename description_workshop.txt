@@ -23,6 +23,14 @@ To report any bugs or request support for a mod, message me on discord (stormytu
 
 [b]Changelog[/b]
 [list]
+[*][i]v1.3.5[/i]
+[list]
+[*]Fixed some more issues with hook stats
+[/list]
+[*][i]v1.3.4[/i]
+[list]
+[*]Fixed an issue with hook stat comparisons breaking tooltips or not displaying sometimes
+[/list]
 [*][i]v1.3.3[/i]
 [list]
 [*]Added support for Thorium

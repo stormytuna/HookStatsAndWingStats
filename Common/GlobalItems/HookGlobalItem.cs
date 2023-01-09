@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace HookStatsAndWingStats.Common.GlobalItems {
-    public class HookGlobalItem : GlobalItem {
-        private static bool ShouldDisplayHookStats {
-            get => HookConfig.Instance.ShowStats && (HookConfig.Instance.ShowReach || HookConfig.Instance.ShowVelocity || HookConfig.Instance.ShowCount || HookConfig.Instance.ShowLatchingType);
-        }
+namespace HookStatsAndWingStats.Common.GlobalItems
+{
+    public class HookGlobalItem : GlobalItem
+    {
+        public override bool AppliesToEntity(Item entity, bool lateInstantiation) => entity.HookIsRegisteredInDicts();
 
         private TooltipLine HookTitle() {
             TooltipLine line = new TooltipLine(Mod, "HookTitle", "\n~ HOOK STATS ~");
@@ -80,107 +80,89 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
             Player player = Main.LocalPlayer;
 
             // modName and itemName, needed for modded items
-            string modName = "Terraria"; // Init this as Terraria to check for modded items later
-            string itemName = item.Name;
-            if (item.ModItem is not null) {
-                modName = item.ModItem.Mod.Name;
-                itemName = item.ModItem.Name;
-            }
+            string modName = item.ModItem?.Mod.Name ?? "Terraria";
+            string itemName = item.ModItem?.Name ?? item.Name;
             Tuple<string, string> key = new(modName, itemName);
 
-            // Have to be done manually, vanilla ranges and hooks are hard coded
-            if ((HookSystem.VanillaHookStats.ContainsKey(item.type) || HookSystem.ModdedHookStats.ContainsKey(key)) && ShouldDisplayHookStats && (Helpers.ItemIsCalamityFamily(modName) || !Helpers.HasCalamity)) {
-                Tuple<float, float, int, int> value;
-                if (modName != "Terraria")
-                    value = HookSystem.ModdedHookStats[key];
-                else
-                    value = HookSystem.VanillaHookStats[item.type];
-
-                // Main block
-                if (!HookConfig.Instance.DockStats)
-                    lines.Add(HookTitle());
-                if (HookConfig.Instance.ShowReach)
-                    lines.Add(HookReach(value.Item1));
-                if (HookConfig.Instance.ShowVelocity)
-                    lines.Add(HookVelocity(value.Item2));
-                if (HookConfig.Instance.ShowCount)
-                    lines.Add(HookCount(value.Item3));
-                if (HookConfig.Instance.ShowLatchingType)
-                    lines.Add(HookLatchingType(value.Item4));
-
-                // Comparison block
-                if (HookConfig.Instance.CompareStats) {
-                    Tuple<float, float, int, int> compValue = null;
-
-                    for (int i = 0; i < player.miscEquips.Length; i++) {
-                        int equippedType = player.miscEquips[i].type;
-                        if (HookSystem.VanillaHookStats.ContainsKey(equippedType) && equippedType != item.type) {
-                            compValue = HookSystem.VanillaHookStats[player.miscEquips[i].type];
-                            break;
-                        }
-
-                        if (player.armor[i].ModItem != null) {
-                            string equippedName = player.miscEquips[i].ModItem.Name;
-                            string equippedMod = player.miscEquips[i].ModItem.Mod.Name;
-                            if (HookSystem.ModdedHookStats.ContainsKey(new(equippedMod, equippedName))) {
-                                compValue = HookSystem.ModdedHookStats[new(equippedMod, equippedName)];
-                                break;
-                            }
-                        }
-                    }
-
-                    if (compValue != null) {
-                        lines.Add(ComparisonHookTitle());
-
-                        if (!MiscConfig.Instance.ComparionsValueColors) {
-                            if (HookConfig.Instance.ShowReach)
-                                lines.Add(CompareHookReach(compValue.Item1, MiscConfig.Instance.StatValueColor));
-                            if (HookConfig.Instance.ShowVelocity)
-                                lines.Add(CompareHookVelocity(compValue.Item2, MiscConfig.Instance.StatValueColor));
-                            if (HookConfig.Instance.ShowCount)
-                                lines.Add(CompareHookCount(compValue.Item3, MiscConfig.Instance.StatValueColor));
-                            if (HookConfig.Instance.ShowLatchingType)
-                                lines.Add(CompareHookLatchingType(compValue.Item4, MiscConfig.Instance.StatValueColor));
-                        }
-                        else {
-                            Color valueColor;
-                            valueColor = MiscConfig.Instance.ComparisonEqualColor;
-                            if (value.Item1 < compValue.Item1)
-                                valueColor = MiscConfig.Instance.ComparisonBetterColor;
-                            if (value.Item1 > compValue.Item1)
-                                valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                            if (HookConfig.Instance.ShowReach)
-                                lines.Add(CompareHookReach(compValue.Item1, valueColor));
-
-                            valueColor = MiscConfig.Instance.ComparisonEqualColor;
-                            if (value.Item2 < compValue.Item2)
-                                valueColor = MiscConfig.Instance.ComparisonBetterColor;
-                            if (value.Item2 > compValue.Item2)
-                                valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                            if (HookConfig.Instance.ShowVelocity)
-                                lines.Add(CompareHookVelocity(compValue.Item2, valueColor));
-
-                            valueColor = MiscConfig.Instance.ComparisonEqualColor;
-                            if (value.Item3 < compValue.Item3)
-                                valueColor = MiscConfig.Instance.ComparisonBetterColor;
-                            if (value.Item3 > compValue.Item3)
-                                valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                            if (HookConfig.Instance.ShowCount)
-                                lines.Add(CompareHookCount(compValue.Item3, valueColor));
-
-                            valueColor = MiscConfig.Instance.ComparisonEqualColor;
-                            if (value.Item4 != 2 && compValue.Item4 == 2)
-                                valueColor = MiscConfig.Instance.ComparisonBetterColor;
-                            if (value.Item4 == 2 && compValue.Item4 != 2)
-                                valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                            if (HookConfig.Instance.ShowLatchingType)
-                                lines.Add(CompareHookLatchingType(compValue.Item4, valueColor));
-                        }
-                    }
-                }
-
-                tooltips.AddRange(lines);
+            // Return early if we shouldn't display hook stats
+            if (!item.ShouldDisplayHookStats()) {
+                return;
             }
+
+            // Have to be done manually, vanilla ranges and hooks are hard coded
+            Tuple<float, float, int, int> value = modName == "Terraria" ? HookSystem.VanillaHookStats[item.type] : HookSystem.ModdedHookStats[key];
+
+            // Main block
+            if (!HookConfig.Instance.DockStats)
+                lines.Add(HookTitle());
+            if (HookConfig.Instance.ShowReach)
+                lines.Add(HookReach(value.Item1));
+            if (HookConfig.Instance.ShowVelocity)
+                lines.Add(HookVelocity(value.Item2));
+            if (HookConfig.Instance.ShowCount)
+                lines.Add(HookCount(value.Item3));
+            if (HookConfig.Instance.ShowLatchingType)
+                lines.Add(HookLatchingType(value.Item4));
+
+            // Return early if we shouldn't display a comparison
+            if (!player.EquippedHook().HookIsRegisteredInDicts() || !HookConfig.Instance.CompareStats) {
+                tooltips.AddRange(lines);
+                return;
+            }
+
+            string compModName = player.EquippedHook().ModItem?.Mod.Name ?? "Terraria";
+            string compItemName = player.EquippedHook().ModItem?.Name ?? player.EquippedHook().Name;
+            Tuple<string, string> compKey = new(compModName, compItemName);
+            Tuple<float, float, int, int> compValue = compModName == "Terraria" ? HookSystem.VanillaHookStats[player.EquippedHook().type] : HookSystem.ModdedHookStats[compKey];
+
+            // Comparison block
+            lines.Add(ComparisonHookTitle());
+
+            if (!MiscConfig.Instance.ComparionsValueColors) {
+                if (HookConfig.Instance.ShowReach)
+                    lines.Add(CompareHookReach(compValue.Item1, MiscConfig.Instance.StatValueColor));
+                if (HookConfig.Instance.ShowVelocity)
+                    lines.Add(CompareHookVelocity(compValue.Item2, MiscConfig.Instance.StatValueColor));
+                if (HookConfig.Instance.ShowCount)
+                    lines.Add(CompareHookCount(compValue.Item3, MiscConfig.Instance.StatValueColor));
+                if (HookConfig.Instance.ShowLatchingType)
+                    lines.Add(CompareHookLatchingType(compValue.Item4, MiscConfig.Instance.StatValueColor));
+            } else {
+                Color valueColor;
+                valueColor = MiscConfig.Instance.ComparisonEqualColor;
+                if (value.Item1 < compValue.Item1)
+                    valueColor = MiscConfig.Instance.ComparisonBetterColor;
+                if (value.Item1 > compValue.Item1)
+                    valueColor = MiscConfig.Instance.ComparisonWorseColor;
+                if (HookConfig.Instance.ShowReach)
+                    lines.Add(CompareHookReach(compValue.Item1, valueColor));
+
+                valueColor = MiscConfig.Instance.ComparisonEqualColor;
+                if (value.Item2 < compValue.Item2)
+                    valueColor = MiscConfig.Instance.ComparisonBetterColor;
+                if (value.Item2 > compValue.Item2)
+                    valueColor = MiscConfig.Instance.ComparisonWorseColor;
+                if (HookConfig.Instance.ShowVelocity)
+                    lines.Add(CompareHookVelocity(compValue.Item2, valueColor));
+
+                valueColor = MiscConfig.Instance.ComparisonEqualColor;
+                if (value.Item3 < compValue.Item3)
+                    valueColor = MiscConfig.Instance.ComparisonBetterColor;
+                if (value.Item3 > compValue.Item3)
+                    valueColor = MiscConfig.Instance.ComparisonWorseColor;
+                if (HookConfig.Instance.ShowCount)
+                    lines.Add(CompareHookCount(compValue.Item3, valueColor));
+
+                valueColor = MiscConfig.Instance.ComparisonEqualColor;
+                if (value.Item4 != 2 && compValue.Item4 == 2)
+                    valueColor = MiscConfig.Instance.ComparisonBetterColor;
+                if (value.Item4 == 2 && compValue.Item4 != 2)
+                    valueColor = MiscConfig.Instance.ComparisonWorseColor;
+                if (HookConfig.Instance.ShowLatchingType)
+                    lines.Add(CompareHookLatchingType(compValue.Item4, valueColor));
+            }
+
+            tooltips.AddRange(lines);
         }
     }
 }

@@ -104,7 +104,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
             // modName and itemName, needed for modded items
             string modName = "Terraria"; // Init this as Terraria to check for modded items later
             string itemName = item.Name;
-            if (item.ModItem != null) {
+            if (item.ModItem is not null) {
                 modName = item.ModItem.Mod.Name;
                 itemName = item.ModItem.Name;
             }
@@ -184,7 +184,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
                             // modName and itemName, needed for modded items
                             string compModName = "Terraria"; // Init this as Terraria to check for modded items later
                             string compItemName = compItem.Name;
-                            if (compItem.ModItem != null) {
+                            if (compItem.ModItem is not null) {
                                 compModName = item.ModItem.Mod.Name;
                                 compItemName = item.ModItem.Name;
                             }
@@ -208,7 +208,7 @@ namespace HookStatsAndWingStats.Common.GlobalItems {
                     }
 
                     // Print actual lines
-                    if (compValue != null) {
+                    if (compValue is not null) {
                         lines.Add(CompWingTitle());
 
                         if (!MiscConfig.Instance.ComparionsValueColors) {
