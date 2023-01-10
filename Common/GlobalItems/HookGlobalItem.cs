@@ -105,7 +105,8 @@ namespace HookStatsAndWingStats.Common.GlobalItems
                 lines.Add(HookLatchingType(value.Item4));
 
             // Return early if we shouldn't display a comparison
-            if (!player.EquippedHook().HookIsRegisteredInDicts() || !HookConfig.Instance.CompareStats) {
+            bool isEquipped = player.EquippedHook().type == item.type && Main.mouseX > Main.screenWidth / 2;
+            if (!player.EquippedHook().HookIsRegisteredInDicts() || !HookConfig.Instance.CompareStats || isEquipped) {
                 tooltips.AddRange(lines);
                 return;
             }
