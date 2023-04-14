@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -96,6 +97,8 @@ namespace HookStatsAndWingStats.Common.Systems
             ModdedHookStats.Add(new("ThoriumMod", "DevilsReach"), new(520f, 15f, 3, 1));
             ModdedHookStats.Add(new("ThoriumMod", "GhostlyGrapple"), new(550f, 16f, 2, 1));
             #endregion
+            
+            Main.LocalPlayer.getweapon
         }
 
         #endregion

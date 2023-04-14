@@ -9,10 +9,7 @@ namespace HookStatsAndWingStats.Common
 {
     public static class Helpers
     {
-        private static bool? _hasCalamity = null;
-        public static bool HasCalamity {
-            get => _hasCalamity ??= ModLoader.TryGetMod("CalamityMod", out _);
-        }
+        public static bool HasCalamity => ModLoader.TryGetMod("CalamityMod", out _);
 
         public static bool ItemIsCalamityFamily(string itemModName)
             => itemModName != "Terraria" && itemModName != "CalamityMod" && itemModName != "CalValEX" && itemModName != "CatalystMod";
@@ -32,7 +29,8 @@ namespace HookStatsAndWingStats.Common
 
             bool displayingAnyStats = HookConfig.Instance.ShowStats && (HookConfig.Instance.ShowReach || HookConfig.Instance.ShowVelocity || HookConfig.Instance.ShowCount || HookConfig.Instance.ShowLatchingType);
             bool haveHookStats = HookSystem.VanillaHookStats.ContainsKey(item.type) || HookSystem.ModdedHookStats.ContainsKey(key);
-            return haveHookStats && displayingAnyStats && (ItemIsCalamityFamily(modName) || !HasCalamity);
+            bool careAboutCalamity = ItemIsCalamityFamily(modName) || !HasCalamity;
+            return haveHookStats && displayingAnyStats && careAboutCalamity;
         }
 
         public static Item EquippedHook(this Player player) {
