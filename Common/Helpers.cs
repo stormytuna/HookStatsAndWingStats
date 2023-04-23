@@ -1,47 +1,50 @@
-﻿using HookStatsAndWingStats.Common.Configs;
+﻿using System;
+using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Common.Systems;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace HookStatsAndWingStats.Common
+namespace HookStatsAndWingStats.Common;
+
+public static class Helpers
 {
-    public static class Helpers
-    {
-        public static bool HasCalamity => ModLoader.TryGetMod("CalamityMod", out _);
+	public static bool HasCalamity => ModLoader.TryGetMod("CalamityMod", out _);
 
-        public static bool ItemIsCalamityFamily(string itemModName)
-            => itemModName != "Terraria" && itemModName != "CalamityMod" && itemModName != "CalValEX" && itemModName != "CatalystMod";
+	public static bool ItemIsCalamityFamily(string itemModName)
+		=> itemModName != "Terraria" && itemModName != "CalamityMod" && itemModName != "CalValEX" && itemModName != "CatalystMod";
 
-        public static string WrapLine(string subtitle, Color subColor, string value, Color valColor) {
-            return WrapLine(subtitle, subColor.Hex3(), value, valColor.Hex3());
-        }
+	public static string ColorText(params (string text, Color color)[] stringColorPairs) {
+		string ret = "";
 
-        public static string WrapLine(string subtitle, string subColorHex, string value, string valColorHex) {
-            return $"[c/{subColorHex}:{subtitle}][c/{valColorHex}:{value}]";
-        }
+		for (int i = 0; i < stringColorPairs.Length; i++) {
+			string text = stringColorPairs[i].text;
+			Color color = stringColorPairs[i].color;
+			ret += $"[c/{color.Hex3()}:{text}]";
+		}
 
-        public static bool ShouldDisplayHookStats(this Item item) {
-            string modName = item.ModItem?.Mod.Name ?? "Terraria";
-            string itemName = item.ModItem?.Name ?? item.Name;
-            Tuple<string, string> key = new(modName, itemName);
+		return ret;
+	}
 
-            bool displayingAnyStats = HookConfig.Instance.ShowStats && (HookConfig.Instance.ShowReach || HookConfig.Instance.ShowVelocity || HookConfig.Instance.ShowCount || HookConfig.Instance.ShowLatchingType);
-            bool haveHookStats = HookSystem.VanillaHookStats.ContainsKey(item.type) || HookSystem.ModdedHookStats.ContainsKey(key);
-            bool careAboutCalamity = ItemIsCalamityFamily(modName) || !HasCalamity;
-            return haveHookStats && displayingAnyStats && careAboutCalamity;
-        }
+	public static bool ShouldDisplayHookStats(this Item item) {
+		string modName = item.ModItem?.Mod.Name ?? "Terraria";
+		string itemName = item.ModItem?.Name ?? ItemID.Search.GetName(item.type);
+		string key = $"{modName}:{itemName}";
 
-        public static Item EquippedHook(this Player player) {
-            return player.miscEquips[4];
-        }
+		bool displayingAnyStats = HookConfig.Instance.ShowStats &&
+		                          (HookConfig.Instance.ShowReach || HookConfig.Instance.ShowVelocity || HookConfig.Instance.ShowCount || HookConfig.Instance.ShowLatchingType);
+		bool haveHookStats = HookSystem.HookStats.ContainsKey(key);
+		bool careAboutCalamity = ItemIsCalamityFamily(modName) || !HasCalamity;
+		return haveHookStats && displayingAnyStats && careAboutCalamity;
+	}
 
-        public static bool HookIsRegisteredInDicts(this Item item) {
-            string modName = item.ModItem?.Mod.Name ?? "Terraria";
-            string itemName = item.ModItem?.Name ?? item.Name;
-            Tuple<string, string> key = new(modName, itemName);
-            return modName == "Terraria" ? HookSystem.VanillaHookStats.ContainsKey(item.type) : HookSystem.ModdedHookStats.ContainsKey(key);
-        }
-    }
+	public static Item EquippedHook(this Player player) => player.miscEquips[4];
+
+	public static bool HookIsRegisteredInDicts(this Item item) {
+		string modName = item.ModItem?.Mod.Name ?? "Terraria";
+		string itemName = item.ModItem?.Name ?? ItemID.Search.GetName(item.type);
+		string key = $"{modName}:{itemName}";
+		return HookSystem.HookStats.ContainsKey(key);
+	}
 }

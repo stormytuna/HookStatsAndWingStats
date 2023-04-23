@@ -1,169 +1,191 @@
-﻿using HookStatsAndWingStats.Common.Configs;
+﻿using System;
+using System.Collections.Generic;
+using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Common.Systems;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace HookStatsAndWingStats.Common.GlobalItems
+namespace HookStatsAndWingStats.Common.GlobalItems;
+
+public class HookGlobalItem : GlobalItem
 {
-    public class HookGlobalItem : GlobalItem
-    {
-        public override bool AppliesToEntity(Item entity, bool lateInstantiation) => entity.HookIsRegisteredInDicts();
+	public override bool AppliesToEntity(Item entity, bool lateInstantiation) => entity.HookIsRegisteredInDicts();
 
-        private TooltipLine HookTitle() {
-            TooltipLine line = new TooltipLine(Mod, "HookTitle", "\n~ HOOK STATS ~");
-            line.OverrideColor = HookConfig.Instance.TitleColor;
-            return line;
-        }
+	private TooltipLine HookTitle() {
+		string tooltipName = "HookTitle";
+		string tooltipText = Helpers.ColorText(("\n~ HOOK STATS ~", HookConfig.Instance.TitleColor));
+		if (HookConfig.Instance.DockStats) {
+			tooltipText = Helpers.ColorText(("~ HOOK STATS ~", HookConfig.Instance.TitleColor));
+		}
+		return new TooltipLine(Mod, tooltipName, tooltipText);
+	}
 
-        private TooltipLine HookReach(float reach) {
-            return new TooltipLine(Mod, "HookReach", Helpers.WrapLine("Reach: ", MiscConfig.Instance.StatSubtitleColor, $"{reach / 16f} tiles", MiscConfig.Instance.StatValueColor));
-        }
+	private TooltipLine HookReach(float reach) {
+		string tooltipName = "HookReach";
+		string tooltipText = Helpers.ColorText(("Reach: ", MiscConfig.Instance.StatSubtitleColor), ($"{reach / 16f} tiles", MiscConfig.Instance.StatValueColor));
+		return new TooltipLine(Mod, tooltipName, tooltipText);
+	}
 
-        private TooltipLine HookVelocity(float velocity) {
-            return new TooltipLine(Mod, "HookVelocity", Helpers.WrapLine("Velocity: ", MiscConfig.Instance.StatSubtitleColor, $"{velocity}", MiscConfig.Instance.StatValueColor));
-        }
+	private TooltipLine HookVelocity(float velocity) {
+		string tooltipName = "HookVelocity";
+		string tooltipText = Helpers.ColorText(("Velocity: ", MiscConfig.Instance.StatSubtitleColor), ($"{velocity}", MiscConfig.Instance.StatValueColor));
+		return new TooltipLine(Mod, tooltipName, tooltipText);
+	}
 
-        private TooltipLine HookCount(int hookCount) {
-            return new TooltipLine(Mod, "HookCount", Helpers.WrapLine("Hooks: ", MiscConfig.Instance.StatSubtitleColor, $"{hookCount}", MiscConfig.Instance.StatValueColor));
-        }
 
-        private TooltipLine HookLatchingType(int latchingType) {
-            switch (latchingType) {
-                default:
-                    return new TooltipLine(Mod, "HookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Single", MiscConfig.Instance.StatValueColor));
-                case 1:
-                    return new TooltipLine(Mod, "HookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Simultaneous", MiscConfig.Instance.StatValueColor));
-                case 2:
-                    return new TooltipLine(Mod, "HookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Individual", MiscConfig.Instance.StatValueColor));
-            }
-        }
+	private TooltipLine HookCount(int hookCount) {
+		string tooltipName = "HookCount";
+		string tooltipText = Helpers.ColorText(("Hooks: ", MiscConfig.Instance.StatSubtitleColor), ($"{hookCount}", MiscConfig.Instance.StatValueColor));
+		return new TooltipLine(Mod, tooltipName, tooltipText);
+	}
 
-        private TooltipLine ComparisonHookTitle() {
-            TooltipLine line;
-            if (HookConfig.Instance.DockComparison)
-                line = new TooltipLine(Mod, "CompHookTitle", "~ EQUIPPED ~");
-            else
-                line = new TooltipLine(Mod, "CompHookTitle", "\n~ EQUIPPED ~");
-            line.OverrideColor = MiscConfig.Instance.ComparisonTitleColor;
-            return line;
-        }
+	private TooltipLine HookLatchingType(int latchingType) {
+		string latchingString = latchingType switch {
+			1 => "Single",
+			2 => "Simultaneous",
+			3 => "Individual",
+			_ => "Special"
+		};
+		string tooltipName = "HookCount";
+		string tooltipText = Helpers.ColorText(("Hooks: ", MiscConfig.Instance.StatSubtitleColor), ($"{latchingString}", MiscConfig.Instance.StatValueColor));
+		return new TooltipLine(Mod, tooltipName, tooltipText);
+	}
 
-        private TooltipLine CompareHookReach(float reach, Color valueColor) {
-            return new TooltipLine(Mod, "CompHookReach", Helpers.WrapLine("Reach: ", MiscConfig.Instance.StatSubtitleColor, $"{reach / 16f} tiles", valueColor));
-        }
+	private TooltipLine ComparisonHookTitle() {
+		string tooltipName = "HookComparisonTitle";
+		string tooltipText = Helpers.ColorText(("\n~ EQUIPPED ~", MiscConfig.Instance.ComparisonTitleColor));
+		if (HookConfig.Instance.DockStats) {
+			tooltipText = Helpers.ColorText(("~ EQUIPPED ~", MiscConfig.Instance.ComparisonTitleColor));
+		}
+		return new TooltipLine(Mod, tooltipName, tooltipText);
+	}
 
-        private TooltipLine CompareHookVelocity(float velocity, Color valueColor) {
-            return new TooltipLine(Mod, "CompHookVelocity", Helpers.WrapLine("Velocity: ", MiscConfig.Instance.StatSubtitleColor, $"{velocity}", valueColor));
-        }
+	private TooltipLine CompareHookReach(float reach, Color valueColor) {
+		string tooltipName = "HookComparisonReach";
+		string tooltipText = Helpers.ColorText(("Reach: ", MiscConfig.Instance.StatSubtitleColor), ($"{reach / 16f} tiles", valueColor));
+		return new TooltipLine(Mod, tooltipName, tooltipText);
+	}
 
-        private TooltipLine CompareHookCount(int hookCount, Color valueColor) {
-            return new TooltipLine(Mod, "CompHookCount", Helpers.WrapLine("Hooks: ", MiscConfig.Instance.StatSubtitleColor, $"{hookCount}", valueColor));
-        }
+	private TooltipLine CompareHookVelocity(float velocity, Color valueColor) {
+		string tooltipName = "HookComparisonVelocity";
+		string tooltipText = Helpers.ColorText(("Velocity: ", MiscConfig.Instance.StatSubtitleColor), ($"{velocity}", valueColor));
+		return new TooltipLine(Mod, tooltipName, tooltipText);
+	}
 
-        private TooltipLine CompareHookLatchingType(int latchingType, Color valueColor) {
-            switch (latchingType) {
-                default:
-                    return new TooltipLine(Mod, "CompHookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Single", valueColor));
-                case 1:
-                    return new TooltipLine(Mod, "CompHookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Simultaneous", valueColor));
-                case 2:
-                    return new TooltipLine(Mod, "CompHookStat", Helpers.WrapLine("Latch type: ", MiscConfig.Instance.StatSubtitleColor, "Individual", valueColor));
-            }
-        }
+	private TooltipLine CompareHookCount(int hookCount, Color valueColor) {
+		string tooltipName = "HookComparisonCount";
+		string tooltipText = Helpers.ColorText(("Hooks: ", MiscConfig.Instance.StatSubtitleColor), ($"{hookCount}", valueColor));
+		return new TooltipLine(Mod, tooltipName, tooltipText);
+	}
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
-            // Some vars we use later
-            List<TooltipLine> lines = new List<TooltipLine>();
-            Player player = Main.LocalPlayer;
+	private TooltipLine CompareHookLatchingType(int latchingType, Color valueColor) {
+		string latchingString = latchingType switch {
+			1 => "Single",
+			2 => "Simultaneous",
+			3 => "Individual",
+			_ => "Special"
+		};
+		string tooltipName = "HookComparisonCount";
+		string tooltipText = Helpers.ColorText(("Hooks: ", MiscConfig.Instance.StatSubtitleColor), ($"{latchingString}", valueColor));
+		return new TooltipLine(Mod, tooltipName, tooltipText);
+	}
 
-            // modName and itemName, needed for modded items
-            string modName = item.ModItem?.Mod.Name ?? "Terraria";
-            string itemName = item.ModItem?.Name ?? item.Name;
-            Tuple<string, string> key = new(modName, itemName);
+	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
+		// Some vars we use later
+		var lines = new List<TooltipLine>();
+		Player player = Main.LocalPlayer;
+		
+		// Return early if we shouldn't display hook stats
+		if (!item.ShouldDisplayHookStats()) {
+			return;
+		}
 
-            // Return early if we shouldn't display hook stats
-            if (!item.ShouldDisplayHookStats()) {
-                return;
-            }
+		// Get our hook stats
+		string modName = item.ModItem?.Mod.Name ?? "Terraria";
+		string itemName = item.ModItem?.Name ?? ItemID.Search.GetName(item.type);
+		string key = $"{modName}:{itemName}";
+		(float tileReach, float shootSpeed, int numHooks, int latchingType) = HookSystem.HookStats[key];
 
-            // Have to be done manually, vanilla ranges and hooks are hard coded
-            Tuple<float, float, int, int> value = modName == "Terraria" ? HookSystem.VanillaHookStats[item.type] : HookSystem.ModdedHookStats[key];
+		// Main block
+		if (!HookConfig.Instance.DockStats) {
+			lines.Add(HookTitle());
+		}
 
-            // Main block
-            if (!HookConfig.Instance.DockStats)
-                lines.Add(HookTitle());
-            if (HookConfig.Instance.ShowReach)
-                lines.Add(HookReach(value.Item1));
-            if (HookConfig.Instance.ShowVelocity)
-                lines.Add(HookVelocity(value.Item2));
-            if (HookConfig.Instance.ShowCount)
-                lines.Add(HookCount(value.Item3));
-            if (HookConfig.Instance.ShowLatchingType)
-                lines.Add(HookLatchingType(value.Item4));
+		if (HookConfig.Instance.ShowReach) {
+			lines.Add(HookReach(tileReach));
+		}
 
-            // Return early if we shouldn't display a comparison
-            bool isEquipped = player.EquippedHook().type == item.type && Main.mouseX > Main.screenWidth / 2;
-            if (!player.EquippedHook().HookIsRegisteredInDicts() || !HookConfig.Instance.CompareStats || isEquipped) {
-                tooltips.AddRange(lines);
-                return;
-            }
+		if (HookConfig.Instance.ShowVelocity) {
+			lines.Add(HookVelocity(shootSpeed));
+		}
 
-            string compModName = player.EquippedHook().ModItem?.Mod.Name ?? "Terraria";
-            string compItemName = player.EquippedHook().ModItem?.Name ?? player.EquippedHook().Name;
-            Tuple<string, string> compKey = new(compModName, compItemName);
-            Tuple<float, float, int, int> compValue = compModName == "Terraria" ? HookSystem.VanillaHookStats[player.EquippedHook().type] : HookSystem.ModdedHookStats[compKey];
+		if (HookConfig.Instance.ShowCount) {
+			lines.Add(HookCount(numHooks));
+		}
 
-            // Comparison block
-            lines.Add(ComparisonHookTitle());
+		if (HookConfig.Instance.ShowLatchingType) {
+			lines.Add(HookLatchingType(latchingType));
+		}
 
-            if (!MiscConfig.Instance.ComparionsValueColors) {
-                if (HookConfig.Instance.ShowReach)
-                    lines.Add(CompareHookReach(compValue.Item1, MiscConfig.Instance.StatValueColor));
-                if (HookConfig.Instance.ShowVelocity)
-                    lines.Add(CompareHookVelocity(compValue.Item2, MiscConfig.Instance.StatValueColor));
-                if (HookConfig.Instance.ShowCount)
-                    lines.Add(CompareHookCount(compValue.Item3, MiscConfig.Instance.StatValueColor));
-                if (HookConfig.Instance.ShowLatchingType)
-                    lines.Add(CompareHookLatchingType(compValue.Item4, MiscConfig.Instance.StatValueColor));
-            } else {
-                Color valueColor;
-                valueColor = MiscConfig.Instance.ComparisonEqualColor;
-                if (value.Item1 < compValue.Item1)
-                    valueColor = MiscConfig.Instance.ComparisonBetterColor;
-                if (value.Item1 > compValue.Item1)
-                    valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                if (HookConfig.Instance.ShowReach)
-                    lines.Add(CompareHookReach(compValue.Item1, valueColor));
+		// Return early if we shouldn't display a comparison
+		bool isEquipped = player.EquippedHook().type == item.type && Main.mouseX > Main.screenWidth / 3;
+		if (!player.EquippedHook().HookIsRegisteredInDicts() || !HookConfig.Instance.CompareStats || isEquipped) {
+			tooltips.AddRange(lines);
+			return;
+		}
 
-                valueColor = MiscConfig.Instance.ComparisonEqualColor;
-                if (value.Item2 < compValue.Item2)
-                    valueColor = MiscConfig.Instance.ComparisonBetterColor;
-                if (value.Item2 > compValue.Item2)
-                    valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                if (HookConfig.Instance.ShowVelocity)
-                    lines.Add(CompareHookVelocity(compValue.Item2, valueColor));
+		string compModName = player.EquippedHook().ModItem?.Mod.Name ?? "Terraria";
+		string compItemName = player.EquippedHook().ModItem?.Name ?? ItemID.Search.GetName(player.EquippedHook().type);
+		string compKey = $"{compModName}:{compItemName}";
+		(float compTileReach, float compShootSpeed, int compNumHooks, int compLatchingType) = HookSystem.HookStats[compKey];
 
-                valueColor = MiscConfig.Instance.ComparisonEqualColor;
-                if (value.Item3 < compValue.Item3)
-                    valueColor = MiscConfig.Instance.ComparisonBetterColor;
-                if (value.Item3 > compValue.Item3)
-                    valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                if (HookConfig.Instance.ShowCount)
-                    lines.Add(CompareHookCount(compValue.Item3, valueColor));
+		// Comparison block
+		lines.Add(ComparisonHookTitle());
 
-                valueColor = MiscConfig.Instance.ComparisonEqualColor;
-                if (value.Item4 != 2 && compValue.Item4 == 2)
-                    valueColor = MiscConfig.Instance.ComparisonBetterColor;
-                if (value.Item4 == 2 && compValue.Item4 != 2)
-                    valueColor = MiscConfig.Instance.ComparisonWorseColor;
-                if (HookConfig.Instance.ShowLatchingType)
-                    lines.Add(CompareHookLatchingType(compValue.Item4, valueColor));
-            }
+		if (HookConfig.Instance.ShowReach) {
+			Color valueColor = MiscConfig.Instance.StatValueColor;
+			if (MiscConfig.Instance.ComparionsValueColors) {
+				valueColor = tileReach >= compTileReach
+					? tileReach == compTileReach 
+						? MiscConfig.Instance.ComparisonEqualColor 
+						: MiscConfig.Instance.ComparisonWorseColor
+					: MiscConfig.Instance.ComparisonBetterColor;
+			}
+			lines.Add(CompareHookReach(compTileReach, valueColor));
+		}
 
-            tooltips.AddRange(lines);
-        }
-    }
+		if (HookConfig.Instance.ShowVelocity) {
+			Color valueColor = MiscConfig.Instance.StatValueColor;
+			if (MiscConfig.Instance.ComparionsValueColors) {
+				valueColor = shootSpeed >= compShootSpeed
+					? shootSpeed == compShootSpeed
+						? MiscConfig.Instance.ComparisonEqualColor
+						: MiscConfig.Instance.ComparisonWorseColor
+					: MiscConfig.Instance.ComparisonBetterColor;
+			}
+
+			lines.Add(CompareHookVelocity(compShootSpeed, valueColor));
+		}
+
+		if (HookConfig.Instance.ShowCount) {
+			Color valueColor = MiscConfig.Instance.StatValueColor;
+			if (MiscConfig.Instance.ComparionsValueColors) {
+				valueColor = numHooks >= compNumHooks
+					? numHooks == compNumHooks
+						? MiscConfig.Instance.ComparisonEqualColor
+						: MiscConfig.Instance.ComparisonWorseColor
+					: MiscConfig.Instance.ComparisonBetterColor;
+			}
+
+			lines.Add(CompareHookCount(compNumHooks, valueColor));
+		}
+
+		if (HookConfig.Instance.ShowLatchingType) {
+			lines.Add(CompareHookLatchingType(compNumHooks, MiscConfig.Instance.StatValueColor));
+		}
+
+		tooltips.AddRange(lines);
+	}
 }
