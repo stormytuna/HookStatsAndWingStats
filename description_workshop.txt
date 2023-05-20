@@ -23,6 +23,10 @@ To report any bugs or request support for a mod, message me on discord (stormytu
 
 [b]Changelog[/b]
 [list]
+[*][i]v1.4.0[/i]
+[list]
+[*]Released for 1.4.4
+[/list]
 [*][i]v1.3.5[/i]
 [list]
 [*]Fixed some more issues with hook stats
