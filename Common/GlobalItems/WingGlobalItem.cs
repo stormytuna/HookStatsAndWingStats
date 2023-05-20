@@ -99,7 +99,7 @@ public class WingGlobalItem : GlobalItem
 		}
 
 		string tooltipName = "CompWingFlightTimeMax";
-		string tooltipText = Helpers.ColorText(("Max flight time: ", MiscConfig.Instance.StatSubtitleColor), (formattedMaxWingTime, MiscConfig.Instance.StatValueColor));
+		string tooltipText = Helpers.ColorText(("Max flight time: ", MiscConfig.Instance.StatSubtitleColor), (formattedMaxWingTime, valueColor));
 		return new TooltipLine(Mod, tooltipName, tooltipText);
 	}
 
@@ -107,7 +107,7 @@ public class WingGlobalItem : GlobalItem
 		string formattedHorizontalSpeed = WingConfig.Instance.HorizontalSpeedInMPH ? $"{horizontalSpeed * 5.084949379f:0.}mph" : $"{horizontalSpeed}";
 
 		string tooltipName = "CompWingHorizontalSpeed";
-		string tooltipText = Helpers.ColorText(("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor), (formattedHorizontalSpeed, MiscConfig.Instance.StatValueColor));
+		string tooltipText = Helpers.ColorText(("Horizontal speed: ", MiscConfig.Instance.StatSubtitleColor), (formattedHorizontalSpeed, valueColor));
 		return new TooltipLine(Mod, tooltipName, tooltipText);
 	}
 
@@ -203,12 +203,14 @@ public class WingGlobalItem : GlobalItem
 
 		WingStats compWingStats = ArmorIDs.Wing.Sets.Stats[compWings.wingSlot];
 		if (compMaxFlightTime == -2) {
-			compMaxFlightTime = wingStats.FlyTime;
+			compMaxFlightTime = compWingStats.FlyTime;
 		}
 
 		if (compHorizontalSpeed == -2) {
-			compHorizontalSpeed = wingStats.AccRunSpeedOverride;
+			compHorizontalSpeed = compWingStats.AccRunSpeedOverride;
 		}
+
+		lines.Add(CompWingTitle());
 
 		if (WingConfig.Instance.ShowMaxWingTime) {
 			Color valueColor = MiscConfig.Instance.StatValueColor;
