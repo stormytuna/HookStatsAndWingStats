@@ -36,7 +36,7 @@ public static class Helpers
 		                          (HookConfig.Instance.ShowReach || HookConfig.Instance.ShowVelocity || HookConfig.Instance.ShowCount || HookConfig.Instance.ShowLatchingType);
 		bool haveHookStats = HookSystem.HookStats.ContainsKey(key);
 		bool careAboutCalamity = ItemIsCalamityFamily(modName) || !HasCalamity;
-		return haveHookStats && displayingAnyStats && careAboutCalamity;
+		return displayingAnyStats && haveHookStats && careAboutCalamity;
 	}
 
 	public static Item EquippedHook(this Player player) => player.miscEquips[4];
@@ -46,5 +46,17 @@ public static class Helpers
 		string itemName = item.ModItem?.Name ?? ItemID.Search.GetName(item.type);
 		string key = $"{modName}:{itemName}";
 		return HookSystem.HookStats.ContainsKey(key);
+	}
+
+	public static bool ShouldDisplayWingStats(this Item item) {
+		string modName = item.ModItem?.Mod.Name ?? "Terraria";
+		string itemName = item.ModItem?.Name ?? ItemID.Search.GetName(item.type);
+		string key = $"{modName}:{itemName}";
+
+		bool displayingAnyStats = WingConfig.Instance.ShowStats &&
+		                          (WingConfig.Instance.ShowCurWingTime || WingConfig.Instance.ShowMaxWingTime || WingConfig.Instance.ShowHorizontalSpeed || WingConfig.Instance.ShowVerticalMult);
+		bool haveWingStats = WingSystem.WingStats.ContainsKey(key);
+		bool careAboutCalamity = ItemIsCalamityFamily(modName) || !HasCalamity;
+		return displayingAnyStats && haveWingStats && careAboutCalamity;
 	}
 }

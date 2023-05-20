@@ -18,7 +18,7 @@ public class WingGlobalItem : GlobalItem
 
 	private TooltipLine WingTitle() {
 		string tooltipName = "WingTitle";
-		string tooltipText = Helpers.ColorText(("\n~ WING STATS ~", WingConfig.Instance.TitleColor));
+		string tooltipText = $"\n{Helpers.ColorText(("~ WING STATS ~", WingConfig.Instance.TitleColor))}";
 		if (WingConfig.Instance.DockStats) {
 			tooltipText = Helpers.ColorText(("~ WING STATS ~", WingConfig.Instance.TitleColor));
 		}
@@ -35,13 +35,12 @@ public class WingGlobalItem : GlobalItem
 			formattedMaxWingTime = "∞";
 		}
 
-
 		if (WingConfig.Instance.CombineWingTimes) {
 			string tooltipName = "WingFlightTimeCombined";
 			string tooltipText = Helpers.ColorText(("Flight time: ", MiscConfig.Instance.StatSubtitleColor), ($"{formattedCurrentWingTime} / {formattedMaxWingTime}",
 				MiscConfig.Instance.StatValueColor));
-			return new List<TooltipLine>() {
-				new TooltipLine(Mod, tooltipName, tooltipText)
+			return new List<TooltipLine> {
+				new(Mod, tooltipName, tooltipText)
 			};
 		}
 
@@ -49,10 +48,22 @@ public class WingGlobalItem : GlobalItem
 		string firstTooltipName = "WingFlightTimeCurrent";
 		string secondTooltipText = Helpers.ColorText(("Max flight time: ", MiscConfig.Instance.StatSubtitleColor), (formattedMaxWingTime, MiscConfig.Instance.StatValueColor));
 		string secondTooltipName = "WingFlightTimeMax";
-		return new List<TooltipLine>() {
-			new TooltipLine(Mod, firstTooltipName, firstTooltipText),
-			new TooltipLine(Mod, secondTooltipName, secondTooltipText)
+		return new List<TooltipLine> {
+			new(Mod, firstTooltipName, firstTooltipText),
+			new(Mod, secondTooltipName, secondTooltipText)
 		};
+	}
+
+	private TooltipLine WingFlightTimeMax(int maxWingTime) {
+		string formattedMaxWingTime = WingConfig.Instance.FlightTimeInSeconds ? $"{maxWingTime / 60f:0.00}s" : $"{maxWingTime}";
+
+		if (Main.LocalPlayer.empressBrooch || maxWingTime == -1) {
+			formattedMaxWingTime = "∞";
+		}
+
+		string tooltipName = "WingFlightTimeMax";
+		string tooltipText = Helpers.ColorText(("Max flight time: ", MiscConfig.Instance.StatSubtitleColor), (formattedMaxWingTime, MiscConfig.Instance.StatValueColor));
+		return new TooltipLine(Mod, tooltipName, tooltipText);
 	}
 
 	private TooltipLine WingHorizontalSpeed(float horizontalSpeed) {
@@ -73,7 +84,7 @@ public class WingGlobalItem : GlobalItem
 
 	private TooltipLine CompWingTitle() {
 		string tooltipName = "CompWingTitle";
-		string tooltipText = Helpers.ColorText(("\n~ EQUIPPED ~", WingConfig.Instance.TitleColor));
+		string tooltipText = $"\n{Helpers.ColorText(("~ EQUIPPED ~", WingConfig.Instance.TitleColor))}";
 		if (WingConfig.Instance.DockStats) {
 			tooltipText = Helpers.ColorText(("~ EQUIPPED ~", WingConfig.Instance.TitleColor));
 		}
@@ -112,186 +123,123 @@ public class WingGlobalItem : GlobalItem
 		var lines = new List<TooltipLine>();
 		Player player = Main.LocalPlayer;
 
-		// modName and itemName, needed for modded items
+		if (!item.ShouldDisplayWingStats()) {
+			return;
+		}
+
+		// Get our wing stats
 		string modName = item.ModItem?.Mod.Name ?? "Terraria";
 		string itemName = item.ModItem?.Name ?? ItemID.Search.GetName(item.type);
 		string key = $"{modName}:{itemName}";
 		(int maxFlightTime, float horizontalSpeed, float verticalSpeedMultiplier) = WingSystem.WingStats[key];
 
-		// Can be done mostly through WingStats, vertical speed multiplier is hard coded so need a dict for that
-		if (item.wingSlot > 0 && ShouldDisplayWingStats() && (Helpers.ItemIsCalamityFamily(modName) || !Helpers.HasCalamity)) {
-			// Declaring stuff
-			WingStats wingStats = ArmorIDs.Wing.Sets.Stats[item.wingSlot];
-			bool isEquipped = false;
-
-			// Check if this item is equipped
-			for (int i = 0; i < player.armor.Length; i++) {
-				if (player.armor[i].type == item.type && Main.mouseX > Main.screenWidth / 2) {
-					isEquipped = true;
-				}
-			}
-
-			// Build our Tuple
-			Tuple<int, float, int> value = new(0, 0, -1);
-			// Check if we have a modded wingstats override
-			if (WingSystem.ModdedWingStatsOverride.ContainsKey(key)) {
-				value = WingSystem.ModdedWingStatsOverride[key];
-			}
-			// Check if our item is modded...
-			else if (modName != "Terraria") {
-				if (WingSystem.ModdedWingVerticalMults.ContainsKey(key)) {
-					value = new Tuple<int, float, int>(wingStats.FlyTime, wingStats.AccRunSpeedOverride, WingSystem.ModdedWingVerticalMults[key]);
-				} else {
-					value = new Tuple<int, float, int>(wingStats.FlyTime, wingStats.AccRunSpeedOverride, -1);
-				}
-			}
-			// ... or vanilla 
-			else {
-				value = new Tuple<int, float, int>(wingStats.FlyTime, wingStats.AccRunSpeedOverride, WingSystem.VanillaWingVerticalMults[item.type]);
-			}
-
-			if (!WingConfig.Instance.DockStats) {
-				lines.Add(WingTitle());
-			}
-
-			// Flight time
-			// If we're using combined wing times and is equipped - display as combined using players wing time
-			if (WingConfig.Instance.CombineWingTimes && WingConfig.Instance.ShowCurWingTime && WingConfig.Instance.ShowMaxWingTime && isEquipped) {
-				lines.Add(WingFlightTimeCombined(Convert.ToInt32(player.wingTime), value.Item1));
-			}
-
-			// If we're not using combined and is equipped - display separerately using players wing time
-			else if (isEquipped) {
-				if (WingConfig.Instance.ShowMaxWingTime) {
-					lines.Add(WingFlightTimeMax(value.Item1));
-				}
-
-				if (WingConfig.Instance.ShowCurWingTime) {
-					lines.Add(WingFlightTimeCurrent(Convert.ToInt32(player.wingTime), value.Item1));
-				}
-			}
-
-			// If it's not equipped - display only MaxWingTime using items wing time
-			else {
-				if (WingConfig.Instance.ShowMaxWingTime) {
-					lines.Add(WingFlightTimeMax(value.Item1));
-				}
-			}
-
-			// Other stats
-			if (WingConfig.Instance.ShowHorizontalSpeed) {
-				lines.Add(WingHorizontalSpeed(value.Item2));
-			}
-
-			if ((WingConfig.Instance.ShowVerticalMult && value.Item3 != -1) || WingConfig.Instance.ShowUnknownVerticalMults) {
-				lines.Add(WingVerticalSpeedMultiplier(value.Item3));
-			}
-
-			// Wing comparison stats
-			if (WingConfig.Instance.CompareStats) {
-				Tuple<int, float, int> compValue = null;
-
-				// Check equipped armor
-				for (int i = 3; i < 7 + player.GetAmountOfExtraAccessorySlotsToShow(); i++) {
-					if (player.armor[i].wingSlot > 0) {
-						// Skip this armor if its the same as the selected wing
-						if (player.armor[i].type == item.type) {
-							continue;
-						}
-
-						Item compItem = player.armor[i];
-						WingStats compWingStats = ArmorIDs.Wing.Sets.Stats[compItem.wingSlot];
-
-						// modName and itemName, needed for modded items
-						string compModName = "Terraria"; // Init this as Terraria to check for modded items later
-						string compItemName = compItem.Name;
-						if (compItem.ModItem is not null) {
-							compModName = item.ModItem.Mod.Name;
-							compItemName = item.ModItem.Name;
-						}
-
-						Tuple<string, string> compKey = new(compModName, compItemName);
-						// Build our Tuple
-						// Check if we have a modded wingstats override
-						if (WingSystem.ModdedWingStatsOverride.ContainsKey(compKey)) {
-							compValue = WingSystem.ModdedWingStatsOverride[compKey];
-						}
-						// Check if our item is modded...
-						else if (compModName != "Terraria") {
-							if (WingSystem.ModdedWingVerticalMults.ContainsKey(key)) {
-								compValue = new Tuple<int, float, int>(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, WingSystem.ModdedWingVerticalMults[compKey]);
-							} else {
-								compValue = new Tuple<int, float, int>(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, -1);
-							}
-						}
-						// ... or vanilla 
-						else {
-							compValue = new Tuple<int, float, int>(compWingStats.FlyTime, compWingStats.AccRunSpeedOverride, WingSystem.VanillaWingVerticalMults[compItem.type]);
-						}
-					}
-				}
-
-				// Print actual lines
-				if (compValue is not null) {
-					lines.Add(CompWingTitle());
-
-					if (!MiscConfig.Instance.ComparionsValueColors) {
-						if (WingConfig.Instance.ShowMaxWingTime) {
-							lines.Add(CompWingFlightTimeMax(compValue.Item1, MiscConfig.Instance.StatValueColor));
-						}
-
-						if (WingConfig.Instance.ShowHorizontalSpeed) {
-							lines.Add(CompWingHorizontalSpeed(compValue.Item2, MiscConfig.Instance.StatValueColor));
-						}
-
-						if ((WingConfig.Instance.ShowVerticalMult && compValue.Item3 != -1) || WingConfig.Instance.ShowUnknownVerticalMults) {
-							lines.Add(CompWingVerticalSpeedMultiplier(compValue.Item3, MiscConfig.Instance.StatValueColor));
-						}
-					} else {
-						Color valueColor;
-						valueColor = MiscConfig.Instance.ComparisonEqualColor;
-						if (value.Item1 < compValue.Item1) {
-							valueColor = MiscConfig.Instance.ComparisonBetterColor;
-						}
-
-						if (value.Item1 > compValue.Item1) {
-							valueColor = MiscConfig.Instance.ComparisonWorseColor;
-						}
-
-						if (WingConfig.Instance.ShowMaxWingTime) {
-							lines.Add(CompWingFlightTimeMax(compValue.Item1, valueColor));
-						}
-
-						valueColor = MiscConfig.Instance.ComparisonEqualColor;
-						if (value.Item2 < compValue.Item2) {
-							valueColor = MiscConfig.Instance.ComparisonBetterColor;
-						}
-
-						if (value.Item2 > compValue.Item2) {
-							valueColor = MiscConfig.Instance.ComparisonWorseColor;
-						}
-
-						if (WingConfig.Instance.ShowHorizontalSpeed) {
-							lines.Add(CompWingHorizontalSpeed(compValue.Item2, valueColor));
-						}
-
-						valueColor = MiscConfig.Instance.ComparisonEqualColor;
-						if (value.Item3 < compValue.Item3) {
-							valueColor = MiscConfig.Instance.ComparisonBetterColor;
-						}
-
-						if (value.Item3 > compValue.Item3) {
-							valueColor = MiscConfig.Instance.ComparisonWorseColor;
-						}
-
-						if (WingConfig.Instance.ShowVerticalMult) {
-							lines.Add(CompWingVerticalSpeedMultiplier(compValue.Item3, valueColor));
-						}
-					}
-				}
-			}
-
-			tooltips.AddRange(lines);
+		// -2 means to use the WingStats vanilla uses
+		WingStats wingStats = ArmorIDs.Wing.Sets.Stats[item.wingSlot];
+		if (maxFlightTime == -2) {
+			maxFlightTime = wingStats.FlyTime;
 		}
+
+		if (horizontalSpeed == -2) {
+			horizontalSpeed = wingStats.AccRunSpeedOverride;
+		}
+
+		// Check if this item is equipped
+		bool isEquipped = false;
+		for (int i = 0; i < player.armor.Length; i++) {
+			if (player.armor[i].type == item.type && Main.mouseX > Main.screenWidth / 2) {
+				isEquipped = true;
+			}
+		}
+
+		if (!WingConfig.Instance.DockStats) {
+			lines.Add(WingTitle());
+		}
+
+		if (WingConfig.Instance.ShowCurWingTime && WingConfig.Instance.ShowMaxWingTime && isEquipped) {
+			lines.AddRange(WingFlightTimeCombined(Convert.ToInt32(player.wingTime), maxFlightTime));
+		} else if (WingConfig.Instance.ShowMaxWingTime) {
+			lines.Add(WingFlightTimeMax(maxFlightTime));
+		}
+
+		if (WingConfig.Instance.ShowHorizontalSpeed) {
+			lines.Add(WingHorizontalSpeed(horizontalSpeed));
+		}
+
+		if ((WingConfig.Instance.ShowVerticalMult && verticalSpeedMultiplier != -1) || WingConfig.Instance.ShowUnknownVerticalMults) {
+			lines.Add(WingVerticalSpeedMultiplier(verticalSpeedMultiplier));
+		}
+
+		if (!WingConfig.Instance.CompareStats || isEquipped) {
+			tooltips.AddRange(lines);
+			return;
+		}
+
+		Item compWings = null;
+
+		// Check equipped armor
+		for (int i = 3; i < 7 + player.GetAmountOfExtraAccessorySlotsToShow(); i++) {
+			if (player.armor[i].wingSlot < 0) {
+				continue;
+			}
+
+			// Skip this accessory if its the same as the selected wing
+			if (player.armor[i].type == item.type) {
+				continue;
+			}
+
+			compWings = player.armor[i];
+			break;
+		}
+
+		if (compWings is null) {
+			tooltips.AddRange(lines);
+			return;
+		}
+
+		string compModName = compWings.ModItem?.Mod.Name ?? "Terraria";
+		string compItemName = compWings.ModItem?.Name ?? ItemID.Search.GetName(compWings.type);
+		string compKey = $"{compModName}:{compItemName}";
+		(int compMaxFlightTime, float compHorizontalSpeed, float compVerticalSpeedMultiplier) = WingSystem.WingStats[compKey];
+
+		if (WingConfig.Instance.ShowMaxWingTime) {
+			Color valueColor = MiscConfig.Instance.StatValueColor;
+			if (MiscConfig.Instance.ComparisonValueColor) {
+				valueColor = maxFlightTime >= compMaxFlightTime
+					? maxFlightTime == compMaxFlightTime
+						? MiscConfig.Instance.ComparisonEqualColor
+						: MiscConfig.Instance.ComparisonWorseColor
+					: MiscConfig.Instance.ComparisonBetterColor;
+			}
+
+			lines.Add(CompWingFlightTimeMax(compMaxFlightTime, valueColor));
+		}
+
+		if (WingConfig.Instance.ShowHorizontalSpeed) {
+			Color valueColor = MiscConfig.Instance.StatValueColor;
+			if (MiscConfig.Instance.ComparisonValueColor) {
+				valueColor = horizontalSpeed >= compHorizontalSpeed
+					? horizontalSpeed == compHorizontalSpeed
+						? MiscConfig.Instance.ComparisonEqualColor
+						: MiscConfig.Instance.ComparisonWorseColor
+					: MiscConfig.Instance.ComparisonBetterColor;
+			}
+
+			lines.Add(CompWingHorizontalSpeed(compHorizontalSpeed, valueColor));
+		}
+
+		if (WingConfig.Instance.ShowVerticalMult) {
+			Color valueColor = MiscConfig.Instance.StatValueColor;
+			if (MiscConfig.Instance.ComparisonValueColor) {
+				valueColor = verticalSpeedMultiplier >= compVerticalSpeedMultiplier
+					? verticalSpeedMultiplier == compVerticalSpeedMultiplier
+						? MiscConfig.Instance.ComparisonEqualColor
+						: MiscConfig.Instance.ComparisonWorseColor
+					: MiscConfig.Instance.ComparisonBetterColor;
+			}
+
+			lines.Add(CompWingVerticalSpeedMultiplier(compVerticalSpeedMultiplier, valueColor));
+		}
+
+		tooltips.AddRange(lines);
 	}
 }

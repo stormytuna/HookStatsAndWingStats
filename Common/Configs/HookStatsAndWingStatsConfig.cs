@@ -136,7 +136,7 @@ public class MiscConfig : ModConfig
 	[Label("Comparison change value colours")]
 	[Tooltip("Whether comparisons should have equal/better/worse colour changes")]
 	[DefaultValue(true)]
-	public bool ComparionsValueColors { get; set; }
+	public bool ComparisonValueColor { get; set; }
 
 	[Label("Comparison better color")]
 	[Tooltip("The colour a value is when comparing things with a better value")]

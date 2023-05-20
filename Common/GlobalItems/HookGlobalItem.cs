@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Common.Systems;
 using Microsoft.Xna.Framework;
@@ -15,10 +14,11 @@ public class HookGlobalItem : GlobalItem
 
 	private TooltipLine HookTitle() {
 		string tooltipName = "HookTitle";
-		string tooltipText = Helpers.ColorText(("\n~ HOOK STATS ~", HookConfig.Instance.TitleColor));
+		string tooltipText = $"\n{Helpers.ColorText(("~ HOOK STATS ~", WingConfig.Instance.TitleColor))}";
 		if (HookConfig.Instance.DockStats) {
 			tooltipText = Helpers.ColorText(("~ HOOK STATS ~", HookConfig.Instance.TitleColor));
 		}
+
 		return new TooltipLine(Mod, tooltipName, tooltipText);
 	}
 
@@ -34,7 +34,6 @@ public class HookGlobalItem : GlobalItem
 		return new TooltipLine(Mod, tooltipName, tooltipText);
 	}
 
-
 	private TooltipLine HookCount(int hookCount) {
 		string tooltipName = "HookCount";
 		string tooltipText = Helpers.ColorText(("Hooks: ", MiscConfig.Instance.StatSubtitleColor), ($"{hookCount}", MiscConfig.Instance.StatValueColor));
@@ -43,22 +42,23 @@ public class HookGlobalItem : GlobalItem
 
 	private TooltipLine HookLatchingType(int latchingType) {
 		string latchingString = latchingType switch {
-			1 => "Single",
-			2 => "Simultaneous",
-			3 => "Individual",
+			0 => "Single",
+			1 => "Simultaneous",
+			2 => "Individual",
 			_ => "Special"
 		};
 		string tooltipName = "HookCount";
-		string tooltipText = Helpers.ColorText(("Hooks: ", MiscConfig.Instance.StatSubtitleColor), ($"{latchingString}", MiscConfig.Instance.StatValueColor));
+		string tooltipText = Helpers.ColorText(("Latching type: ", MiscConfig.Instance.StatSubtitleColor), ($"{latchingString}", MiscConfig.Instance.StatValueColor));
 		return new TooltipLine(Mod, tooltipName, tooltipText);
 	}
 
 	private TooltipLine ComparisonHookTitle() {
 		string tooltipName = "HookComparisonTitle";
-		string tooltipText = Helpers.ColorText(("\n~ EQUIPPED ~", MiscConfig.Instance.ComparisonTitleColor));
+		string tooltipText = $"\n{Helpers.ColorText(("~ EQUIPPED ~", WingConfig.Instance.TitleColor))}";
 		if (HookConfig.Instance.DockStats) {
 			tooltipText = Helpers.ColorText(("~ EQUIPPED ~", MiscConfig.Instance.ComparisonTitleColor));
 		}
+
 		return new TooltipLine(Mod, tooltipName, tooltipText);
 	}
 
@@ -82,13 +82,13 @@ public class HookGlobalItem : GlobalItem
 
 	private TooltipLine CompareHookLatchingType(int latchingType, Color valueColor) {
 		string latchingString = latchingType switch {
-			1 => "Single",
-			2 => "Simultaneous",
-			3 => "Individual",
+			0 => "Single",
+			1 => "Simultaneous",
+			2 => "Individual",
 			_ => "Special"
 		};
 		string tooltipName = "HookComparisonCount";
-		string tooltipText = Helpers.ColorText(("Hooks: ", MiscConfig.Instance.StatSubtitleColor), ($"{latchingString}", valueColor));
+		string tooltipText = Helpers.ColorText(("Latching type: ", MiscConfig.Instance.StatSubtitleColor), ($"{latchingString}", valueColor));
 		return new TooltipLine(Mod, tooltipName, tooltipText);
 	}
 
@@ -96,7 +96,7 @@ public class HookGlobalItem : GlobalItem
 		// Some vars we use later
 		var lines = new List<TooltipLine>();
 		Player player = Main.LocalPlayer;
-		
+
 		// Return early if we shouldn't display hook stats
 		if (!item.ShouldDisplayHookStats()) {
 			return;
@@ -131,7 +131,7 @@ public class HookGlobalItem : GlobalItem
 
 		// Return early if we shouldn't display a comparison
 		bool isEquipped = player.EquippedHook().type == item.type && Main.mouseX > Main.screenWidth / 3;
-		if (!player.EquippedHook().HookIsRegisteredInDicts() || !HookConfig.Instance.CompareStats || isEquipped) {
+		if (!player.EquippedHook().HookIsRegisteredInDicts() || !HookConfig.Instance.CompareStats || isEquipped || player.EquippedHook().type == item.type) {
 			tooltips.AddRange(lines);
 			return;
 		}
@@ -146,19 +146,20 @@ public class HookGlobalItem : GlobalItem
 
 		if (HookConfig.Instance.ShowReach) {
 			Color valueColor = MiscConfig.Instance.StatValueColor;
-			if (MiscConfig.Instance.ComparionsValueColors) {
+			if (MiscConfig.Instance.ComparisonValueColor) {
 				valueColor = tileReach >= compTileReach
-					? tileReach == compTileReach 
-						? MiscConfig.Instance.ComparisonEqualColor 
+					? tileReach == compTileReach
+						? MiscConfig.Instance.ComparisonEqualColor
 						: MiscConfig.Instance.ComparisonWorseColor
 					: MiscConfig.Instance.ComparisonBetterColor;
 			}
+
 			lines.Add(CompareHookReach(compTileReach, valueColor));
 		}
 
 		if (HookConfig.Instance.ShowVelocity) {
 			Color valueColor = MiscConfig.Instance.StatValueColor;
-			if (MiscConfig.Instance.ComparionsValueColors) {
+			if (MiscConfig.Instance.ComparisonValueColor) {
 				valueColor = shootSpeed >= compShootSpeed
 					? shootSpeed == compShootSpeed
 						? MiscConfig.Instance.ComparisonEqualColor
@@ -171,7 +172,7 @@ public class HookGlobalItem : GlobalItem
 
 		if (HookConfig.Instance.ShowCount) {
 			Color valueColor = MiscConfig.Instance.StatValueColor;
-			if (MiscConfig.Instance.ComparionsValueColors) {
+			if (MiscConfig.Instance.ComparisonValueColor) {
 				valueColor = numHooks >= compNumHooks
 					? numHooks == compNumHooks
 						? MiscConfig.Instance.ComparisonEqualColor
@@ -183,7 +184,16 @@ public class HookGlobalItem : GlobalItem
 		}
 
 		if (HookConfig.Instance.ShowLatchingType) {
-			lines.Add(CompareHookLatchingType(compNumHooks, MiscConfig.Instance.StatValueColor));
+			Color valueColor = MiscConfig.Instance.StatValueColor;
+			if (MiscConfig.Instance.ComparisonValueColor) {
+				valueColor = latchingType >= compLatchingType
+					? latchingType == compLatchingType
+						? MiscConfig.Instance.ComparisonEqualColor
+						: MiscConfig.Instance.ComparisonWorseColor
+					: MiscConfig.Instance.ComparisonBetterColor;
+			}
+
+			lines.Add(CompareHookLatchingType(compLatchingType, valueColor));
 		}
 
 		tooltips.AddRange(lines);
