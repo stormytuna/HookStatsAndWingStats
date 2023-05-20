@@ -84,9 +84,9 @@ public class WingGlobalItem : GlobalItem
 
 	private TooltipLine CompWingTitle() {
 		string tooltipName = "CompWingTitle";
-		string tooltipText = $"\n{Helpers.ColorText(("~ EQUIPPED ~", WingConfig.Instance.TitleColor))}";
+		string tooltipText = $"\n{Helpers.ColorText(("~ EQUIPPED ~", MiscConfig.Instance.ComparisonTitleColor))}";
 		if (WingConfig.Instance.DockStats) {
-			tooltipText = Helpers.ColorText(("~ EQUIPPED ~", WingConfig.Instance.TitleColor));
+			tooltipText = Helpers.ColorText(("~ EQUIPPED ~", MiscConfig.Instance.ComparisonTitleColor));
 		}
 
 		return new TooltipLine(Mod, tooltipName, tooltipText);
@@ -177,7 +177,7 @@ public class WingGlobalItem : GlobalItem
 		Item compWings = null;
 
 		// Check equipped armor
-		for (int i = 3; i < 7 + player.GetAmountOfExtraAccessorySlotsToShow(); i++) {
+		for (int i = 3; i < 8 + player.GetAmountOfExtraAccessorySlotsToShow(); i++) {
 			if (player.armor[i].wingSlot < 0) {
 				continue;
 			}
@@ -200,6 +200,15 @@ public class WingGlobalItem : GlobalItem
 		string compItemName = compWings.ModItem?.Name ?? ItemID.Search.GetName(compWings.type);
 		string compKey = $"{compModName}:{compItemName}";
 		(int compMaxFlightTime, float compHorizontalSpeed, float compVerticalSpeedMultiplier) = WingSystem.WingStats[compKey];
+
+		WingStats compWingStats = ArmorIDs.Wing.Sets.Stats[compWings.wingSlot];
+		if (compMaxFlightTime == -2) {
+			compMaxFlightTime = wingStats.FlyTime;
+		}
+
+		if (compHorizontalSpeed == -2) {
+			compHorizontalSpeed = wingStats.AccRunSpeedOverride;
+		}
 
 		if (WingConfig.Instance.ShowMaxWingTime) {
 			Color valueColor = MiscConfig.Instance.StatValueColor;
