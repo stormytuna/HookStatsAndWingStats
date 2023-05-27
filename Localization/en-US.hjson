@@ -132,10 +132,8 @@ Mods: {
 			}
 
 			MiscConfig: {
-			    Headers: {
-			        MiscStats: Misc Stats
-			    }
-			    
+				Headers.MiscStats: Misc Stats
+
 				ComparisonTitleColor: {
 					Label: Comparison title color
 					Tooltip: ""
