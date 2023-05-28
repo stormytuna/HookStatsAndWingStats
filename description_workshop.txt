@@ -23,6 +23,10 @@ To report any bugs or request support for a mod, message me on discord (stormytu
 
 [b]Changelog[/b]
 [list]
+[*][i]v2.0.1 (1.4.4 only)[/i]
+[list]
+[*]Fixed an issue with comparison wing stats showing the wrong title
+[/list]
 [*][i]v2.0.0 (1.4.4 only)[/i]
 [list]
 [*]Comparisons are now inlined, this currently isn't toggleable but might be later
