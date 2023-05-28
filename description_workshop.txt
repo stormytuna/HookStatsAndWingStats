@@ -23,7 +23,7 @@ To report any bugs or request support for a mod, message me on discord (stormytu
 
 [b]Changelog[/b]
 [list]
-[*][i]v2.0.0 (1.4.4 only)/i]
+[*][i]v2.0.0 (1.4.4 only)[/i]
 [list]
 [*]Comparisons are now inlined, this currently isn't toggleable but might be later
 [*]Comparisons are more intuitive
