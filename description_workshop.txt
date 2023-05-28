@@ -23,7 +23,14 @@ To report any bugs or request support for a mod, message me on discord (stormytu
 
 [b]Changelog[/b]
 [list]
-[*][i]v1.4.1[/i]
+[*][i]v2.0.0 (1.4.4 only)/i]
+[list]
+[*]Comparisons are now inlined, this currently isn't toggleable but might be later
+[*]Comparisons are more intuitive
+[*]Removed current wing time line from wings, this might return as a UI element later
+[*]Major back end changes
+[/list]
+[*][i]v1.4.1 (1.4.4 only)[/i]
 [list]
 [*]Fixed crashes on load
 [/list]
