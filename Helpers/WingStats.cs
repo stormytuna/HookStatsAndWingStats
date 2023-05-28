@@ -204,7 +204,7 @@ public class WingHorizontalSpeed
 	}
 
 	public TooltipLine BuildComparisonTooltip(WingHorizontalSpeed otherHorizontalSpeed) {
-		ColoredText subtitle = new(Language.GetTextValue("Mods.HookStatsAndWingStats.WingStats.MaxFlightTime"), MiscConfig.Instance.StatSubtitleColor);
+		ColoredText subtitle = new(Language.GetTextValue("Mods.HookStatsAndWingStats.WingStats.HorizontalSpeed"), MiscConfig.Instance.StatSubtitleColor);
 		ColoredText thisValue = new(HorizontalSpeed, GetComparisonColor(otherHorizontalSpeed.horizontalSpeed));
 		ColoredText otherValue = new(otherHorizontalSpeed.HorizontalSpeed, otherHorizontalSpeed.GetComparisonColor(horizontalSpeed));
 
@@ -258,7 +258,7 @@ public class WingVerticalSpeedMultiplier
 	}
 
 	public TooltipLine BuildComparisonTooltip(WingVerticalSpeedMultiplier otherVerticalSpeedMultiplier) {
-		ColoredText subtitle = new(Language.GetTextValue("Mods.HookStatsAndWingStats.WingStats.MaxFlightTime"), MiscConfig.Instance.StatSubtitleColor);
+		ColoredText subtitle = new(Language.GetTextValue("Mods.HookStatsAndWingStats.WingStats.VerticalSpeedMultiplier"), MiscConfig.Instance.StatSubtitleColor);
 		ColoredText thisValue = new(VerticalSpeedMultiplier, GetComparisonColor(otherVerticalSpeedMultiplier.verticalSpeedMultiplier));
 		ColoredText otherValue = new(otherVerticalSpeedMultiplier.VerticalSpeedMultiplier, otherVerticalSpeedMultiplier.GetComparisonColor(verticalSpeedMultiplier));
 
