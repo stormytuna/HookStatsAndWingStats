@@ -1,5 +1,28 @@
 Mods: {
 	HookStatsAndWingStats: {
+		HookStats: {
+			Title: ~ Hook Stats ~
+			Reach: Reach
+			ShootSpeed: Shoot speed
+			HookCount: Hook count
+			LatchingType: Latching type
+
+			LatchingTypes: {
+				Single: Single
+				Simultaneous: Simultaneous
+				Individual: Individual
+				Special: Special
+			}
+		}
+
+		WingStats: {
+			Title: ~ Wing Stats ~
+			MaxFlightTime: Max flight time
+			FlightTime: Flight time
+			HorizontalSpeed: Horizontal speed
+			VerticalSpeedMultiplier: Vertical multiplier
+		}
+
 		Configs: {
 			HookConfig: {
 				ShowStats: {
@@ -55,6 +78,25 @@ Mods: {
 
 				DisplayName: Hook Config
 				Headers.HookStats: Hook Stats Header
+
+				ReachInTiles: {
+					Label: Reach is measured in tiles
+					Tooltip: ""
+				}
+
+				VelocityInMph: {
+					Label: Shoot speed is measured in mph
+					Tooltip:
+						'''
+						Turning this off will display speed in raw units instead of mph
+						               Displaying in mph may cause descrepencies due to rounding errors
+						'''
+				}
+
+				ShowTitle: {
+					Label: Show Title
+					Tooltip: ""
+				}
 			}
 
 			WingConfig: {
@@ -89,7 +131,7 @@ Mods: {
 				}
 
 				ShowMaxWingTime: {
-					Label: Display max fligh time
+					Label: Display max flight time
 					Tooltip: ""
 				}
 
@@ -129,6 +171,16 @@ Mods: {
 
 				DisplayName: Wing Config
 				Headers.WingStats: Wing Stats Header
+
+				HorizontalSpeedInMph: {
+					Label: Horizontal Speed In Mph
+					Tooltip: ""
+				}
+
+				ShowTitle: {
+					Label: Show Title
+					Tooltip: ""
+				}
 			}
 
 			MiscConfig: {
@@ -170,6 +222,11 @@ Mods: {
 				}
 
 				DisplayName: Misc Config
+
+				ColorBlindAssistanceIcons: {
+					Label: Color Blind Assistance Icons
+					Tooltip: ""
+				}
 			}
 		}
 	}
