@@ -89,12 +89,12 @@ Mods: {
 					Tooltip:
 						'''
 						Turning this off will display speed in raw units instead of mph
-						               Displaying in mph may cause descrepencies due to rounding errors
+						Displaying in mph may cause descrepencies due to rounding errors
 						'''
 				}
 
 				ShowTitle: {
-					Label: Show Title
+					Label: Show Hook Stats title
 					Tooltip: ""
 				}
 			}
@@ -150,7 +150,7 @@ Mods: {
 					Tooltip: ""
 				}
 
-				HorizontalSpeedInMPH: {
+				HorizontalSpeedInMph: {
 					Label: Wing horizontal speed is measured in mph
 					Tooltip:
 						'''
@@ -172,13 +172,8 @@ Mods: {
 				DisplayName: Wing Config
 				Headers.WingStats: Wing Stats Header
 
-				HorizontalSpeedInMph: {
-					Label: Horizontal Speed In Mph
-					Tooltip: ""
-				}
-
 				ShowTitle: {
-					Label: Show Title
+					Label: Show Wing Stats title
 					Tooltip: ""
 				}
 			}
