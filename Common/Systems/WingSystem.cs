@@ -1,175 +1,138 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using HookStatsAndWingStats.Helpers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace HookStatsAndWingStats.Common.Systems
+namespace HookStatsAndWingStats.Common.Systems;
+
+public class WingSystem : ModSystem
 {
-    public class WingSystem : ModSystem
-    {
-        public static Dictionary<int, int> VanillaWingVerticalMults { get; set; } = new Dictionary<int, int>();
-        public static Dictionary<Tuple<string, string>, int> ModdedWingVerticalMults { get; set; } = new Dictionary<Tuple<string, string>, int>();
-        public static Dictionary<Tuple<string, string>, Tuple<int, float, int>> ModdedWingStatsOverride { get; set; } = new Dictionary<Tuple<string, string>, Tuple<int, float, int>>();
+	public static Dictionary<string, WingStats> WingStats { get; set; } = new();
 
-        public override void Load() {
-            Init_VanillaWings();
-            Init_ModdedWings();
-        }
+	public override void PostSetupContent() {
+		Init_VanillaWings();
+		Init_ModdedWings();
+	}
 
-        public override void Unload() {
-            VanillaWingVerticalMults = null;
-            ModdedWingVerticalMults = null;
-            ModdedWingStatsOverride = null;
-        }
+	public override void Unload() {
+		WingStats = null;
+	}
 
-        #region Vanilla
+	private void Init_VanillaWings() {
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.CreativeWings)}", new WingStats(ItemID.CreativeWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.AngelWings)}", new WingStats(ItemID.AngelWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.DemonWings)}", new WingStats(ItemID.DemonWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.LeafWings)}", new WingStats(ItemID.LeafWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.FairyWings)}", new WingStats(ItemID.FairyWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.FinWings)}", new WingStats(ItemID.FinWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.FrozenWings)}", new WingStats(ItemID.FrozenWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.HarpyWings)}", new WingStats(ItemID.HarpyWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.Jetpack)}", new WingStats(ItemID.Jetpack, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.RedsWings)}", new WingStats(ItemID.RedsWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.DTownsWings)}", new WingStats(ItemID.DTownsWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.WillsWings)}", new WingStats(ItemID.WillsWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.CrownosWings)}", new WingStats(ItemID.CrownosWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.CenxsWings)}", new WingStats(ItemID.CenxsWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.BejeweledValkyrieWing)}", new WingStats(ItemID.BejeweledValkyrieWing, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.Yoraiz0rWings)}", new WingStats(ItemID.Yoraiz0rWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.JimsWings)}", new WingStats(ItemID.JimsWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.SkiphsWings)}", new WingStats(ItemID.SkiphsWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.LokisWings)}", new WingStats(ItemID.LokisWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.ArkhalisWings)}", new WingStats(ItemID.ArkhalisWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.LeinforsWings)}", new WingStats(ItemID.LeinforsWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.GhostarsWings)}", new WingStats(ItemID.GhostarsWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.SafemanWings)}", new WingStats(ItemID.SafemanWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.FoodBarbarianWings)}", new WingStats(ItemID.FoodBarbarianWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.GroxTheGreatWings)}", new WingStats(ItemID.GroxTheGreatWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.BatWings)}", new WingStats(ItemID.BatWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.BeeWings)}", new WingStats(ItemID.BeeWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.ButterflyWings)}", new WingStats(ItemID.ButterflyWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.FlameWings)}", new WingStats(ItemID.FlameWings, 1.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.Hoverboard)}", new WingStats(ItemID.Hoverboard, 1.66f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.BoneWings)}", new WingStats(ItemID.BoneWings, 1.66f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.MothronWings)}", new WingStats(ItemID.MothronWings, 1.66f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.GhostWings)}", new WingStats(ItemID.GhostWings, 1.66f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.BeetleWings)}", new WingStats(ItemID.BeetleWings, 1.66f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.FestiveWings)}", new WingStats(ItemID.FestiveWings, 1.80f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.SpookyWings)}", new WingStats(ItemID.SpookyWings, 1.80f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.TatteredFairyWings)}", new WingStats(ItemID.TatteredFairyWings, 1.80f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.SteampunkWings)}", new WingStats(ItemID.SteampunkWings, 1.80f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.BetsyWings)}", new WingStats(ItemID.BetsyWings, 2.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.FishronWings)}", new WingStats(ItemID.FishronWings, 2.50f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.RainbowWings)}", new WingStats(ItemID.RainbowWings, 2.75f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.WingsNebula)}", new WingStats(ItemID.WingsNebula, 2.45f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.WingsVortex)}", new WingStats(ItemID.WingsVortex, 2.45f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.WingsSolar)}", new WingStats(ItemID.WingsSolar, 3.00f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.WingsStardust)}", new WingStats(ItemID.WingsStardust, 3.00f));
+		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.LongRainbowTrailWings)}", new WingStats(ItemID.LongRainbowTrailWings, 4.50f));
+	}
 
-        private void Init_VanillaWings() {
-            VanillaWingVerticalMults.Add(4978, 150); // Fledgling wings
-            VanillaWingVerticalMults.Add(ItemID.AngelWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.DemonWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.LeafWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.FairyWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.FinWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.FrozenWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.HarpyWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.Jetpack, 150);
-            VanillaWingVerticalMults.Add(ItemID.RedsWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.DTownsWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.WillsWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.CrownosWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.CenxsWings, 150);
-            VanillaWingVerticalMults.Add(3228, 150); // Lazure's barrier platform
-            VanillaWingVerticalMults.Add(ItemID.Yoraiz0rWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.JimsWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.SkiphsWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.LokisWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.ArkhalisWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.LeinforsWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.GhostarsWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.SafemanWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.FoodBarbarianWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.GroxTheGreatWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.BatWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.BeeWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.ButterflyWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.FlameWings, 150);
-            VanillaWingVerticalMults.Add(ItemID.Hoverboard, 166);
-            VanillaWingVerticalMults.Add(ItemID.BoneWings, 166);
-            VanillaWingVerticalMults.Add(ItemID.MothronWings, 166);
-            VanillaWingVerticalMults.Add(ItemID.GhostWings, 166);
-            VanillaWingVerticalMults.Add(ItemID.BeetleWings, 166);
-            VanillaWingVerticalMults.Add(ItemID.FestiveWings, 180);
-            VanillaWingVerticalMults.Add(ItemID.SpookyWings, 180);
-            VanillaWingVerticalMults.Add(ItemID.TatteredFairyWings, 180);
-            VanillaWingVerticalMults.Add(ItemID.SteampunkWings, 180);
-            VanillaWingVerticalMults.Add(ItemID.BetsyWings, 250);
-            VanillaWingVerticalMults.Add(4823, 275); // Empress wings
-            VanillaWingVerticalMults.Add(ItemID.FishronWings, 250);
-            VanillaWingVerticalMults.Add(ItemID.WingsNebula, 245);
-            VanillaWingVerticalMults.Add(ItemID.WingsVortex, 245);
-            VanillaWingVerticalMults.Add(ItemID.WingsSolar, 300);
-            VanillaWingVerticalMults.Add(ItemID.WingsStardust, 300);
-            VanillaWingVerticalMults.Add(4954, 450); // Starboard
-        }
+	private void Init_ModdedWings() {
+		WingStats.TryAddModdedWing("ModLoader", "AetherBreaker_Wings", 1.50f);
+		WingStats.TryAddModdedWing("ModLoader", "Sailing_Squid_Wings", 1.50f);
+		WingStats.TryAddModdedWing("ModLoader", "Coolmike5000_Wings", 1.50f);
+		WingStats.TryAddModdedWing("ModLoader", "dinidini_Wings", 1.50f);
+		WingStats.TryAddModdedWing("ModLoader", "dschosen_Wings", 1.50f);
+		WingStats.TryAddModdedWing("ModLoader", "POCKETS_Wings", 1.50f);
+		WingStats.TryAddModdedWing("ModLoader", "Saethar_Wings", 1.50f);
+		WingStats.TryAddModdedWing("ModLoader", "Zeph_Wings", 1.50f);
 
-        #endregion
+		WingStats.TryAddModdedWing("EchoesoftheAncients", "Comet_Wings", 3.50f);
+		WingStats.TryAddModdedWing("EchoesoftheAncients", "DuskbulbWings", 4.00f);
+		WingStats.TryAddModdedWing("EchoesoftheAncients", "Enkin_Wings", 3.50f);
+		WingStats.TryAddModdedWing("EchoesoftheAncients", "InfinityWing", 3.50f);
+		WingStats.TryAddModdedWing("EchoesoftheAncients", "Tungqua_Thruster", 3.50f);
+		WingStats.TryAddModdedWing("EchoesoftheAncients", "VoidDragWings", 3.00f);
 
-        #region Modded
+		WingStats.TryAddModdedWing("ClickerClass", "TheScroller", 4.00f);
 
-        private void Init_ModdedWings() {
-            #region ModLoader
-            ModdedWingVerticalMults.Add(new("ModLoader", "AetherBreaker_Wings"), 150);
-            ModdedWingVerticalMults.Add(new("ModLoader", "Sailing_Squid_Wings"), 150);
-            ModdedWingVerticalMults.Add(new("ModLoader", "Coolmike5000_Wings"), 150);
-            ModdedWingVerticalMults.Add(new("ModLoader", "dinidini_Wings"), 150);
-            ModdedWingVerticalMults.Add(new("ModLoader", "dschosen_Wings"), 150);
-            ModdedWingVerticalMults.Add(new("ModLoader", "POCKETS_Wings"), 150);
-            ModdedWingVerticalMults.Add(new("ModLoader", "Saethar_Wings"), 150);
-            ModdedWingVerticalMults.Add(new("ModLoader", "Zeph_Wings"), 150);
-            #endregion
+		WingStats.TryAddModdedWing("SOTS", "TestWings", 1.5f);
+		WingStats.TryAddModdedWing("SOTS", "GelWings", 1.30f);
 
-            #region EchoesOfTheAncients
-            ModdedWingVerticalMults.Add(new("EchoesoftheAncients", "Comet_Wings"), 350);
-            ModdedWingVerticalMults.Add(new("EchoesoftheAncients", "DuskbulbWings"), 400);
-            ModdedWingVerticalMults.Add(new("EchoesoftheAncients", "Enkin_Wings"), 350);
-            ModdedWingVerticalMults.Add(new("EchoesoftheAncients", "InfinityWing"), 350);
-            ModdedWingVerticalMults.Add(new("EchoesoftheAncients", "Tungqua_Thruster"), 350);
-            ModdedWingVerticalMults.Add(new("EchoesoftheAncients", "VoidDragWings"), 300);
-            #endregion
+		WingStats.Add("OrchidMod:AbyssalWings", new WingStats(180, 9f, 3.00f));
 
-            #region ClickerClass
-            ModdedWingVerticalMults.Add(new("ClickerClass", "TheScroller"), 400);
-            #endregion
+		WingStats.TryAddModdedWing("VitalityMod", "MachineGunJetpack", 1.50f);
+		WingStats.TryAddModdedWing("VitalityMod", "AnarchyWings", 1.50f);
+		WingStats.TryAddModdedWing("VitalityMod", "ChaosWings", 1.50f);
+		WingStats.TryAddModdedWing("VitalityMod", "CrystalWings", 1.50f);
+		WingStats.TryAddModdedWing("VitalityMod", "ForbiddenWings", 1.50f);
+		WingStats.TryAddModdedWing("VitalityMod", "GhastlyWings", 3.00f);
+		WingStats.TryAddModdedWing("VitalityMod", "BellaRose", 1.50f);
 
-            #region SecretsOfTheShadows
-            ModdedWingVerticalMults.Add(new("SOTS", "TestWings"), 150);
-            ModdedWingVerticalMults.Add(new("SOTS", "GelWings"), 130);
-            #endregion
+		WingStats.TryAddModdedWing("Consolaria", "SparklyWings", 3.00f);
 
-            #region Orchid
-            ModdedWingStatsOverride.Add(new("OrchidMod", "AbyssalWings"), new(180, 9f, 300));
-            #endregion
+		WingStats.Add("FargowiltasSouls:GelicWings", new WingStats(100, 6.75f, 1.50f));
+		WingStats.Add("FargowiltasSouls:DimensionSoul", new WingStats(int.MaxValue, 25f, 3.00f));
+		WingStats.Add("FargowiltasSouls:EternitySoul", new WingStats(int.MaxValue, 25f, 3.00f));
+		WingStats.Add("FargowiltasSouls:FlightMasterySoul", new WingStats(int.MaxValue, 18f, 3.00f));
 
-            #region VitalityMod
-            ModdedWingVerticalMults.Add(new("VitalityMod", "MachineGunJetpack"), 150);
-            ModdedWingVerticalMults.Add(new("VitalityMod", "AnarchyWings"), 150);
-            ModdedWingVerticalMults.Add(new("VitalityMod", "ChaosWings"), 150);
-            ModdedWingVerticalMults.Add(new("VitalityMod", "CrystalWings"), 150);
-            ModdedWingVerticalMults.Add(new("VitalityMod", "ForbiddenWings"), 150);
-            ModdedWingVerticalMults.Add(new("VitalityMod", "GhastlyWings"), 300);
-            ModdedWingVerticalMults.Add(new("VitalityMod", "BellaRose"), 150);
-            #endregion
+		WingStats.TryAddModdedWing("Gensokyo", "BloomWings", 1.50f);
+		WingStats.TryAddModdedWing("Gensokyo", "BlossomWings", 1.25f);
+		WingStats.TryAddModdedWing("Gensokyo", "ColorfulWings", 3.00f);
+		WingStats.TryAddModdedWing("Gensokyo", "HellfireMantle", 3.50f);
+		WingStats.TryAddModdedWing("Gensokyo", "IcicleWings", 1.50f);
+		WingStats.TryAddModdedWing("Gensokyo", "SwallowtailWings", 1.50f);
+		WingStats.TryAddModdedWing("Gensokyo", "SwallowtailWingsUpgraded", 1.25f);
 
-            #region Consolaria
-            ModdedWingVerticalMults.Add(new("Consolaria", "SparklyWings"), 300);
-            #endregion
+		WingStats.TryAddModdedWing("StormDiversMod", "HellSoulWings", 1.50f);
+		WingStats.TryAddModdedWing("StormDiversMod", "StormWings", 1.66f);
+		WingStats.TryAddModdedWing("StormDiversMod", "SpaceRockWings", 2.20f);
 
-            #region FargosSouls
-            ModdedWingStatsOverride.Add(new("FargowiltasSouls", "GelicWings"), new(100, 6.75f, 150));
-            ModdedWingStatsOverride.Add(new("FargowiltasSouls", "DimensionSoul"), new(-1, 25f, 300));
-            ModdedWingStatsOverride.Add(new("FargowiltasSouls", "EternitySoul"), new(-1, 25f, 300));
-            ModdedWingStatsOverride.Add(new("FargowiltasSouls", "FlightMasterySoul"), new(-1, 18f, 300));
-            #endregion
+		WingStats.TryAddModdedWing("Redemption", "XenomiteWings", 1.70f);
+		WingStats.TryAddModdedWing("Redemption", "NebWings", 4.00f);
 
-            #region Gensokyo
-            ModdedWingVerticalMults.Add(new("Gensokyo", "BloomWings"), 150);
-            ModdedWingVerticalMults.Add(new("Gensokyo", "BlossomWings"), 125);
-            ModdedWingVerticalMults.Add(new("Gensokyo", "ColorfulWings"), 300);
-            ModdedWingVerticalMults.Add(new("Gensokyo", "HellfireMantle"), 350);
-            ModdedWingVerticalMults.Add(new("Gensokyo", "IcicleWings"), 150);
-            ModdedWingVerticalMults.Add(new("Gensokyo", "SwallowtailWings"), 150);
-            ModdedWingVerticalMults.Add(new("Gensokyo", "SwallowtailWingsUpgraded"), 125);
-            #endregion
-
-            #region StormDiversMod
-            ModdedWingVerticalMults.Add(new("StormDiversMod", "HellSoulWings"), 150);
-            ModdedWingVerticalMults.Add(new("StormDiversMod", "StormWings"), 166);
-            ModdedWingVerticalMults.Add(new("StormDiversMod", "SpaceRockWings"), 220);
-            #endregion
-
-            #region ModOfRedemption
-            ModdedWingVerticalMults.Add(new("Redemption", "XenomiteWings"), 170);
-            ModdedWingVerticalMults.Add(new("Redemption", "NebWings"), 400);
-            #endregion
-
-            #region ThoriumMod
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "ShootingStarTurboTuba"), 250);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "DemonBloodWings"), 150);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "PhonicWings"), 150);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "SubspaceWings"), 150);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "DragonWings"), 150);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "DreadWings"), 150);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "FleshWings"), 150);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "CelestialTrinity"), 250);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "ChampionWing"), 150);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "TerrariumWings"), 150);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "WhiteDwarfThrusters"), 250);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "TitanWings"), 150);
-            ModdedWingVerticalMults.Add(new("ThoriumMod", "DridersGrace"), 150);
-            #endregion
-        }
-
-        #endregion
-    }
+		WingStats.TryAddModdedWing("ThoriumMod", "ShootingStarTurboTuba", 2.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "DemonBloodWings", 1.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "PhonicWings", 1.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "SubspaceWings", 1.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "DragonWings", 1.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "DreadWings", 1.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "FleshWings", 1.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "CelestialTrinity", 2.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "ChampionWing", 1.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "TerrariumWings", 1.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "WhiteDwarfThrusters", 2.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "TitanWings", 1.50f);
+		WingStats.TryAddModdedWing("ThoriumMod", "DridersGrace", 1.50f);
+	}
 }
