@@ -171,7 +171,7 @@ public class HookShootSpeed
 	}
 
 	public TooltipLine BuildComparisonTooltip(HookShootSpeed otherShootSpeed) {
-		ColoredText subtitle = new(Language.GetTextValue("Mods.HookStatsAndWingStats.HookStats.Reach"), MiscConfig.Instance.StatSubtitleColor);
+		ColoredText subtitle = new(Language.GetTextValue("Mods.HookStatsAndWingStats.HookStats.ShootSpeed"), MiscConfig.Instance.StatSubtitleColor);
 		ColoredText thisValue = new(ShootSpeed, GetComparisonColour(otherShootSpeed.shootSpeed));
 		ColoredText otherValue = new(otherShootSpeed.ShootSpeed, otherShootSpeed.GetComparisonColour(shootSpeed));
 
