@@ -1,13 +1,14 @@
 ﻿using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Effects;
 
 namespace HookStatsAndWingStats.Helpers;
 
-public class ColoredText
+public struct ColoredText
 {
-	private string text { get; }
-	private Color color { get; }
+	private readonly string text;
+	private readonly Color color;
 
 	public string Value {
 		get {

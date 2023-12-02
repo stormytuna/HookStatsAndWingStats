@@ -2,6 +2,7 @@
 using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Common.Systems;
 using HookStatsAndWingStats.Helpers;
+using HookStatsAndWingStats.WingStats;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -13,11 +14,11 @@ public class WingGlobalItem : GlobalItem
 
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
 		Player player = Main.LocalPlayer;
-		WingStats wingStats = WingSystem.WingStats[item.GetKey()];
+		WingStatSet wingStats = WingSystem.WingStats[item.GetKey()];
 		Item equippedWings = player.EquippedWings();
 
 		if (equippedWings?.ShouldDisplayWingStats() == true && equippedWings.type != item.type && HookConfig.Instance.CompareStats) {
-			WingStats otherWingStats = WingSystem.WingStats[equippedWings.GetKey()];
+            WingStatSet otherWingStats = WingSystem.WingStats[equippedWings.GetKey()];
 			tooltips.AddRange(wingStats.BuildComparisonTooltips(otherWingStats));
 			return;
 		}

@@ -2,6 +2,7 @@
 using System.Linq;
 using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Common.Systems;
+using HookStatsAndWingStats.WingStats;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -54,9 +55,9 @@ public static class Extensions
 		return displayingAnyStats && itemHasWingStats && careAboutCalamity;
 	}
 
-	public static void TryAddModdedWing(this Dictionary<string, WingStats> dict, string modName, string itemName, float verticalSpeedMult) {
+	public static void TryAddModdedWing(this Dictionary<string, WingStatSet> dict, string modName, string itemName, float verticalSpeedMult) {
 		if (ModLoader.TryGetMod(modName, out Mod mod) && mod.TryFind(itemName, out ModItem modItem)) {
-			dict[$"{modName}:{itemName}"] = new WingStats(modItem.Type, verticalSpeedMult);
+			dict[$"{modName}:{itemName}"] = new WingStatSet(modItem.Type, verticalSpeedMult);
 		}
 	}
 }
