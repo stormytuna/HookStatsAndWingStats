@@ -1,0 +1,3 @@
+[submodule "FishUtils"]
+	path = FishUtils
+	url = https://github.com/stormytuna/FishUtils.git

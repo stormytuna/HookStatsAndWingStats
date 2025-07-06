@@ -1,8 +1,6 @@
 author = stormytuna
 displayName = Hook Stats and Wing Stats
 homepage = https://github.com/stormytuna/HookStatsAndWingStats
-hideCode = false
-hideResources = false
-includeSource = true
+version = 3.0.0
+buildIgnore = Old/
 sortAfter = TrueTooltips
-version = 2.0.2

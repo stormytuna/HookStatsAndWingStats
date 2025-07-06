@@ -10,6 +10,7 @@ using VanillaWingStats = Terraria.DataStructures.WingStats;
 
 namespace HookStatsAndWingStats.Helpers;
 
+/*
 public class WingStats
 {
 	public WingMaxFlightTime MaxFlightTime { get; }
@@ -265,3 +266,4 @@ public class WingVerticalSpeedMultiplier
 		return new TooltipLine(HookStatsAndWingStats.Instance, "WingHorizontalSpeed", $"{subtitle.Value}: {thisValue.Value} ({otherValue.Value})");
 	}
 }
+*/

@@ -1,0 +1,228 @@
+StatSubtitles: {
+	HookReach: Reach
+	HookShootSpeed: Launch Speed
+	HookRetractSpeed: Retraction Speed
+	HookNumHooks: Hooks
+	HookLatchingType: Latching Type
+}
+
+LatchingTypes: {
+	Single: Single
+	Simultaneous: Simultaneous
+	Individual: Individual
+	Special: Special
+}
+
+WingStats: {
+	Title: ~ Wing Stats ~
+	MaxFlightTime: Max flight time
+	FlightTime: Flight time
+	HorizontalSpeed: Horizontal speed
+	VerticalSpeedMultiplier: Vertical multiplier
+}
+
+Configs: {
+	HookConfig: {
+		ShowStats: {
+			Label: Display hook stats
+			Tooltip: ""
+		}
+
+		CompareStats: {
+			Label: Display Stat Comparison
+			Tooltip: Whether to display a comparison between your equipped hook's stats and the hovered hook's stats
+		}
+
+		ShowReach: {
+			Label: Display Reach
+			Tooltip: ""
+		}
+
+		ShowVelocity: {
+			Label: Display Velocity
+			Tooltip: ""
+		}
+
+		ShowCount: {
+			Label: Display Hook Count
+			Tooltip: ""
+		}
+
+		ShowLatchingType: {
+			Label: Display Latching Type
+			Tooltip:
+				'''
+				Single: Only one hook can be active
+				Simultaneous: Many hooks can be active
+				Individual: Many hooks can be shot but only one can be active
+				Special: Anything else
+				'''
+		}
+
+		DisplayName: Hook Config
+		Headers.Stats: Stats Header
+
+		ReachInTiles: {
+			Label: Measure Reach in Tiles
+			Tooltip: Whether to measure Reach in tiles or in units (16 units == 1 tile)
+		}
+
+		ShowNumHooks: {
+			Tooltip: ""
+			Label: Show Num Hooks
+		}
+
+		ShowRetractSpeed: {
+			Tooltip: ""
+			Label: Show Retract Speed
+		}
+
+		ShowShootSpeed: {
+			Label: Show Shoot Speed
+			Tooltip: ""
+		}
+
+		SpeedsInTilesPerSecond: {
+			Label: Speeds In Tiles Per Second
+			Tooltip: ""
+		}
+	}
+
+	WingConfig: {
+		ShowStats: {
+			Label: Display wing stats
+			Tooltip: ""
+		}
+
+		DockStats: {
+			Label: Dock wing stats
+			Tooltip: This removes the linebreak between the stats and the rest of the tooltip
+		}
+
+		CompareStats: {
+			Label: Display comparison to equipped wings
+			Tooltip: This displays a comparison between the selected wings and your equipped wings
+		}
+
+		DockComparison: {
+			Label: Dock comparison
+			Tooltip: This removes the linebreak between the comparison and the rest of the tooltip. Note, will not remove the \"- EQUIPPED -\" line
+		}
+
+		TitleColor: {
+			Label: Wing stats title color
+			Tooltip: ""
+		}
+
+		ShowCurWingTime: {
+			Label: Display current flight time
+			Tooltip: ""
+		}
+
+		ShowMaxWingTime: {
+			Label: Display max flight time
+			Tooltip: ""
+		}
+
+		CombineWingTimes: {
+			Label: Combine current and max flight time
+			Tooltip: Will be displayed as 'Flight time: [current]/[max]'
+		}
+
+		FlightTimeInSeconds: {
+			Label: Display flight time in seconds
+			Tooltip: Disabling this displays flight time in frames
+		}
+
+		ShowHorizontalSpeed: {
+			Label: Display wing horizontal speed
+			Tooltip: ""
+		}
+
+		HorizontalSpeedInMph: {
+			Label: Wing horizontal speed is measured in mph
+			Tooltip:
+				'''
+				Turning this off will display speed in raw units instead of mph
+				Displaying in mph may cause descrepencies due to rounding errors
+				'''
+		}
+
+		ShowVerticalMult: {
+			Label: Display wing vertical speed multiplier
+			Tooltip: ""
+		}
+
+		ShowUnknownVerticalMults: {
+			Label: Display wing vertical speed multiplier even when unknown
+			Tooltip: Sometimes the vertical speed multiplier stat will not be found correctly. With this set to true, it will display as 'unknown' instead of not being displayed
+		}
+
+		DisplayName: Wing Config
+		Headers.WingStats: Wing Stats Header
+
+		ShowTitle: {
+			Label: Show Wing Stats title
+			Tooltip: ""
+		}
+	}
+
+	MiscConfig: {
+		Headers: {
+			MiscStats: Misc Stats
+			Colors: Colors
+		}
+
+		ComparisonTitleColor: {
+			Label: Comparison title color
+			Tooltip: ""
+		}
+
+		ComparisonValueColor: {
+			Label: Comparison change value colours
+			Tooltip: Whether comparisons should have equal/better/worse colour changes
+		}
+
+		ComparisonBetterColor: {
+			Label: Comparison better color
+			Tooltip: The colour a value is when comparing things with a better value
+		}
+
+		ComparisonWorseColor: {
+			Label: Comparison worse color
+			Tooltip: The colour a value is when comparing things with a worse value
+		}
+
+		ComparisonEqualColor: {
+			Label: Comparison equal color
+			Tooltip: The colour a value is when comparing things with an equal value
+		}
+
+		StatSubtitleColor: {
+			Label: Stat subtitle color
+			Tooltip: A subtitle might be 'Hooks' or 'Horizontal speed'
+		}
+
+		StatValueColor: {
+			Label: Stat value color
+			Tooltip: A value might be '24mph' or '3s'
+		}
+
+		DisplayName: Misc Config
+
+		ColorBlindAssistanceIcons: {
+			Label: Color Blind Assistance Icons
+			Tooltip: ""
+		}
+
+		DisplayLengthsInTiles: {
+			Tooltip: ""
+			Label: Display Lengths In Tiles
+		}
+
+		DisplaySpeedsInMPH: {
+			Label: Display Speeds In M P H
+			Tooltip: ""
+		}
+	}
+}

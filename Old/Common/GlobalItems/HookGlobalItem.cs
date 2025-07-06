@@ -7,22 +7,23 @@ using Terraria.ModLoader;
 
 namespace HookStatsAndWingStats.Common.GlobalItems;
 
-public class WingGlobalItem : GlobalItem
+/*
+public class HookGlobalItem : GlobalItem
 {
-	public override bool AppliesToEntity(Item entity, bool lateInstantiation) => entity.ShouldDisplayWingStats();
+	public override bool AppliesToEntity(Item entity, bool lateInstantiation) => entity.ShouldDisplayHookStats();
 
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
 		Player player = Main.LocalPlayer;
-		WingStats wingStats = WingSystem.WingStats[item.GetKey()];
-		Item equippedWings = player.EquippedWings();
+		HookStats hookStats = HookSystem.HookStats[item.GetKey()];
+		Item equippedHook = player.EquippedHook();
 
-		if (equippedWings?.ShouldDisplayWingStats() == true && equippedWings.type != item.type && HookConfig.Instance.CompareStats) {
-			WingStats otherWingStats = WingSystem.WingStats[equippedWings.GetKey()];
-			tooltips.AddRange(wingStats.BuildComparisonTooltips(otherWingStats));
+		if (equippedHook.ShouldDisplayHookStats() && equippedHook.type != item.type && HookConfig.Instance.CompareStats) {
+			HookStats otherHookStats = HookSystem.HookStats[player.EquippedHook().GetKey()];
+			tooltips.AddRange(hookStats.BuildComparisonTooltips(otherHookStats));
 			return;
 		}
 
-		tooltips.AddRange(wingStats.BuildSoloTooltips());
+		tooltips.AddRange(hookStats.BuildSoloTooltips());
 	}
 
 	public override bool PreDrawTooltipLine(Item item, DrawableTooltipLine line, ref int yOffset) {
@@ -33,3 +34,4 @@ public class WingGlobalItem : GlobalItem
 		return base.PreDrawTooltipLine(item, line, ref yOffset);
 	}
 }
+*/

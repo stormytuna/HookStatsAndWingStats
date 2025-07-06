@@ -28,7 +28,7 @@ public static class Extensions
 	public static bool ShouldDisplayHookStats(this Item item) {
 		string key = item.GetKey();
 
-		bool displayingAnyStats = HookConfig.Instance.ShowStats && (HookConfig.Instance.ShowReach || HookConfig.Instance.ShowVelocity || HookConfig.Instance.ShowCount || HookConfig.Instance.ShowLatchingType);
+		bool displayingAnyStats = HookConfig.Instance.ShowStats && (HookConfig.Instance.ShowReach || HookConfig.Instance.ShowRetractSpeed || HookConfig.Instance.ShowNumHooks || HookConfig.Instance.ShowLatchingType);
 		bool itemHasHookStats = HookSystem.HookStats.ContainsKey(key);
 		bool careAboutCalamity = !Helpers.HasCalamity || item.IsCalamityFamily();
 		return displayingAnyStats && itemHasHookStats && careAboutCalamity;
@@ -45,6 +45,7 @@ public static class Extensions
 		return null;
 	}
 
+	/*
 	public static bool ShouldDisplayWingStats(this Item item) {
 		string key = item.GetKey();
 
@@ -59,4 +60,5 @@ public static class Extensions
 			dict[$"{modName}:{itemName}"] = new WingStats(modItem.Type, verticalSpeedMult);
 		}
 	}
+	*/
 }

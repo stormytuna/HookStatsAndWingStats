@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 
 namespace HookStatsAndWingStats.Common.Systems;
 
+/*
 public class WingSystem : ModSystem
 {
 	public static Dictionary<string, WingStats> WingStats { get; set; } = new();
@@ -136,3 +137,4 @@ public class WingSystem : ModSystem
 		WingStats.TryAddModdedWing("ThoriumMod", "DridersGrace", 1.50f);
 	}
 }
+*/
