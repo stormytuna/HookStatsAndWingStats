@@ -35,19 +35,15 @@ public static class HookStatsAndWingStatsHelpers
 	}
 
 	public static bool ShouldDisplayHookStats(this Item item) {
-		string key = item.GetKey();
-
 		bool displayingAnyStats = HookConfig.Instance.ShowStats && (HookConfig.Instance.ShowReach || HookConfig.Instance.ShowRetractSpeed || HookConfig.Instance.ShowNumHooks || HookConfig.Instance.ShowLatchingType);
-		bool itemHasHookStats = HookSystem.HookStats.ContainsKey(key);
+		bool itemHasHookStats = HookSystem.ItemTypeToHookStats.ContainsKey(item.type);
 		bool careAboutCalamity = HasCalamity || item.IsCalamityFamily();
 		return displayingAnyStats && itemHasHookStats && careAboutCalamity;
 	}
 
 	public static bool ShouldDisplayWingStats(this Item item) {
-		string key = item.GetKey();
-
 		bool displayingAnyStats = WingConfig.Instance.ShowStats && (WingConfig.Instance.ShowMaxWingTime || WingConfig.Instance.ShowHorizontalSpeed || WingConfig.Instance.ShowVerticalMult);
-		bool itemHasWingStats = WingSystem.WingStats.ContainsKey(key);
+		bool itemHasWingStats = WingSystem.ItemTypeToWingStats.ContainsKey(item.type);
 		bool careAboutCalamity = HasCalamity || item.IsCalamityFamily();
 		return displayingAnyStats && itemHasWingStats && careAboutCalamity;
 	}

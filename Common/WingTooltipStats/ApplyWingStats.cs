@@ -16,13 +16,13 @@ public class ApplyWingStats : GlobalItem
 
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
 		Player player = Main.LocalPlayer;
-		WingStats wingStats = WingSystem.WingStats[item.GetKey()];
+		WingStats wingStats = WingSystem.ItemTypeToWingStats[item.type];
 		List<TooltipStat> statList = GetTooltipStats(wingStats);
 		Item equippedWings = player.equippedWings;
 
 		List<TooltipStat> otherStatsList = new();
 		if (equippedWings.ShouldDisplayWingStats() && equippedWings.type != item.type && WingConfig.Instance.CompareStats) {
-			WingStats otherWingStats = WingSystem.WingStats[equippedWings.GetKey()];
+			WingStats otherWingStats = WingSystem.ItemTypeToWingStats[equippedWings.type];
 			otherStatsList = GetTooltipStats(otherWingStats);
 		}
 
