@@ -18,15 +18,6 @@ public class WingConfig : ModConfig
 	public bool CompareStats { get; set; }
 
 	[DefaultValue(true)]
-	public bool DockStats { get; set; }
-
-	[DefaultValue(false)]
-	public bool ShowTitle { get; set; }
-
-	[DefaultValue(typeof(Color), "191, 64, 191, 255")]
-	public Color TitleColor { get; set; }
-
-	[DefaultValue(true)]
 	public bool ShowMaxWingTime { get; set; }
 
 	[DefaultValue(true)]

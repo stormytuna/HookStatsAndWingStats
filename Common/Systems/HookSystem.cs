@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using HookStatsAndWingStats.Helpers;
 using Terraria.ID;
 using Terraria.ModLoader;
 using HookStats = HookStatsAndWingStats.DataStructures.HookStats;

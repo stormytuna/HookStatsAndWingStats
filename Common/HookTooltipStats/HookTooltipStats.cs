@@ -2,7 +2,6 @@ using FishUtils.Helpers;
 using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Core;
 using HookStatsAndWingStats.Core.Enums;
-using HookStatsAndWingStats.Helpers;
 
 namespace HookStatsAndWingStats.Common.HookTooltipStats;
 

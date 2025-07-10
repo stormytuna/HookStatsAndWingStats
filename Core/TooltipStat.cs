@@ -2,7 +2,6 @@ using FishUtils.Helpers;
 using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Core.Enums;
 using HookStatsAndWingStats.DataStructures;
-using HookStatsAndWingStats.Helpers;
 using Humanizer;
 using Terraria;
 using Terraria.GameContent.UI.Chat;

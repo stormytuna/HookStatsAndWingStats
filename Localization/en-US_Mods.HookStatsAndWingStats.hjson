@@ -4,6 +4,9 @@ StatSubtitles: {
 	HookRetractSpeed: Retraction Speed
 	HookNumHooks: Hooks
 	HookLatchingType: Latching Type
+	WingMaxFlightTime: Flight Time
+	WingHorizontalSpeed: Horizontal Speed
+	WingVerticalSpeedMultiplier: Vertical Multiplier
 }
 
 LatchingTypes: {
@@ -11,14 +14,6 @@ LatchingTypes: {
 	Simultaneous: Simultaneous
 	Individual: Individual
 	Special: Special
-}
-
-WingStats: {
-	Title: ~ Wing Stats ~
-	MaxFlightTime: Max flight time
-	FlightTime: Flight time
-	HorizontalSpeed: Horizontal speed
-	VerticalSpeedMultiplier: Vertical multiplier
 }
 
 Configs: {

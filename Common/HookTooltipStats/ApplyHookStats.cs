@@ -5,7 +5,6 @@ using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Common.Systems;
 using HookStatsAndWingStats.Core;
 using HookStatsAndWingStats.DataStructures;
-using HookStatsAndWingStats.Helpers;
 using Humanizer;
 using MonoMod.RuntimeDetour;
 using Terraria;

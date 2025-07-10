@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
-using HookStatsAndWingStats.Helpers;
+using HookStatsAndWingStats.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace HookStatsAndWingStats.Common.Systems;
 
-/*
 public class WingSystem : ModSystem
 {
 	public static Dictionary<string, WingStats> WingStats { get; set; } = new();
 
 	public override void PostSetupContent() {
 		Init_VanillaWings();
-		Init_ModdedWings();
+		//Init_ModdedWings();
 	}
 
 	public override void Unload() {
@@ -68,6 +67,7 @@ public class WingSystem : ModSystem
 		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.LongRainbowTrailWings)}", new WingStats(ItemID.LongRainbowTrailWings, 4.50f));
 	}
 
+	/*
 	private void Init_ModdedWings() {
 		WingStats.TryAddModdedWing("ModLoader", "AetherBreaker_Wings", 1.50f);
 		WingStats.TryAddModdedWing("ModLoader", "Sailing_Squid_Wings", 1.50f);
@@ -136,5 +136,5 @@ public class WingSystem : ModSystem
 		WingStats.TryAddModdedWing("ThoriumMod", "TitanWings", 1.50f);
 		WingStats.TryAddModdedWing("ThoriumMod", "DridersGrace", 1.50f);
 	}
+	*/
 }
-*/
