@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel;
-using Microsoft.Xna.Framework;
-using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace HookStatsAndWingStats.Common.Configs;
@@ -24,16 +22,16 @@ public class HookConfig : ModConfig
 	[Header("Stats")]
 	[DefaultValue(true)]
 	public bool ShowReach { get; set; }
-	
+
 	[DefaultValue(true)]
 	public bool ReachInTiles { get; set; }
-	
+
 	[DefaultValue(true)]
 	public bool ShowShootSpeed { get; set; }
 
 	[DefaultValue(true)]
 	public bool ShowRetractSpeed { get; set; }
-	
+
 	[DefaultValue(true)]
 	public bool SpeedsInTilesPerSecond { get; set; }
 

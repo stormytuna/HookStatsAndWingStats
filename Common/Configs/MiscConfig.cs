@@ -1,14 +1,10 @@
 ﻿using System.ComponentModel;
-using Microsoft.Xna.Framework;
-using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace HookStatsAndWingStats.Common.Configs;
 
 public class MiscConfig : ModConfig
 {
-	private const string configPath = "Mods.HookStatsAndWingStats.Configs.MiscConfig";
-
 	public static MiscConfig Instance {
 		get => ModContent.GetInstance<MiscConfig>();
 	}
@@ -16,7 +12,7 @@ public class MiscConfig : ModConfig
 	public override ConfigScope Mode {
 		get => ConfigScope.ClientSide;
 	}
-	
+
 	[Header("Colors")]
 	[DefaultValue(typeof(Color), "0, 255, 0, 255")]
 	public Color ComparisonBetterColor { get; set; }

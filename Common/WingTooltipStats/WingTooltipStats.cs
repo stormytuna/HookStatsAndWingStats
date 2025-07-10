@@ -1,4 +1,3 @@
-using FishUtils.Helpers;
 using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Core;
 using HookStatsAndWingStats.Core.Enums;
@@ -14,12 +13,12 @@ public class WingMaxFlightTime(object value) : TooltipStat(value)
 	public override string FormattedValue {
 		get {
 			// TODO: handle infinite flight time
-			var value = (float)Value;
+			float value = (float)Value;
 
 			if (WingConfig.Instance.FlightTimeInSeconds) {
 				return $"{value / 60f:0.##}s";
 			}
-			
+
 			return $"{value}";
 		}
 	}
@@ -37,12 +36,12 @@ public class WingHorizontalSpeed(object value) : TooltipStat(value)
 
 	public override string FormattedValue {
 		get {
-			var value = (float)Value;
+			float value = (float)Value;
 
 			if (WingConfig.Instance.HorizontalSpeedInMph) {
 				return $"{value * Consts.UnitsPerFrameToMilesPerHour:0.##}mph";
 			}
-			
+
 			return $"{value:0.}";
 		}
 	}
@@ -64,7 +63,7 @@ public class WingVerticalSpeedMultiplier(object value) : TooltipStat(value)
 				return "Unknown";
 			}
 
-			var value = (float)Value;
+			float value = (float)Value;
 
 			return $"{value:P0}";
 		}

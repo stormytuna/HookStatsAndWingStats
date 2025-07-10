@@ -1,29 +1,24 @@
-using FishUtils.Helpers;
 using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Core.Enums;
-using HookStatsAndWingStats.DataStructures;
 using Humanizer;
-using Terraria;
-using Terraria.GameContent.UI.Chat;
 using Terraria.Localization;
-using Terraria.ModLoader;
 
 namespace HookStatsAndWingStats.Core;
 
 public abstract class TooltipStat(object value) : ILoadable
 {
 	public object Value { get; } = value;
-	
+
 	public abstract ComparisonResult Compare(TooltipStat other);
 
 	public virtual bool IsEnabled {
 		get => true;
 	}
-	
+
 	public virtual string FormattedValue {
 		get => Value.ToString();
 	}
-	
+
 	public virtual string InternalName {
 		get => GetType().Name;
 	}
@@ -39,21 +34,21 @@ public abstract class TooltipStat(object value) : ILoadable
 	public void Unload() { }
 
 	public virtual string GetFormattedSubtitle() {
-		var subtitle = $"{Subtitle.Value}:";
+		string subtitle = $"{Subtitle.Value}:";
 		return subtitle.ApplyColor(MiscConfig.Instance.StatSubtitleColor.WithMouseTextPulsing());
 	}
-	
+
 	public string GetFormattedValueOrComparison(TooltipStat other = null) {
 		if (other is null) {
 			return FormattedValue.ApplyColor(MiscConfig.Instance.StatValueColor.WithMouseTextPulsing());
 		}
-		
-		var defaultColor = MiscConfig.Instance.StatValueColor.WithMouseTextPulsing().Hex3();
-		var betterColor = MiscConfig.Instance.ComparisonBetterColor.WithMouseTextPulsing().Hex3();
-		var worseColor = MiscConfig.Instance.ComparisonWorseColor.WithMouseTextPulsing().Hex3();
-		var equalColor = MiscConfig.Instance.ComparisonEqualColor.WithMouseTextPulsing().Hex3();
+
+		string defaultColor = MiscConfig.Instance.StatValueColor.WithMouseTextPulsing().Hex3();
+		string betterColor = MiscConfig.Instance.ComparisonBetterColor.WithMouseTextPulsing().Hex3();
+		string worseColor = MiscConfig.Instance.ComparisonWorseColor.WithMouseTextPulsing().Hex3();
+		string equalColor = MiscConfig.Instance.ComparisonEqualColor.WithMouseTextPulsing().Hex3();
 		string comparisonTemplate = "[c/{2}:{3}] → [c/{0}:{1}]";
-		
+
 		return Compare(other) switch {
 			ComparisonResult.Equal => comparisonTemplate.FormatWith(equalColor, FormattedValue, defaultColor, other.FormattedValue),
 			ComparisonResult.Better => comparisonTemplate.FormatWith(betterColor, FormattedValue, defaultColor, other.FormattedValue),

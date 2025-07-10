@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using HookStatsAndWingStats.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace HookStatsAndWingStats.Common.Systems;
 
@@ -18,7 +16,7 @@ public class WingSystem : ModSystem
 		WingStats = null;
 	}
 
-	private void Init_VanillaWings() {
+	private static void Init_VanillaWings() {
 		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.CreativeWings)}", new WingStats(ItemID.CreativeWings, 1.50f));
 		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.AngelWings)}", new WingStats(ItemID.AngelWings, 1.50f));
 		WingStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.DemonWings)}", new WingStats(ItemID.DemonWings, 1.50f));

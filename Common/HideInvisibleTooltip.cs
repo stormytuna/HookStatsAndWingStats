@@ -1,6 +1,3 @@
-using Terraria;
-using Terraria.ModLoader;
-
 namespace HookStatsAndWingStats.Common;
 
 public class HideInvisibleTooltip : GlobalItem

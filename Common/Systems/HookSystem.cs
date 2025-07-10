@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Terraria.ID;
-using Terraria.ModLoader;
 using HookStats = HookStatsAndWingStats.DataStructures.HookStats;
 
 namespace HookStatsAndWingStats.Common.Systems;
@@ -19,7 +17,7 @@ public class HookSystem : ModSystem
 	}
 
 	// TODO: convert to item ids
-	private void Init_VanillaHooks() {
+	private static void Init_VanillaHooks() {
 		// Pre HM
 		HookStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.GrapplingHook)}", new HookStats(18.75f * 16f, 11.5f, 1, Core.Enums.HookLatchingType.Single));
 		HookStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.AmethystHook)}", new HookStats(18.75f * 16f, 10f, 1, Core.Enums.HookLatchingType.Single));
@@ -52,7 +50,7 @@ public class HookSystem : ModSystem
 		HookStats.Add($"Terraria:{ItemID.Search.GetName(ItemID.StaticHook)}", new HookStats(37.5f * 16f, 16f, 2, Core.Enums.HookLatchingType.Individual));
 	}
 
-	private void Init_ModdedHooks() {
+	private static void Init_ModdedHooks() {
 		HookStats.Add("SOTS:WormWoodHook", new HookStats(80f, 15f, 1, Core.Enums.HookLatchingType.Single));
 		HookStats.Add("SOTS:InfernoHook", new HookStats(510, 26f, 1, Core.Enums.HookLatchingType.Single));
 

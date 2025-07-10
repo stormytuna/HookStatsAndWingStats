@@ -1,15 +1,17 @@
 ﻿using System.ComponentModel;
-using Microsoft.Xna.Framework;
-using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace HookStatsAndWingStats.Common.Configs;
 
 public class WingConfig : ModConfig
 {
-	public static WingConfig Instance => ModContent.GetInstance<WingConfig>();
+	public static WingConfig Instance {
+		get => ModContent.GetInstance<WingConfig>();
+	}
 
-	public override ConfigScope Mode => ConfigScope.ClientSide;
+	public override ConfigScope Mode {
+		get => ConfigScope.ClientSide;
+	}
 
 	[DefaultValue(true)]
 	public bool ShowStats { get; set; }

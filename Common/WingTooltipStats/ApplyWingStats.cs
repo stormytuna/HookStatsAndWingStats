@@ -4,20 +4,18 @@ using HookStatsAndWingStats.Common.Configs;
 using HookStatsAndWingStats.Common.Systems;
 using HookStatsAndWingStats.Core;
 using HookStatsAndWingStats.DataStructures;
-using Terraria;
-using Terraria.ModLoader;
 
 namespace HookStatsAndWingStats.Common.WingTooltipStats;
 
 public class ApplyWingStats : GlobalItem
-	
+
 {
 	public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
-		return lateInstantiation && entity.ShouldDisplayWingStats();		
+		return lateInstantiation && entity.ShouldDisplayWingStats();
 	}
 
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
-		var player = Main.LocalPlayer;
+		Player player = Main.LocalPlayer;
 		WingStats wingStats = WingSystem.WingStats[item.GetKey()];
 		List<TooltipStat> statList = GetTooltipStats(wingStats);
 		Item equippedWings = player.equippedWings;
@@ -34,12 +32,12 @@ public class ApplyWingStats : GlobalItem
 				continue;
 			}
 
-			var tooltip = $"{stat.GetFormattedSubtitle()} {stat.GetFormattedValueOrComparison(otherStatsList.ElementAtOrDefault(i))}";
+			string tooltip = $"{stat.GetFormattedSubtitle()} {stat.GetFormattedValueOrComparison(otherStatsList.ElementAtOrDefault(i))}";
 			tooltips.Add(new TooltipLine(Mod, $"{stat.InternalName}", tooltip));
 		}
 	}
 
-	private List<TooltipStat> GetTooltipStats(WingStats stats) {
+	private static List<TooltipStat> GetTooltipStats(WingStats stats) {
 		return [
 			new WingMaxFlightTime(stats.MaxFlightTime),
 			new WingHorizontalSpeed(stats.HorizontalSpeed),
