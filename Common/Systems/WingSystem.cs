@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using HookStatsAndWingStats.DataStructures;
+using MonoMod.RuntimeDetour;
 
 namespace HookStatsAndWingStats.Common.Systems;
 
@@ -8,15 +10,15 @@ public class WingSystem : ModSystem
 	public static Dictionary<int, WingStats> ItemTypeToWingStats { get; private set; } = new();
 
 	public override void PostSetupContent() {
-		Init_VanillaWings();
-		Init_ModdedWings();
+		InitializeDefaultValues();
+		InititalizeKnownModdedValues();
 	}
 
 	public override void Unload() {
 		ItemTypeToWingStats = null;
 	}
 
-	private static void Init_VanillaWings() {
+	private static void InitializeDefaultValues() {
 		ItemTypeToWingStats.Add(ItemID.CreativeWings, new WingStats(ItemID.CreativeWings, 1.50f));
 		ItemTypeToWingStats.Add(ItemID.AngelWings, new WingStats(ItemID.AngelWings, 1.50f));
 		ItemTypeToWingStats.Add(ItemID.DemonWings, new WingStats(ItemID.DemonWings, 1.50f));
@@ -63,93 +65,46 @@ public class WingSystem : ModSystem
 		ItemTypeToWingStats.Add(ItemID.WingsSolar, new WingStats(ItemID.WingsSolar, 3.00f));
 		ItemTypeToWingStats.Add(ItemID.WingsStardust, new WingStats(ItemID.WingsStardust, 3.00f));
 		ItemTypeToWingStats.Add(ItemID.LongRainbowTrailWings, new WingStats(ItemID.LongRainbowTrailWings, 4.50f));
-	}
 
-	private void Init_ModdedWings() {
-		TryAddModdedWing("ModLoader", "AetherBreaker_Wings", 1.50f);
-		TryAddModdedWing("ModLoader", "Sailing_Squid_Wings", 1.50f);
-		TryAddModdedWing("ModLoader", "Coolmike5000_Wings", 1.50f);
-		TryAddModdedWing("ModLoader", "dinidini_Wings", 1.50f);
-		TryAddModdedWing("ModLoader", "dschosen_Wings", 1.50f);
-		TryAddModdedWing("ModLoader", "POCKETS_Wings", 1.50f);
-		TryAddModdedWing("ModLoader", "Saethar_Wings", 1.50f);
-		TryAddModdedWing("ModLoader", "Zeph_Wings", 1.50f);
+		foreach ((int _, Item item) in ContentSamples.ItemsByType.Skip(ItemID.Count)) {
+			if (item.wingSlot >= 0) {
+				Player dummyPlayer = new();
+				float unused1 = 0.5f;
+				float unused2 = 0.1f;
+				float unused3 = 0.1f;				
+				float verticalMult = 1.5f;
+				float unused4 = 0.1f;
 
-		TryAddModdedWing("EchoesoftheAncients", "Comet_Wings", 3.50f);
-		TryAddModdedWing("EchoesoftheAncients", "DuskbulbWings", 4.00f);
-		TryAddModdedWing("EchoesoftheAncients", "Enkin_Wings", 3.50f);
-		TryAddModdedWing("EchoesoftheAncients", "InfinityWing", 3.50f);
-		TryAddModdedWing("EchoesoftheAncients", "Tungqua_Thruster", 3.50f);
-		TryAddModdedWing("EchoesoftheAncients", "VoidDragWings", 3.00f);
-
-		TryAddModdedWing("ClickerClass", "TheScroller", 4.00f);
-
-		TryAddModdedWing("SOTS", "TestWings", 1.5f);
-		TryAddModdedWing("SOTS", "GelWings", 1.30f);
-
-		TryAddModdedWing("OrchidMod", "AbyssalWings", new WingStats(180, 9f, 3.00f));
-
-		TryAddModdedWing("VitalityMod", "MachineGunJetpack", 1.50f);
-		TryAddModdedWing("VitalityMod", "AnarchyWings", 1.50f);
-		TryAddModdedWing("VitalityMod", "ChaosWings", 1.50f);
-		TryAddModdedWing("VitalityMod", "CrystalWings", 1.50f);
-		TryAddModdedWing("VitalityMod", "ForbiddenWings", 1.50f);
-		TryAddModdedWing("VitalityMod", "GhastlyWings", 3.00f);
-		TryAddModdedWing("VitalityMod", "BellaRose", 1.50f);
-
-		TryAddModdedWing("Consolaria", "SparklyWings", 3.00f);
-
-		TryAddModdedWing("FargowiltasSouls", "GelicWings", new WingStats(100, 6.75f, 1.50f));
-		TryAddModdedWing("FargowiltasSouls", "DimensionSoul", new WingStats(int.MaxValue, 25f, 3.00f));
-		TryAddModdedWing("FargowiltasSouls", "EternitySoul", new WingStats(int.MaxValue, 25f, 3.00f));
-		TryAddModdedWing("FargowiltasSouls", "FlightMasterySoul", new WingStats(int.MaxValue, 18f, 3.00f));
-
-		TryAddModdedWing("Gensokyo", "BloomWings", 1.50f);
-		TryAddModdedWing("Gensokyo", "BlossomWings", 1.25f);
-		TryAddModdedWing("Gensokyo", "ColorfulWings", 3.00f);
-		TryAddModdedWing("Gensokyo", "HellfireMantle", 3.50f);
-		TryAddModdedWing("Gensokyo", "IcicleWings", 1.50f);
-		TryAddModdedWing("Gensokyo", "SwallowtailWings", 1.50f);
-		TryAddModdedWing("Gensokyo", "SwallowtailWingsUpgraded", 1.25f);
-
-		TryAddModdedWing("StormDiversMod", "HellSoulWings", 1.50f);
-		TryAddModdedWing("StormDiversMod", "StormWings", 1.66f);
-		TryAddModdedWing("StormDiversMod", "SpaceRockWings", 2.20f);
-
-		TryAddModdedWing("Redemption", "XenomiteWings", 1.70f);
-		TryAddModdedWing("Redemption", "NebWings", 4.00f);
-
-		TryAddModdedWing("ThoriumMod", "ShootingStarTurboTuba", 2.50f);
-		TryAddModdedWing("ThoriumMod", "DemonBloodWings", 1.50f);
-		TryAddModdedWing("ThoriumMod", "PhonicWings", 1.50f);
-		TryAddModdedWing("ThoriumMod", "SubspaceWings", 1.50f);
-		TryAddModdedWing("ThoriumMod", "DragonWings", 1.50f);
-		TryAddModdedWing("ThoriumMod", "DreadWings", 1.50f);
-		TryAddModdedWing("ThoriumMod", "FleshWings", 1.50f);
-		TryAddModdedWing("ThoriumMod", "CelestialTrinity", 2.50f);
-		TryAddModdedWing("ThoriumMod", "ChampionWing", 1.50f);
-		TryAddModdedWing("ThoriumMod", "TerrariumWings", 1.50f);
-		TryAddModdedWing("ThoriumMod", "WhiteDwarfThrusters", 2.50f);
-		TryAddModdedWing("ThoriumMod", "TitanWings", 1.50f);
-		TryAddModdedWing("ThoriumMod", "DridersGrace", 1.50f);
-	}
-
-	private void TryAddModdedWing(string modName, string itemName, WingStats stats) {
-		if (ModContent.TryFind($"{modName}/{itemName}", out ModItem item) && !ItemTypeToWingStats.ContainsKey(item.Type)) {
-			ItemTypeToWingStats.Add(item.Type, stats);
-		}
-	}
-	
-	private void TryAddModdedWing(string modName, string itemName, float verticalMult) {
-		if (ModContent.TryFind($"{modName}/{itemName}", out ModItem item) && !ItemTypeToWingStats.ContainsKey(item.Type)) {
-			ItemTypeToWingStats.Add(item.Type, new WingStats(item.Type, verticalMult));
+				try {
+					item.ModItem.VerticalWingSpeeds(dummyPlayer, ref unused1, ref unused2, ref unused3, ref verticalMult, ref unused4);
+					TryAddModdedWing(item, verticalMult);
+				} catch {
+					HookStatsAndWingStats.Instance.Logger.Error("Ran into an issue trying to fetch vertical speeds for " + ItemID.Search.GetName(item.type));
+					TryAddModdedWing(item, null);
+					return;
+				}
+			}
 		}
 	}
 
-	public static void AddModdedWing(int itemType, float verticalMult) {
-		ItemTypeToWingStats[itemType] = new WingStats(itemType, verticalMult);
+	private static void InititalizeKnownModdedValues() {
+		TryUpdateModdedWingStats("FargowiltasSouls", "DimensionSoul", int.MaxValue, 25f, 3.00f);
+		TryUpdateModdedWingStats("FargowiltasSouls", "EternitySoul", int.MaxValue, 25f, 3.00f);
+		TryUpdateModdedWingStats("FargowiltasSouls", "FlightMasterySoul", int.MaxValue, 18f, 3.00f);
 	}
-	
+
+	private static void TryUpdateModdedWingStats(string modName, string itemName, int maxFlightTime, float horizontalSpeed, float verticalSpeedMultiplier) {
+		if (ModContent.TryFind(modName, itemName, out ModItem modItem)) {
+			ItemTypeToWingStats[modItem.Type] = new WingStats(maxFlightTime, horizontalSpeed, verticalSpeedMultiplier);
+		}
+	}
+
+	private static void TryAddModdedWing(Item item, float? verticalMult = null) {
+		if (!ItemTypeToWingStats.ContainsKey(item.type)) {
+			ItemTypeToWingStats[item.type] = new WingStats(item.type, verticalMult);
+		}
+	}
+
 	public static void AddModdedWing(int itemType, int maxFlightTime, float horizontalSpeed, float verticalSpeedMultiplier) {
 		ItemTypeToWingStats[itemType] = new WingStats(maxFlightTime, horizontalSpeed, verticalSpeedMultiplier);
 	}

@@ -9,9 +9,22 @@ public class MiscConfig : ModConfig
 		get => ModContent.GetInstance<MiscConfig>();
 	}
 
+	public static string GetDecimalPlaceFormatter() {
+		int numDecimalPlaces = Instance.DecimalPrecision;
+		return new string('#', numDecimalPlaces);
+	}
+
 	public override ConfigScope Mode {
 		get => ConfigScope.ClientSide;
 	}
+
+	[DefaultValue(1)]
+	[Slider]
+	[Range(0, 4)]
+	public int DecimalPrecision { get; set; }
+
+	[DefaultValue(false)]
+	public bool ShowUnknownStats { get; set; }
 
 	[Header("Colors")]
 	[DefaultValue(typeof(Color), "0, 255, 0, 255")]

@@ -1,3 +1,5 @@
+Unknown: Unknown
+
 StatSubtitles: {
 	HookReach: Reach
 	HookShootSpeed: Launch Speed
@@ -75,6 +77,11 @@ Configs: {
 			Label: Speeds In Tiles Per Second
 			Tooltip: ""
 		}
+
+		ShootSpeedInTilesPerSecond: {
+			Label: Shoot Speed In Tiles Per Second
+			Tooltip: ""
+		}
 	}
 
 	WingConfig: {
@@ -142,11 +149,6 @@ Configs: {
 			Tooltip: ""
 		}
 
-		ShowUnknownVerticalMults: {
-			Label: Display wing vertical speed multiplier even when unknown
-			Tooltip: Sometimes the vertical speed multiplier stat will not be found correctly. With this set to true, it will display as 'unknown' instead of not being displayed
-		}
-
 		DisplayName: Wing Config
 		Headers.WingStats: Wing Stats Header
 
@@ -212,6 +214,21 @@ Configs: {
 		DisplaySpeedsInMPH: {
 			Label: Display Speeds In M P H
 			Tooltip: ""
+		}
+
+		ShowUnknownStats: {
+			Label: Show Unknown Stats
+			Tooltip:
+				'''
+				Some stats are impossible to figure out easily.
+				With this set to true, they will display as "Unknown" instead of not being displayed.
+				This affects Num Hooks, Latching Type, and Vertical Speed Multiplier.
+				'''
+		}
+
+		DecimalPrecision: {
+			Label: Decimal Precision
+			Tooltip: How many decimal places floating point values are displayed with.
 		}
 	}
 }

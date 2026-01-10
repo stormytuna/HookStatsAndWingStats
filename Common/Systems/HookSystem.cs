@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using HookStats = HookStatsAndWingStats.DataStructures.HookStats;
 
 namespace HookStatsAndWingStats.Common.Systems;
@@ -8,15 +9,15 @@ public class HookSystem : ModSystem
 	public static Dictionary<int, HookStats> ItemTypeToHookStats { get; private set; } = new();
 
 	public override void PostSetupContent() {
-		Init_VanillaHooks();
-		Init_ModdedHooks();
+		InitializeDefaultValues();
+		InitializeKnownModdedValues();
 	}
 
 	public override void Unload() {
 		ItemTypeToHookStats = null;
 	}
 
-	private static void Init_VanillaHooks() {
+	private static void InitializeDefaultValues() {
 		ItemTypeToHookStats.Add(ItemID.GrapplingHook, new HookStats(18.75f * 16f, 11.5f, 1, Core.Enums.HookLatchingType.Single));
 		ItemTypeToHookStats.Add(ItemID.AmethystHook, new HookStats(18.75f * 16f, 10f, 1, Core.Enums.HookLatchingType.Single));
 		ItemTypeToHookStats.Add(ItemID.SquirrelHook, new HookStats(19 * 16f, 11.5f, 1, Core.Enums.HookLatchingType.Single));
@@ -44,37 +45,78 @@ public class HookSystem : ModSystem
 		ItemTypeToHookStats.Add(ItemID.ChristmasHook, new HookStats(34.375f * 16f, 15.5f, 3, Core.Enums.HookLatchingType.Simultaneous));
 		ItemTypeToHookStats.Add(ItemID.LunarHook, new HookStats(34.375f * 16f, 18f, 4, Core.Enums.HookLatchingType.Simultaneous));
 		ItemTypeToHookStats.Add(ItemID.StaticHook, new HookStats(37.5f * 16f, 16f, 2, Core.Enums.HookLatchingType.Individual));
+
+		foreach ((_, Item item) in ContentSamples.ItemsByType.Skip(ItemID.Count)) {
+			if (ContentSamples.ProjectilesByType[item.shoot].aiStyle == ProjAIStyleID.Hook) {
+				TryAddModdedHook(item);
+			}
+		}
 	}
 
-	private static void Init_ModdedHooks() {
-		TryAddModdedHook("SOTS", "WormWoodHook", new HookStats(80f, 15f, 1, Core.Enums.HookLatchingType.Single));
-		TryAddModdedHook("SOTS", "InfernoHook", new HookStats(510, 26f, 1, Core.Enums.HookLatchingType.Single));
+	private static void InitializeKnownModdedValues() {
+		TryUpdateModdedHookCountAndLatchingType("SOTS", "WormWoodHook", 1, Core.Enums.HookLatchingType.Single);
+		TryUpdateModdedHookCountAndLatchingType("SOTS", "InfernoHook", 1, Core.Enums.HookLatchingType.Single);
+		TryUpdateModdedHookCountAndLatchingType("SOTS", "HardlightHook", 1, Core.Enums.HookLatchingType.Single);
 
-		TryAddModdedHook("OrchidMod", "MineshaftHook", new HookStats(400f, 12f, 2, Core.Enums.HookLatchingType.Single));
+		TryUpdateModdedHookCountAndLatchingType("OrchidMineshaft", "MineshaftHook", 2, Core.Enums.HookLatchingType.Single);
 
-		TryAddModdedHook("Gensokyo", "TsuchigomoWebSlinger", new HookStats(300f, 10f, 8, Core.Enums.HookLatchingType.Simultaneous));
+		TryUpdateModdedHookCountAndLatchingType("Gensokyo", "TsuchigomoWebSlinger", 8, Core.Enums.HookLatchingType.Simultaneous);
 
-		TryAddModdedHook("StormDiversMod", "EyeHook", new HookStats(528f, 12f, 1, Core.Enums.HookLatchingType.Single));
-		TryAddModdedHook("StormDiversMod", "StormHook", new HookStats(512f, 18f, 1, Core.Enums.HookLatchingType.Single));
-		TryAddModdedHook("StormDiversMod", "DerpHook", new HookStats(496f, 16f, 3, Core.Enums.HookLatchingType.Simultaneous));
+		TryUpdateModdedHookCountAndLatchingType("StormDiversMod", "EyeHook", 1, Core.Enums.HookLatchingType.Single);
+		TryUpdateModdedHookCountAndLatchingType("StormDiversMod", "StormHook", 1, Core.Enums.HookLatchingType.Single);
+		TryUpdateModdedHookCountAndLatchingType("StormDiversMod", "DerpHook", 3, Core.Enums.HookLatchingType.Simultaneous);
 
-		TryAddModdedHook("Redemption", "RopeHook", new HookStats(500f, 16f, 1, Core.Enums.HookLatchingType.Single));
+		TryUpdateModdedHookCountAndLatchingType("Redemption", "RopeHook", 1, Core.Enums.HookLatchingType.Single);
 
-		TryAddModdedHook("ThoriumMod", "SpringHook", new HookStats(17f * 16f, 12f, 1, Core.Enums.HookLatchingType.Single));
-		TryAddModdedHook("ThoriumMod", "OpalHook", new HookStats(340f, 10.75f, 1, Core.Enums.HookLatchingType.Single));
-		TryAddModdedHook("ThoriumMod", "AquamarineHook", new HookStats(350f, 10.75f, 1, Core.Enums.HookLatchingType.Single));
-		TryAddModdedHook("ThoriumMod", "Leviathan", new HookStats(430f, 14f, 10, Core.Enums.HookLatchingType.Simultaneous));
-		TryAddModdedHook("ThoriumMod", "JewellersWallGrip", new HookStats(450f, 13f, 2, Core.Enums.HookLatchingType.Simultaneous));
-		TryAddModdedHook("ThoriumMod", "AmmutsebaSash", new HookStats(480f, 15f, 1, Core.Enums.HookLatchingType.Single));
-		TryAddModdedHook("ThoriumMod", "FungalHook", new HookStats(480f, 16f, 3, Core.Enums.HookLatchingType.Simultaneous));
-		TryAddModdedHook("ThoriumMod", "NeptuneGrasp", new HookStats(480f, 15f, 4, Core.Enums.HookLatchingType.Simultaneous));
-		TryAddModdedHook("ThoriumMod", "DevilsReach", new HookStats(520f, 15f, 3, Core.Enums.HookLatchingType.Simultaneous));
-		TryAddModdedHook("ThoriumMod", "GhostlyGrapple", new HookStats(550f, 16f, 2, Core.Enums.HookLatchingType.Simultaneous));
+		TryAddModdedHook("ThoriumMod", "SpringHook", 17f * 16f, 12f, 1, Core.Enums.HookLatchingType.Special);
+		TryUpdateModdedHookCountAndLatchingType("ThoriumMod", "OpalHook", 1, Core.Enums.HookLatchingType.Single);
+		TryUpdateModdedHookCountAndLatchingType("ThoriumMod", "AquamarineHook", 1, Core.Enums.HookLatchingType.Single);
+		TryUpdateModdedHookCountAndLatchingType("ThoriumMod", "Leviathan", 10, Core.Enums.HookLatchingType.Simultaneous);
+		TryUpdateModdedHookCountAndLatchingType("ThoriumMod", "JewellersWallGrip", 2, Core.Enums.HookLatchingType.Simultaneous);
+		TryUpdateModdedHookCountAndLatchingType("ThoriumMod", "AmmutsebaSash", 1, Core.Enums.HookLatchingType.Single);
+		TryUpdateModdedHookCountAndLatchingType("ThoriumMod", "FungalHook", 3, Core.Enums.HookLatchingType.Simultaneous);
+		TryUpdateModdedHookCountAndLatchingType("ThoriumMod", "NeptuneGrasp", 4, Core.Enums.HookLatchingType.Simultaneous);
+		TryUpdateModdedHookCountAndLatchingType("ThoriumMod", "DevilsReach", 3, Core.Enums.HookLatchingType.Simultaneous);
+		TryUpdateModdedHookCountAndLatchingType("ThoriumMod", "GhostlyGrapple", 2, Core.Enums.HookLatchingType.Simultaneous);
+		TryUpdateModdedHookCountAndLatchingType("ThoriumMod", "ZephyrsGrip", 1, Core.Enums.HookLatchingType.Single);
+
+		TryUpdateModdedHookCountAndLatchingType("Remnants", "LuminousHook", 1, Core.Enums.HookLatchingType.Single);
+
+		TryUpdateModdedHookCountAndLatchingType("SpiritMod", "AvianHook", 3, Core.Enums.HookLatchingType.Simultaneous);
+		TryUpdateModdedHookCountAndLatchingType("SpiritMod", "KelpHook", 1, Core.Enums.HookLatchingType.Single);
+		TryUpdateModdedHookCountAndLatchingType("SpiritMod", "MagnetHook", 1, Core.Enums.HookLatchingType.Single);
+		TryUpdateModdedHookCountAndLatchingType("SpiritMod", "ThornHook", 1, Core.Enums.HookLatchingType.Single);
+		TryUpdateModdedHookCountAndLatchingType("SpiritMod", "CoilHook", 2, Core.Enums.HookLatchingType.Simultaneous);
+
+		TryUpdateModdedHookCountAndLatchingType("StarlightRiver", "TentacleHook", 1, Core.Enums.HookLatchingType.Single);
 	}
 
-	private static void TryAddModdedHook(string modName, string itemName, HookStats stats) {
-		if (ModContent.TryFind($"{modName}/{itemName}", out ModItem item) && !ItemTypeToHookStats.ContainsKey(item.Type)) {
-			ItemTypeToHookStats.Add(item.Type, stats);
+	private static void TryAddModdedHook(Item item) {
+		if (!ItemTypeToHookStats.ContainsKey(item.type)) {
+			int projType = item.shoot;
+			ModProjectile proj = ContentSamples.ProjectilesByType[projType].ModProjectile;
+			int hookReach = (int)proj.GrappleRange();
+			float hookShootSpeed = item.shootSpeed;
+			ItemTypeToHookStats[item.type] = new HookStats(hookReach, hookShootSpeed);
+		}
+	}
+
+	private static void TryAddModdedHook(string modName, string itemName, float hookReach, float hookShootSpeed, int numHooks, Core.Enums.HookLatchingType latchingType) {
+		if (ModContent.TryFind(modName, itemName, out ModItem modItem)) {
+			ItemTypeToHookStats[modItem.Type] = new HookStats(hookReach, hookShootSpeed, numHooks, latchingType);
+		}
+	}
+
+	private static void TryUpdateModdedHookCountAndLatchingType(string modName, string itemName, int numHooks, Core.Enums.HookLatchingType latchingType) {
+		if (ModContent.TryFind(modName, itemName, out ModItem modItem)) {
+			if (ItemTypeToHookStats.ContainsKey(modItem.Type)) {
+				HookStats stats = ItemTypeToHookStats[modItem.Type];
+				stats.NumHooks = numHooks;
+				stats.LatchingType = latchingType;
+				ItemTypeToHookStats[modItem.Type] = stats;
+			} else {
+				HookStatsAndWingStats.Instance.Logger.Info("Modded hook not found. Mod: " + modName + ", item: " + itemName);
+			}
 		}
 	}
 

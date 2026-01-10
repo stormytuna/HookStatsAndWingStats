@@ -30,7 +30,7 @@ public class HookConfig : ModConfig
 	public bool ShowShootSpeed { get; set; }
 
 	[DefaultValue(true)]
-	public bool SpeedsInTilesPerSecond { get; set; }
+	public bool ShootSpeedInTilesPerSecond { get; set; }
 
 	[DefaultValue(true)]
 	public bool ShowNumHooks { get; set; }

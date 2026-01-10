@@ -33,7 +33,4 @@ public class WingConfig : ModConfig
 
 	[DefaultValue(true)]
 	public bool ShowVerticalMult { get; set; }
-
-	[DefaultValue(true)]
-	public bool ShowUnknownVerticalMults { get; set; }
 }
