@@ -73,12 +73,12 @@ public class HookSystem : ModSystem
 	}
 
 	private static void TryAddModdedHook(string modName, string itemName, HookStats stats) {
-		if (ModContent.TryFind($"{modName}/{itemName}", out ModItem item)) {
+		if (ModContent.TryFind($"{modName}/{itemName}", out ModItem item) && !ItemTypeToHookStats.ContainsKey(item.Type)) {
 			ItemTypeToHookStats.Add(item.Type, stats);
 		}
 	}
 
 	public static void AddModdedHook(int itemType, float hookReach, float hookShootSpeed, int numHooks, int latchingType) {
-		ItemTypeToHookStats.Add(itemType, new HookStats(hookReach, hookShootSpeed, numHooks, (Core.Enums.HookLatchingType)latchingType));	
+		ItemTypeToHookStats[itemType] = new HookStats(hookReach, hookShootSpeed, numHooks, (Core.Enums.HookLatchingType)latchingType);
 	}
 }

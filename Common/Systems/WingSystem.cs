@@ -135,22 +135,22 @@ public class WingSystem : ModSystem
 	}
 
 	private void TryAddModdedWing(string modName, string itemName, WingStats stats) {
-		if (ModContent.TryFind($"{modName}/{itemName}", out ModItem item)) {
+		if (ModContent.TryFind($"{modName}/{itemName}", out ModItem item) && !ItemTypeToWingStats.ContainsKey(item.Type)) {
 			ItemTypeToWingStats.Add(item.Type, stats);
 		}
 	}
 	
 	private void TryAddModdedWing(string modName, string itemName, float verticalMult) {
-		if (ModContent.TryFind($"{modName}/{itemName}", out ModItem item)) {
+		if (ModContent.TryFind($"{modName}/{itemName}", out ModItem item) && !ItemTypeToWingStats.ContainsKey(item.Type)) {
 			ItemTypeToWingStats.Add(item.Type, new WingStats(item.Type, verticalMult));
 		}
 	}
 
 	public static void AddModdedWing(int itemType, float verticalMult) {
-		ItemTypeToWingStats.Add(itemType, new WingStats(itemType, verticalMult));
+		ItemTypeToWingStats[itemType] = new WingStats(itemType, verticalMult);
 	}
 	
 	public static void AddModdedWing(int itemType, int maxFlightTime, float horizontalSpeed, float verticalSpeedMultiplier) {
-		ItemTypeToWingStats.Add(itemType, new WingStats(maxFlightTime, horizontalSpeed, verticalSpeedMultiplier));
+		ItemTypeToWingStats[itemType] = new WingStats(maxFlightTime, horizontalSpeed, verticalSpeedMultiplier);
 	}
 }
