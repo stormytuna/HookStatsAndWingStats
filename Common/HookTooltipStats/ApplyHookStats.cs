@@ -18,7 +18,7 @@ public class ApplyHookStats : GlobalItem
 		HookStats stats = HookSystem.ItemTypeToHookStats[item.type];
 		List<TooltipStat> statList = GetTooltipStats(stats);
 		Item equippedHook = player.EquippedHook();
-
+		
 		List<TooltipStat> otherStatsList = new();
 		if (equippedHook.ShouldDisplayHookStats() && equippedHook.type != item.type && HookConfig.Instance.CompareStats) {
 			HookStats otherHookStats = HookSystem.ItemTypeToHookStats[equippedHook.type];
@@ -40,7 +40,6 @@ public class ApplyHookStats : GlobalItem
 		return [
 			new HookReach(stats.Reach),
 			new HookShootSpeed(stats.ShootSpeed),
-			new HookRetractSpeed(stats.RetractSpeed),
 			new HookNumHooks(stats.NumHooks),
 			new HookLatchingType(stats.LatchingType),
 		];

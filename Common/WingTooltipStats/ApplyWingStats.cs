@@ -21,7 +21,7 @@ public class ApplyWingStats : GlobalItem
 		Item equippedWings = player.equippedWings;
 
 		List<TooltipStat> otherStatsList = new();
-		if (equippedWings.ShouldDisplayWingStats() && equippedWings.type != item.type && WingConfig.Instance.CompareStats) {
+		if (equippedWings?.ShouldDisplayWingStats() == true && equippedWings.type != item.type && WingConfig.Instance.CompareStats) {
 			WingStats otherWingStats = WingSystem.ItemTypeToWingStats[equippedWings.type];
 			otherStatsList = GetTooltipStats(otherWingStats);
 		}

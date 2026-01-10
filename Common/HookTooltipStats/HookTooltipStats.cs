@@ -50,29 +50,6 @@ public class HookShootSpeed(object value) : TooltipStat(value)
 	}
 }
 
-public class HookRetractSpeed(object value) : TooltipStat(value)
-{
-	public override bool IsEnabled {
-		get => HookConfig.Instance.ShowRetractSpeed;
-	}
-
-	public override string FormattedValue {
-		get {
-			float value = (float)Value;
-
-			if (HookConfig.Instance.SpeedsInTilesPerSecond) {
-				return $"{value * Consts.UnitsPerFrameToTilesPerSecond:0.##}";
-			}
-
-			return $"{value:0.##}";
-		}
-	}
-
-	public override ComparisonResult Compare(TooltipStat other) {
-		return CommonStatComparisons.CompareFloats(Value, other.Value);
-	}
-}
-
 public class HookNumHooks(object value) : TooltipStat(value)
 {
 	public override bool IsEnabled {

@@ -2,7 +2,7 @@ namespace HookStatsAndWingStats.DataStructures;
 
 public struct WingStats
 {
-	public float MaxFlightTime;
+	public int MaxFlightTime;
 	public float HorizontalSpeed;
 	public float? VerticalSpeedMultiplier;
 
@@ -14,7 +14,7 @@ public struct WingStats
 
 	public WingStats(int itemType, float verticalSpeedMultiplier) {
 		Item item = ContentSamples.ItemsByType[itemType];
-		Terraria.DataStructures.WingStats vanillaWingStats = ArmorIDs.Wing.Sets.Stats[item.wingSlot];
+		VanillaWingStats vanillaWingStats = ArmorIDs.Wing.Sets.Stats[item.wingSlot];
 
 		MaxFlightTime = vanillaWingStats.FlyTime;
 		HorizontalSpeed = vanillaWingStats.AccRunSpeedOverride;

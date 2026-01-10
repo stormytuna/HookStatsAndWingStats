@@ -13,7 +13,11 @@ public class WingMaxFlightTime(object value) : TooltipStat(value)
 	public override string FormattedValue {
 		get {
 			// TODO: handle infinite flight time
-			float value = (float)Value;
+			int value = (int)Value;
+
+			if (value == int.MaxValue) {
+				return "∞";
+			}
 
 			if (WingConfig.Instance.FlightTimeInSeconds) {
 				return $"{value / 60f:0.##}s";
@@ -24,7 +28,7 @@ public class WingMaxFlightTime(object value) : TooltipStat(value)
 	}
 
 	public override ComparisonResult Compare(TooltipStat other) {
-		return CommonStatComparisons.CompareFloats(Value, other.Value);
+		return CommonStatComparisons.CompareInts(Value, other.Value);
 	}
 }
 

@@ -1,7 +1,6 @@
 StatSubtitles: {
 	HookReach: Reach
 	HookShootSpeed: Launch Speed
-	HookRetractSpeed: Retraction Speed
 	HookNumHooks: Hooks
 	HookLatchingType: Latching Type
 	WingMaxFlightTime: Flight Time
@@ -65,11 +64,6 @@ Configs: {
 		ShowNumHooks: {
 			Tooltip: ""
 			Label: Show Num Hooks
-		}
-
-		ShowRetractSpeed: {
-			Tooltip: ""
-			Label: Show Retract Speed
 		}
 
 		ShowShootSpeed: {

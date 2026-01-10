@@ -30,9 +30,6 @@ public class HookConfig : ModConfig
 	public bool ShowShootSpeed { get; set; }
 
 	[DefaultValue(true)]
-	public bool ShowRetractSpeed { get; set; }
-
-	[DefaultValue(true)]
 	public bool SpeedsInTilesPerSecond { get; set; }
 
 	[DefaultValue(true)]
