@@ -3,4 +3,5 @@ displayName = Hook Stats and Wing Stats
 homepage = https://github.com/stormytuna/HookStatsAndWingStats
 version = 3.0.0
 side = Client
+buildIgnore = WorkshopImages/*
 sortAfter = TrueTooltips
