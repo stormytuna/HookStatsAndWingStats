@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\tModLoader.targets" />
+
+    <!-- Allow builds on NixOS -->
+    <Target Name="BuildMod" AfterTargets="Build" Condition="Exists('/etc/NIXOS')">
+        <Exec Command="steam-run dotnet $(tMLServerPath) -build $(ProjectDir) -eac $(TargetPath) -define &quot;$(DefineConstants)&quot; -unsafe $(AllowUnsafeBlocks) $(ExtraBuildModFlags)" WorkingDirectory="$(tMLSteamPath)" />
+    </Target>
+
+    <!-- Fix nebulous duplicate attribute issue on build -->
     <PropertyGroup>
-        <AssemblyName>HookStatsAndWingStats</AssemblyName>
-        <TargetFramework>net8.0</TargetFramework>
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <LangVersion>latest</LangVersion>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>    
     </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
-    </ItemGroup>
 </Project>

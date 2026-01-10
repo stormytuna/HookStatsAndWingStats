@@ -2,5 +2,6 @@
 - Displays a comparison to your equipped hook and wings
 - Generic mod support for most stats, manual support for many popular content mods
 - Mod calls provided for other modders to set their own stats
+- Disables this mods' tooltips for vanilla items when Calamity is enabled as Calamity adds its own
 - Client side
 - Highly configurable
