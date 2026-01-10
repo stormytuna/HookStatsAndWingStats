@@ -2,6 +2,8 @@ v3.0.0
 
 - Hooks and wings are now (mostly) autopopulated
 - Added mod calls for setting hook and wing stats
+- Added config for decimal precision
+- Changed to client side (was both)
 - Major backend changes
 
 Previous changelogs:

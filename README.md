@@ -12,7 +12,7 @@ This mod makes some assumptions about hooks and wings to autopopulate stats:
 
 These assumptions are made once during loading, and are only used to autopopulate the database. If you have any items that don't fit these assumptions, you are able to use the calls to set their stats.
 
-If you're adding support for this mod where there was none previously, please see the [hook stats] and [wing stats] source code to see if I've manually added support already. If you see your mod mentioned in either of those files, reach out to me via discord so I can remove it from this mod.
+If you're adding support for this mod where there was none previously, please see the [hook stats](Common/Systems/HookSystem.cs) and [wing stats](Common/Systems/WingSystem.cs) source code to see if I've manually added support already. If you see your mod mentioned in either of those files, reach out to me via discord so I can remove it from this mod.
 
 ### SetHookStats
 

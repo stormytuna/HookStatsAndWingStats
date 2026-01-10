@@ -1,65 +1,18 @@
-Hook Stats and Wing Stats is a mod that does exactly what it sounds like, adds tooltips to hooks and wings that detail their stats. This mod supports both modded and vanilla hooks and wings. As well as displaying a highlighted items stats, you can display a comparison to your equipped items stats, with better and worse stats being highlighted. This mod is also highly configurable and nothing requires a reload, so feel free to mess with stuff in game.
+[h2]TLDR[/h2]
+
+- Adds tooltips detailing stats of hooks and wings
+- Displays a comparison to your equipped hook and wings
+- Generic mod support for most stats, manual support for many popular content mods
+- Mod calls provided for other modders to set their own stats
+- Client side
+- Highly configurable
 
 [hr][/hr]
 
-[b]Changelog[/b]
-[list]
-[*][i]v2.0.2[/i]
-[list]
-[*]Fixed an issue with comparison hook stats showing "Reach" instead of "Shoot speed"
-[/list]
-[*][i]v2.0.1[/i]
-[list]
-[*]Fixed an issue with comparison wing stats showing the wrong title
-[/list]
-[*][i]v2.0.0[/i]
-[list]
-[*]Comparisons are now inlined, this currently isn't toggleable but might be later
-[*]Comparisons are more intuitive
-[*]Removed current wing time line from wings, this might return as a UI element later
-[*]Major back end changes
-[/list]
-[*][i]v1.4.1[/i]
-[list]
-[*]Fixed crashes on load
-[/list]
-[*][i]v1.4.0[/i]
-[list]
-[*]Released for 1.4.4
-[/list]
-[*][i]v1.3.5[/i]
-[list]
-[*]Fixed some more issues with hook stats
-[/list]
-[*][i]v1.3.4[/i]
-[list]
-[*]Fixed an issue with hook stat comparisons breaking tooltips or not displaying sometimes
-[/list]
-[*][i]v1.3.3[/i]
-[list]
-[*]Added support for Thorium
-[/list]
-[*][i]v1.3.2[/i]
-[list]
-[*]Added support for Mod of Redemption
-[/list]
-[*][i]v1.3.1[/i]
-[list]
-[*]Added support for Storm's Additions Mod
-[/list]
-[*][i]v1.3.0[/i]
-[list]
-[*]Properly unloading internal dictionaries
-[*]Added ability to dock comparison text
-[*]Fixed issues with comparisons not showing if equipped wings were in extra accessory slots, note comparisons still won't show with modded accessory slots
-[*]Fixed an issue with some max flight time tooltips displaying improperly
-[/list]
-[*][i]v1.2.0[/i]
-[list]
-[*]Added ability to change subtitle and value colors
-[*]Added ability to compare selected item to equipped item
-[*]Changed config to be client side
-[*]Separated configs to be 3 different pages
-[*]Added some tooltips to explain config options
-[/list]
-[/list]
+Source code and mod call info: https://github.com/stormytuna/HookStatsAndWingStats
+
+Join the [url=https://discord.gg/yr3hUxUxpg]discord server![/url]
+
+If you enjoy my work, [url=https://ko-fi.com/stormytuna]please consider donating[/url]
+
+If you're able to contribute translations it would be much appreciated! Please open an issue with the translations, or create a PR with the new .hjson localisation file
