@@ -7,8 +7,8 @@ You can use these calls any point after this mods' `PostSetupContent` hooks are 
 If you'd like to use a call inside `PostSetupContent`, make sure to set `sortAfter=HookStatsAndWingStats` in `build.txt` so your changes are not overwritten by this mod.
 
 This mod makes some assumptions about hooks and wings to autopopulate stats:
-- Hook items set `.shoot` to a projectile with `.aiStyle == 7`
-- Wing items set `.wingSlot` to a value `>= 0` (NOTE: This is automatically done for you if you use the `[AutoLoadEquip(EquipType.Wings)]` attribute.)
+- Hook items set `.shoot` to a projectile with `.aiStyle == 7`. Hook reach is fetched by calling `ModProjectile.GrappleRange` on the template instance. Hook shoot speed is fetched from the items `.shoot` field.
+- Wing items set `.wingSlot` to a value `>= 0` (NOTE: This is automatically done for you if you use the `[AutoLoadEquip(EquipType.Wings)]` attribute.). Vertical speed multiplier is fetched by calling `ModItem.VerticalWingSpeeds` on the template instance, passing some dummy values. If horizontal speed is not passed to the `WingStats`, it's fetched from `ModItem.HorizontalWingSpeeds`.
 
 These assumptions are made once during loading, and are only used to autopopulate the database. If you have any items that don't fit these assumptions, you are able to use the calls to set their stats.
 

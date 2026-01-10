@@ -95,7 +95,7 @@ public class HookSystem : ModSystem
 		if (!ItemTypeToHookStats.ContainsKey(item.type)) {
 			int projType = item.shoot;
 			ModProjectile proj = ContentSamples.ProjectilesByType[projType].ModProjectile;
-			int hookReach = (int)proj.GrappleRange();
+			float hookReach = proj.GrappleRange();
 			float hookShootSpeed = item.shootSpeed;
 			ItemTypeToHookStats[item.type] = new HookStats(hookReach, hookShootSpeed);
 		}
