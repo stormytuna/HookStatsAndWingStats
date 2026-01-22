@@ -10,7 +10,7 @@ public class HookStatsAndWingStats : Mod
 	}
 
 	public override object Call(params object[] args) {
-		if (args is ["SetHookStats", int hookItemType, float hookReach, float hookShootSpeed, int numHooks, int latchingType]) {
+		if (args is ["SetHookStats", int hookItemType, float hookReach, float hookShootSpeed, int numHooks, byte latchingType]) {
 			if (!Enum.IsDefined(typeof(Core.Enums.HookLatchingType), latchingType)) {
 				throw new ArgumentOutOfRangeException(nameof(latchingType), "Invalid latching type! See https://github.com/stormytuna/HookStatsAndWingStats");
 			}
@@ -36,8 +36,8 @@ public class HookStatsAndWingStatsCallsTests : ModSystem
 
 	public override void PostSetupContent() {
 		if (ModLoader.TryGetMod(nameof(HookStatsAndWingStats), out Mod hookStatsAndWingStats)) {
-			hookStatsAndWingStats.Call("SetHookStats", ItemID.MagicMirror, 16f * 16f, 16f, 5, 1);
-			hookStatsAndWingStats.Call("SetWingStats", ItemID.IronPickaxe, 3 * 60, 10f, 2.2f);
+			hookStatsAndWingStats.Call("SetHookStats", (int)ItemID.MagicMirror, 16f * 16f, 16f, 5, (byte)1);
+			hookStatsAndWingStats.Call("SetWingStats", (int)ItemID.IronPickaxe, 3 * 60, 10f, 2.2f);
 		}
 	}
 }

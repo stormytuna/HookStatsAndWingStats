@@ -14,6 +14,7 @@ public class HookSystem : ModSystem
 	}
 
 	public override void Unload() {
+		ItemTypeToHookStats.Clear();
 		ItemTypeToHookStats = null;
 	}
 
@@ -94,10 +95,14 @@ public class HookSystem : ModSystem
 	private static void TryAddModdedHook(Item item) {
 		if (!ItemTypeToHookStats.ContainsKey(item.type)) {
 			int projType = item.shoot;
-			ModProjectile proj = ContentSamples.ProjectilesByType[projType].ModProjectile;
-			float hookReach = proj.GrappleRange();
-			float hookShootSpeed = item.shootSpeed;
-			ItemTypeToHookStats[item.type] = new HookStats(hookReach, hookShootSpeed);
+			try {
+				ModProjectile proj = ContentSamples.ProjectilesByType[projType].ModProjectile;
+				float hookReach = proj.GrappleRange();
+				float hookShootSpeed = item.shootSpeed;
+				ItemTypeToHookStats[item.type] = new HookStats(hookReach, hookShootSpeed);
+			} catch {
+				HookStatsAndWingStats.Instance.Logger.Info("Failed to autoadd modded hook: " + ItemID.Search.GetName(item.type));
+			}
 		}
 	}
 

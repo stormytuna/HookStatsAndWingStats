@@ -14,14 +14,17 @@ These assumptions are made once during loading, and are only used to autopopulat
 
 If you're adding support for this mod where there was none previously, please see the [hook stats](Common/Systems/HookSystem.cs) and [wing stats](Common/Systems/WingSystem.cs) source code to see if I've manually added support already. If you see your mod mentioned in either of those files, reach out to me via discord so I can remove it from this mod.
 
+> [!Warning]
+> Types must match perfectly for the mod call to be recognised! If your call throws an error, ensure you're passing the correct datatypes for each value. Even passing an `int` for the `byte latchingType` will throw.
+
 ### SetHookStats
 
-`.Call("SetHookStats", int hookItemType, float hookReach, float hookShootSpeed, int numHooks, int latchingType)`
+`.Call("SetHookStats", int hookItemType, float hookReach, float hookShootSpeed, int numHooks, byte latchingType)`
 - `int hookItemType`, the item type of the hook you're setting.
 - `float hookReach`, the maximum reach of the hook in pixels, this is the same value you would return in `ModProjectile.GrappleRange`.
 - `float hookShootSpeed`, the speed the hook is shot at in pixels per frame, this is the same value you would set `Item.shootSpeed` to.
 - `int numHooks`, the number of hooks the player is able to have out simultaneously.
-- `int latchingType`, the latching behaviour of the hook. Can be one of:
+- `byte latchingType`, the latching behaviour of the hook. Can be one of:
     - 0, Single, the hook shoots 1 hook, and only one hook may be latched at once. (ex. Grappling Hook, Emerald Hook, Hook of Dissonance.)
     - 1, Individual, the hook can shoot multiple hooks, but only one hook may be latched at once. (ex. Web Slinger, Dual Hook, Static Hook.)
     - 2, Simultaneous, the hook can shoot multiple hooks, and multiple hooks can be latched at once. (ex. Slime Hook, Illuminant Hook, Lunar Hook.)

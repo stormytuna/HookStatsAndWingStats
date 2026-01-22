@@ -15,6 +15,7 @@ public class WingSystem : ModSystem
 	}
 
 	public override void Unload() {
+		ItemTypeToWingStats.Clear();
 		ItemTypeToWingStats = null;
 	}
 
