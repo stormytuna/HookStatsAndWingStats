@@ -100,7 +100,8 @@ public class HookSystem : ModSystem
 				float hookReach = proj.GrappleRange();
 				float hookShootSpeed = item.shootSpeed;
 				ItemTypeToHookStats[item.type] = new HookStats(hookReach, hookShootSpeed);
-			} catch {
+			}
+			catch {
 				HookStatsAndWingStats.Instance.Logger.Info("Failed to autoadd modded hook: " + ItemID.Search.GetName(item.type));
 			}
 		}
@@ -119,7 +120,8 @@ public class HookSystem : ModSystem
 				stats.NumHooks = numHooks;
 				stats.LatchingType = latchingType;
 				ItemTypeToHookStats[modItem.Type] = stats;
-			} else {
+			}
+			else {
 				HookStatsAndWingStats.Instance.Logger.Info("Modded hook not found. Mod: " + modName + ", item: " + itemName);
 			}
 		}

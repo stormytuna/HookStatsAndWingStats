@@ -18,7 +18,7 @@ public class ApplyHookStats : GlobalItem
 		HookStats stats = HookSystem.ItemTypeToHookStats[item.type];
 		List<TooltipStat> statList = GetTooltipStats(stats);
 		Item equippedHook = player.EquippedHook();
-		
+
 		List<TooltipStat> otherStatsList = new();
 		if (equippedHook.ShouldDisplayHookStats() && equippedHook.type != item.type && HookConfig.Instance.CompareStats) {
 			HookStats otherHookStats = HookSystem.ItemTypeToHookStats[equippedHook.type];

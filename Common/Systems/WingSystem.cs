@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using HookStatsAndWingStats.DataStructures;
-using MonoMod.RuntimeDetour;
 
 namespace HookStatsAndWingStats.Common.Systems;
 
@@ -72,14 +71,15 @@ public class WingSystem : ModSystem
 				Player dummyPlayer = new();
 				float unused1 = 0.5f;
 				float unused2 = 0.1f;
-				float unused3 = 0.1f;				
+				float unused3 = 0.1f;
 				float verticalMult = 1.5f;
 				float unused4 = 0.1f;
 
 				try {
 					item.ModItem.VerticalWingSpeeds(dummyPlayer, ref unused1, ref unused2, ref unused3, ref verticalMult, ref unused4);
 					TryAddModdedWing(item, verticalMult);
-				} catch {
+				}
+				catch {
 					HookStatsAndWingStats.Instance.Logger.Error("Ran into an issue trying to fetch vertical speeds for " + ItemID.Search.GetName(item.type));
 					TryAddModdedWing(item, null);
 					return;

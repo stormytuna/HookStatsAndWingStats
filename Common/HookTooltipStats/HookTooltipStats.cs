@@ -57,14 +57,14 @@ public class HookShootSpeed(object value) : TooltipStat(value)
 public class HookNumHooks(object value) : TooltipStat(value)
 {
 	public override bool IsEnabled {
-		get { 
+		get {
 			bool enabled = HookConfig.Instance.ShowNumHooks;
 			bool shouldShow = Value is not null || MiscConfig.Instance.ShowUnknownStats;
 			return enabled && shouldShow;
 		}
 	}
 
-	public override string FormattedValue { 
+	public override string FormattedValue {
 		get {
 			if (Value is null) {
 				return Language.GetTextValue($"Mods.{nameof(HookStatsAndWingStats)}.Unknown");
@@ -86,14 +86,14 @@ public class HookNumHooks(object value) : TooltipStat(value)
 public class HookLatchingType(object value) : TooltipStat(value)
 {
 	public override bool IsEnabled {
-		get { 
+		get {
 			bool enabled = HookConfig.Instance.ShowLatchingType;
 			bool shouldShow = Value is not null || MiscConfig.Instance.ShowUnknownStats;
 			return enabled && shouldShow;
 		}
 	}
 
-	public override string FormattedValue { 
+	public override string FormattedValue {
 		get {
 			if (Value is null) {
 				return Language.GetTextValue($"Mods.{nameof(HookStatsAndWingStats)}.Unknown");

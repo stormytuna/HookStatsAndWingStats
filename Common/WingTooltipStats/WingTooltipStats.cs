@@ -61,7 +61,7 @@ public class WingHorizontalSpeed(object value) : TooltipStat(value)
 public class WingVerticalSpeedMultiplier(object value) : TooltipStat(value)
 {
 	public override bool IsEnabled {
-		get { 
+		get {
 			bool enabled = WingConfig.Instance.ShowVerticalMult;
 			bool shouldShow = Value is not null || MiscConfig.Instance.ShowUnknownStats;
 			return enabled && shouldShow;

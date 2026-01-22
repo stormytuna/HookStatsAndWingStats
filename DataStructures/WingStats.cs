@@ -25,12 +25,13 @@ public struct WingStats
 
 			// Values taken from vanilla, these are the defaults with no other boosts
 			float speed = dummyPlayer.accRunSpeed = 3f;
-			float unused = dummyPlayer.maxRunSpeed = 0.08f;	
+			float unused = dummyPlayer.maxRunSpeed = 0.08f;
 			try {
 				item.ModItem.HorizontalWingSpeeds(dummyPlayer, ref speed, ref unused);
 				HorizontalSpeed = speed;
-			} catch {
-					HookStatsAndWingStats.Instance.Logger.Error("Ran into an issue trying to fetch horizontal speeds for " + ItemID.Search.GetName(item.type));
+			}
+			catch {
+				HookStatsAndWingStats.Instance.Logger.Error("Ran into an issue trying to fetch horizontal speeds for " + ItemID.Search.GetName(item.type));
 			}
 		}
 	}
