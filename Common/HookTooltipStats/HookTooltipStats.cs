@@ -99,7 +99,7 @@ public class HookLatchingType(object value) : TooltipStat(value)
 				return Language.GetTextValue($"Mods.{nameof(HookStatsAndWingStats)}.Unknown");
 			}
 
-			return base.FormattedValue;
+			return Language.GetTextValue($"Mods.{nameof(HookStatsAndWingStats)}.LatchingTypes.{Value}");
 		}
 	}
 
