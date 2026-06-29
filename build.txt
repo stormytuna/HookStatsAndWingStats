@@ -1,7 +1,7 @@
 author = stormytuna
 displayName = Hook Stats and Wing Stats
 homepage = https://github.com/stormytuna/HookStatsAndWingStats
-version = 3.0.1
+version = 3.0.2
 side = Client
 buildIgnore = WorkshopImages/*
 sortAfter = TrueTooltips

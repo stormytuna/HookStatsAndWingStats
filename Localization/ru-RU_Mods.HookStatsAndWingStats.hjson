@@ -115,10 +115,7 @@ Configs: {
 
 	MiscConfig: {
 		DisplayName: Прочая конфигурация
-
-		Headers: {
-			Colors: Цвета
-		}
+		Headers.Colors: Цвета
 
 		ComparisonBetterColor: {
 			Label: Цвет лучшего значения

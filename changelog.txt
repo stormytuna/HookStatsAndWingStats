@@ -1,5 +1,4 @@
-v3.0.1
+v3.0.2
 
-- Fixed crashes with non-standard `ModProjectile.GrappleRange` implementations
-- Updated mod call test examples
-- Tweaked mod calls, updated README with changes
+- Added russian localisation (thanks syystem32!)
+- Fixed some stat tooltips failing to be localised

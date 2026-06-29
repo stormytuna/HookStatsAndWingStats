@@ -10,6 +10,12 @@
 
 [hr][/hr]
 
+[h2]Credits[/h2]
+
+- [url=https://github.com/syystem32]syystem32[/url] for Russian translation
+
+[hr][/hr]
+
 Source code and mod call info: https://github.com/stormytuna/HookStatsAndWingStats
 
 Join the [url=https://discord.gg/yr3hUxUxpg]discord server![/url]

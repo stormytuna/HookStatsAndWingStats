@@ -115,10 +115,7 @@ Configs: {
 
 	MiscConfig: {
 		DisplayName: Misc Config
-
-		Headers: {
-			Colors: Colors
-		}
+		Headers.Colors: Colors
 
 		ComparisonBetterColor: {
 			Label: Comparison better color
