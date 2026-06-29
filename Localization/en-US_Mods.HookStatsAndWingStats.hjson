@@ -19,6 +19,9 @@ LatchingTypes: {
 
 Configs: {
 	HookConfig: {
+		DisplayName: Hook Config
+		Headers.Stats: Stats Header
+
 		ShowStats: {
 			Label: Display hook stats
 			Tooltip: ""
@@ -34,16 +37,6 @@ Configs: {
 			Tooltip: ""
 		}
 
-		ShowVelocity: {
-			Label: Display Velocity
-			Tooltip: ""
-		}
-
-		ShowCount: {
-			Label: Display Hook Count
-			Tooltip: ""
-		}
-
 		ShowLatchingType: {
 			Label: Display Latching Type
 			Tooltip:
@@ -54,9 +47,6 @@ Configs: {
 				Special: Anything else
 				'''
 		}
-
-		DisplayName: Hook Config
-		Headers.Stats: Stats Header
 
 		ReachInTiles: {
 			Label: Measure Reach in Tiles
@@ -73,11 +63,6 @@ Configs: {
 			Tooltip: ""
 		}
 
-		SpeedsInTilesPerSecond: {
-			Label: Speeds In Tiles Per Second
-			Tooltip: ""
-		}
-
 		ShootSpeedInTilesPerSecond: {
 			Label: Shoot Speed In Tiles Per Second
 			Tooltip: ""
@@ -85,14 +70,12 @@ Configs: {
 	}
 
 	WingConfig: {
+		DisplayName: Wing Config
+		Headers.WingStats: Wing Stats Header
+
 		ShowStats: {
 			Label: Display wing stats
 			Tooltip: ""
-		}
-
-		DockStats: {
-			Label: Dock wing stats
-			Tooltip: This removes the linebreak between the stats and the rest of the tooltip
 		}
 
 		CompareStats: {
@@ -100,29 +83,9 @@ Configs: {
 			Tooltip: This displays a comparison between the selected wings and your equipped wings
 		}
 
-		DockComparison: {
-			Label: Dock comparison
-			Tooltip: This removes the linebreak between the comparison and the rest of the tooltip. Note, will not remove the \"- EQUIPPED -\" line
-		}
-
-		TitleColor: {
-			Label: Wing stats title color
-			Tooltip: ""
-		}
-
-		ShowCurWingTime: {
-			Label: Display current flight time
-			Tooltip: ""
-		}
-
 		ShowMaxWingTime: {
 			Label: Display max flight time
 			Tooltip: ""
-		}
-
-		CombineWingTimes: {
-			Label: Combine current and max flight time
-			Tooltip: Will be displayed as 'Flight time: [current]/[max]'
 		}
 
 		FlightTimeInSeconds: {
@@ -148,30 +111,13 @@ Configs: {
 			Label: Display wing vertical speed multiplier
 			Tooltip: ""
 		}
-
-		DisplayName: Wing Config
-		Headers.WingStats: Wing Stats Header
-
-		ShowTitle: {
-			Label: Show Wing Stats title
-			Tooltip: ""
-		}
 	}
 
 	MiscConfig: {
+		DisplayName: Misc Config
+
 		Headers: {
-			MiscStats: Misc Stats
 			Colors: Colors
-		}
-
-		ComparisonTitleColor: {
-			Label: Comparison title color
-			Tooltip: ""
-		}
-
-		ComparisonValueColor: {
-			Label: Comparison change value colours
-			Tooltip: Whether comparisons should have equal/better/worse colour changes
 		}
 
 		ComparisonBetterColor: {
@@ -197,23 +143,6 @@ Configs: {
 		StatValueColor: {
 			Label: Stat value color
 			Tooltip: A value might be '24mph' or '3s'
-		}
-
-		DisplayName: Misc Config
-
-		ColorBlindAssistanceIcons: {
-			Label: Color Blind Assistance Icons
-			Tooltip: ""
-		}
-
-		DisplayLengthsInTiles: {
-			Tooltip: ""
-			Label: Display Lengths In Tiles
-		}
-
-		DisplaySpeedsInMPH: {
-			Label: Display Speeds In M P H
-			Tooltip: ""
 		}
 
 		ShowUnknownStats: {
