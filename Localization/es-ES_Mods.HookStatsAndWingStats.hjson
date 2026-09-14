@@ -1,0 +1,160 @@
+Unknown: Desconocido
+
+StatSubtitles: {
+	HookReach: Alcance
+	HookShootSpeed: Velocidad de lanzamiento
+	HookNumHooks: Ganchos
+	HookLatchingType: Tipo de enganche
+	WingMaxFlightTime: Tiempo de vuelo
+	WingHorizontalSpeed: Velocidad horizontal
+	WingVerticalSpeedMultiplier: Multiplicador de velocidad vertical
+}
+
+LatchingTypes: {
+	Single: Único
+	Simultaneous: Simultáneo
+	Individual: Individual
+	Special: Especial
+}
+
+Configs: {
+	HookConfig: {
+		DisplayName: Configuración del Gancho
+		Headers.Stats: Estadísticas
+
+		ShowStats: {
+			Label: Mostrar estadísticas
+			Tooltip: ""
+		}
+
+		CompareStats: {
+			Label: Mostrar comparación de estadísticas
+			Tooltip: Si mostrar una comparación entre las estadísticas del gancho equipado y las del gancho sobre el que se sitúa el cursor
+		}
+
+		ShowReach: {
+			Label: Mostrar alcance
+			Tooltip: ""
+		}
+
+		ShowLatchingType: {
+			Label: Mostrar tipo de enganche
+			Tooltip:
+				'''
+				Único: Sólo un gancho puede estar activo
+				Simultáneo: Muchos ganchos pueden estar activos
+				Individual: Se pueden lanzar muchos ganchos, pero solo uno puede estar activo
+				Especial: Cualquier otra cosa
+				'''
+		}
+
+		ReachInTiles: {
+			Label: Medir alcance en bloques
+			Tooltip: Si medir el alcance en bloques o en unidades (16 unidades = 1 bloque)
+		}
+
+		ShowNumHooks: {
+			Tooltip: ""
+			Label: Mostrar número de ganchos
+		}
+
+		ShowShootSpeed: {
+			Label: Mostrar velocidad de disparo
+			Tooltip: ""
+		}
+
+		ShootSpeedInTilesPerSecond: {
+			Label: Velocidad de disparo en bloques por segundo
+			Tooltip: ""
+		}
+	}
+
+	WingConfig: {
+		DisplayName: Configuración de las Alas
+		Headers.WingStats: Estadísticas
+
+		ShowStats: {
+			Label: Mostrar estadísticas
+			Tooltip: ""
+		}
+
+		CompareStats: {
+			Label: Comparación con alas equipadas
+			Tooltip: Esto muestra una comparación entre las alas seleccionadas y tus alas equipadas
+		}
+
+		ShowMaxWingTime: {
+			Label: Mostrar tiempo máximo de vuelo
+			Tooltip: ""
+		}
+
+		FlightTimeInSeconds: {
+			Label: Mostrar tiempo de vuelo en segundos
+			Tooltip: Al deshabilitar esta opción, se muestra el tiempo de vuelo en fotogramas
+		}
+
+		ShowHorizontalSpeed: {
+			Label: Mostrar velocidad horizontal
+			Tooltip: ""
+		}
+
+		HorizontalSpeedInMph: {
+			Label: Medir velocidad horizontal en mph
+			Tooltip:
+				'''
+				Si desactiva esta opción, la velocidad se mostrará en unidades brutas en lugar de en mph
+				La medición en mph puede provocar discrepancias debido a errores de redondeo
+				'''
+		}
+
+		ShowVerticalMult: {
+			Label: Mostrar multiplicador de velocidad vertical
+			Tooltip: ""
+		}
+	}
+
+	MiscConfig: {
+		DisplayName: Configuraciones varias
+		Headers.Colors: Colores
+
+		ComparisonBetterColor: {
+			Label: Color para mejor valor
+			Tooltip: El color que toma una estadística cuando es superior a la del objeto equipado
+		}
+
+		ComparisonWorseColor: {
+			Label: Color para peor valor
+			Tooltip: El color que toma una estadística cuando es inferior a la del objeto equipado
+		}
+
+		ComparisonEqualColor: {
+			Label: Color para valores iguales
+			Tooltip: El color que toman las estadísticas cuando son idénticas a las del objeto equipado
+		}
+
+		StatSubtitleColor: {
+			Label: Color del subtítulo de estadística
+			Tooltip: Un subtítulo podría ser 'Alcance' o 'Tiempo máximo de vuelo'
+		}
+
+		StatValueColor: {
+			Label: Color del valor estadístico
+			Tooltip: Un valor podría ser '24mph' o '3s'
+		}
+
+		ShowUnknownStats: {
+			Label: Mostrar estadísticas desconocidas
+			Tooltip:
+				'''
+				Algunas estadísticas son imposibles de determinar fácilmente.
+				Si esta opción está habilitada, se mostrarán como 'Desconocido' en lugar de quedar ocultas.
+				Esto afecta al número de ganchos, tipo de enganche y al multiplicador de velocidad vertical.
+				'''
+		}
+
+		DecimalPrecision: {
+			Label: Precisión de decimales
+			Tooltip: Cuántos lugares decimales se muestran en los valores de punto flotante.
+		}
+	}
+}
